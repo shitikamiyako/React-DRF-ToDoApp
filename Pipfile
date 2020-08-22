@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+mypy = "*"
+autopep8 = "*"
+v = {editable = true,version = "*"}
+
+[packages]
+django = "==3"
+djangorestframework = "*"
+pygments = "*"
+django-bootstrap4 = "*"
+pandas = "*"
+click = "*"
+numpy = "*"
+importlib-metadata = "*"
+bs4 = "*"
+requests = "*"
+lxml = "*"
+httpie = "*"
+
+[scripts]
+start = "python manage.py runserver"
+manage = "python manage.py"
