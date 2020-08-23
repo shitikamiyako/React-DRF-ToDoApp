@@ -10,7 +10,7 @@ autopep8 = "*"
 v = {editable = true,version = "*"}
 
 [packages]
-django = "==3"
+django = "==2.2"
 djangorestframework = "*"
 pygments = "*"
 django-bootstrap4 = "*"
