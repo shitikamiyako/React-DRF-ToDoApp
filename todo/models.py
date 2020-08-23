@@ -29,7 +29,8 @@ class TodoHistory(models.Model):
 
 
 # Todoモデル
-# rate
+# Nullオプションは後で調整
+# DRF導入のタイミングでownerフィールド追加(そのTodoがどのユーザーのTodoなのかを紐つける)
 
 
 class Todo(models.Model):
@@ -47,6 +48,9 @@ class Todo(models.Model):
         CustomUser, related_name="like", blank=True)
     todohistory_obj = models.ForeignKey(
         TodoHistory, verbose_name="日時", blank=True, null=True, on_delete=models.CASCADE)
+
+    owner = models.ForeignKey(
+        CustomUser, verbose_name="ユーザー", blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Todo"
