@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Todo, Category, TodoHistory
+from .models import Todo, Category
 
 
 class TodoAdmin(admin.ModelAdmin):
@@ -13,12 +13,5 @@ class TodoAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'category')
 
-
-class TodoHistoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'add_datetime', 'close_datetime')
-
-
-
 admin.site.register(Todo, TodoAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(TodoHistory, TodoHistoryAdmin)
