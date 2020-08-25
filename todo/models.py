@@ -38,7 +38,7 @@ class Todo(models.Model):
     add_datetime = models.DateTimeField(
         "追加日", default=datetime.now)
     close_datetime = models.DateTimeField(
-        "完了日", blank=True)
+        "完了日", blank=True, null=True)
 
     class Meta:
         db_table = "Todo"

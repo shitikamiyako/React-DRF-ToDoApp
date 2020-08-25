@@ -66,9 +66,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     # ログイン時のユーザー名に使用するフィールド、今回はusernameでログインしたい
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     # 管理ユーザーを作る際に必須にするフィールド、Managerで必須にしてあるのでemailフィールドを設定
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['email']
 
     class Meta:
         verbose_name = _("User")
