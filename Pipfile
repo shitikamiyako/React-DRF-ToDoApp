@@ -12,6 +12,7 @@ v = {editable = true,version = "*"}
 [packages]
 django = "==2.2"
 djangorestframework = "*"
+django-cors-headers = "==2.4.0"
 pygments = "*"
 django-bootstrap4 = "*"
 pandas = "*"
@@ -22,6 +23,8 @@ bs4 = "*"
 requests = "*"
 lxml = "*"
 httpie = "*"
+django-rest-framework-link-header-pagination = "*"
+djangorestframework-link-header-pagination = "*"
 
 [scripts]
 start = "python manage.py runserver"

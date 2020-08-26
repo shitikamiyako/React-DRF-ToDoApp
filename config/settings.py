@@ -34,11 +34,11 @@ INSTALLED_APPS = [
     # local
     'users.apps.UsersConfig',
     'todo.apps.TodoConfig',
-    'api.apps.ApiConfig',
 
     # 3rd party
 
     'rest_framework',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 3rd party middlewares
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -133,3 +137,20 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# DRF settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'todo.funcs.paginations.CustomPagination',
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+# CORS setting
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000/'
+)
