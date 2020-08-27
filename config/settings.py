@@ -38,7 +38,16 @@ INSTALLED_APPS = [
     # 3rd party
 
     'rest_framework',
+    'allauth',  # django-allauth
+    'allauth.account',  # django-allauth
+    'allauth.socialaccount',  # django-allauth
+    'dj_rest_auth.registration',  # django-allauth
+    'dj_rest_auth', # API Authentication
+    'knox', # TokenAuthentication
     'corsheaders',
+    'django_filters',
+    'rest_framework_swagger',
+    'coreapi',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -146,7 +156,17 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'knox.auth.TokenAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 # CORS setting
@@ -154,3 +174,20 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+
+# django-allauth settings
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+
+# Django-Rest-Knox
+REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+REST_AUTH_TOKEN_CREATOR = 'users.funcs.utils.create_knox_token'
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
+    'TOKEN_SERIALIZER': 'todo.funcs.serializers.KnoxSerializer',
+}

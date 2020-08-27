@@ -34,7 +34,7 @@ class Todo(models.Model):
     reaction_obj = models.ManyToManyField(
         CustomUser, related_name="like", blank=True)
     owner = models.ForeignKey(
-        CustomUser, verbose_name="ユーザー", blank=True, null=True, on_delete=models.CASCADE)
+        CustomUser, verbose_name="ユーザー", related_name="todo", blank=True, null=True, on_delete=models.CASCADE)
     add_datetime = models.DateTimeField(
         "追加日", default=datetime.now)
     close_datetime = models.DateTimeField(
