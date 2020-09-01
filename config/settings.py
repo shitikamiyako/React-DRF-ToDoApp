@@ -161,8 +161,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'knox.auth.TokenAuthentication',
+        # 'knox.auth.TokenAuthentication', # knox
+
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # Django REST Framework JWT
     ],
+
+    'NON_FIELD_ERRORS_KEY': 'detail',  # Django REST Framework JWT
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',  # Django REST Framework JWT
+
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
@@ -191,3 +197,6 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
     'TOKEN_SERIALIZER': 'todo.funcs.serializers.KnoxSerializer',
 }
+
+# Django REST Framework JWT
+REST_USE_JWT = True
