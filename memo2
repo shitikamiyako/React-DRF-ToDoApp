@@ -1,0 +1,24 @@
+・認証トークンの設定で詰まっている
+→ django-rest-knoxとdj_rest_auth及びall-authとの共存問題
+→ 一旦close、urls.pyを上書きすることで解決(2020/08/28)
+
+・django-rest-knoxとdj_rest_auth及びall-authの設定はほぼデフォルトのまま。
+→ 一旦放置、Todoの方にリソースを割く。認証の整備は機能要件のあと
+
+・urls.py及びシリアライザーの分割
+→ ある程度はやっていたけど特にシリアライザーはアプリごとに分けたほうがよさそう。
+
+React側での認証周り
+
+・ トークン認証の整備(ログイン管理にのみ使う)
+
+→ teratail他に質問する。
+
+
+要点
+
+・Knoxを使ったトークン認証でのログイン状態他認証状態の管理の仕方について
+・React側でのトークンの受け取り方(setTokenのmodule化)について
+
+＊ reactjs-auth-django-restを試してから質問
+＊ 質問する前にReact ReduxのHookの項目をちゃんと読む。
