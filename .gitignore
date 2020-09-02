@@ -152,4 +152,5 @@ node_modules
 
 # etc
 memo
-*.txt
+/memo懸念点
+/memo進捗
