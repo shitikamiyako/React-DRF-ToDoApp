@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_swagger',
     'coreapi',
+    'drf_firebase_auth', # DRF+Firebase TokenAuthentication
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -160,7 +161,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # 'drf_firebase_auth.authentication.FirebaseAuthentication',
         'knox.auth.TokenAuthentication', # knox
 
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # Django REST Framework JWT
@@ -173,6 +174,12 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+
+# DRF Firebase settings
+
+DRF_FIREBASE_AUTH = {
+    'FIREBASE_SERVICE_ACCOUNT_KEY': './config/env/serviceAccountKey.json'
 }
 
 # CORS setting

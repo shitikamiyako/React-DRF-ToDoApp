@@ -33,6 +33,7 @@ coreapi = "*"
 pyyaml = "*"
 uritemplate = "*"
 djangorestframework-simplejwt = "*"
+drf-firebase-auth = "*"
 
 [scripts]
 start = "python manage.py runserver"

@@ -1,69 +1,58 @@
-// ログインフォームのコンポーネント
+import React, { Component } from "react";
+// import PropTypes from "prop-types";
+import { reduxForm, Field, propTypes } from "redux-form";
+import { Link } from "react-router-dom";
+import { required } from "redux-form-validators"
 
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { renderField, renderError } from "../utils/renderUtils";
+import { loginUser } from "./operations";
 
-import { Box, TextField, Button, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
-import InputIcon from '@material-ui/icons/Input';
+class LoginForm extends Component {
 
-const useStyles = makeStyles(theme => ({
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-    },
-    button: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-    },
-    checkbox: {
-        float: 'right',
+    static propTypes = {
+        ...propTypes
+    };
+
+    render() {
+        const { handleSubmit, error } = this.props;
+
+        return (
+            <div className="row justify-content-center">
+
+                <form
+                    className="col col-sm-4 card mt-5 p-2"
+                    onSubmit={handleSubmit}
+                >
+                    <h4 className="text-md-center">Please Log In</h4>
+                    <hr />
+
+                    <fieldset className="form-group">
+                        <Field name="username" label="username" component={renderField}
+                            type="text" validate={[required({ message: "This field is required." })]}
+                        />
+                    </fieldset>
+
+
+                    <fieldset className="form-group">
+                        <Field name="password" label="Password" component={renderField}
+                            type="password" validate={[required({ message: "This field is required." })]}
+                        />
+                    </fieldset>
+
+                    <fieldset className="form-group">
+                        {renderError(error)}
+                        <button action="submit" className="btn btn-primary">Login</button>
+                    </fieldset>
+
+                    <p>Not registered? <Link to="/signup">Signup Here!</Link></p>
+                    <Link to="/reset_password">forgot password?</Link>
+                </form>
+            </div>
+        )
     }
-}));
-
-const LoginForm = props => {
-    const classes = useStyles();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState('false');
-
-    // 後ほどレスポンシブデザインを考慮したものに変更
-    return (
-        <Box width={256} p={6} border={1}>
-            <Typography component="h1" variant="h5">ログイン</Typography>
-            <form noValidate>
-                <TextField
-                    className="{classes.form}"
-                    id="usernameForm"
-                    value={username}
-                    onchange={e => setUsername(e.target.value)}
-                    label="ユーザー名"
-                />
-                <TextField
-                    className="{classes.form}"
-                    id="passwordForm"
-                    value={password}
-                    onchange={e => setPassword(e.target.value)}
-                    label="パスワード"
-                    type={showPassword ? '' : 'password'}
-                    autoComplete='current-password'
-                />
-                <FormControlLabel
-                    className="classes checkbox"
-                    label = "パスワードを表示"
-                    control = {
-                        <Checkbox
-                            checked={showPassword}
-                            onChange={e => setShowPassword(e.target.checked)}
-                            value="primary"
-                            inputProps={{ 'aria-label' : 'primary checkbox' }} />
-                    }
-                />
-                <Button className="{classes button}" variant='contained' color='primary' startIcon={<InputIcon />} onClick={e => props.login(username, password)}>
-                    ログイン
-                </Button>
-            </form>
-        </Box>
-    );
 }
 
-export default LoginForm;
+export default reduxForm({
+    form: "LoginForm",
+    onSubmit: loginUser
+})(LoginForm);
