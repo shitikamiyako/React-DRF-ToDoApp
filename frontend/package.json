@@ -39,7 +39,16 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ],
+    "plugins": [
+        "react-hooks"
+      ],
+    "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+      }
   },
   "browserslist": {
     "production": [
@@ -54,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.1.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }
