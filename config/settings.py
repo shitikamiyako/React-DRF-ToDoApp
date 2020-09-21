@@ -160,11 +160,11 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'drf_firebase_auth.authentication.FirebaseAuthentication',
-        'knox.auth.TokenAuthentication', # knox
-
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # Django REST Framework JWT
+        # 'knox.auth.TokenAuthentication', # knox
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',  # Django REST Framework JWT
     ],
 
     # 'NON_FIELD_ERRORS_KEY': 'detail',  # Django REST Framework JWT
@@ -175,6 +175,21 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# dj-rest-auth settings
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
+}
+
+REST_USE_JWT = True
+## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
+# JWT_AUTH_SECURE = True
+JWT_AUTH_COOKIE = 'jwt-auth'
+## JWTクッキーを認証に使用する際にDRFで無効になっているCSRFチェックを有効にする。
+JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED = True
+
 
 # DRF Firebase settings
 
@@ -199,14 +214,14 @@ ACCOUNT_AUTHENTICATION_METHOD = "username"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
-# Django-Rest-Knox
-REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
-REST_AUTH_TOKEN_CREATOR = 'users.funcs.utils.create_knox_token'
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
-    'TOKEN_SERIALIZER': 'todo.funcs.serializers.KnoxSerializer',
-    'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
-}
+# # Django-Rest-Knox
+# REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+# REST_AUTH_TOKEN_CREATOR = 'users.funcs.utils.create_knox_token'
+# REST_AUTH_SERIALIZERS = {
+#     'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
+#     'TOKEN_SERIALIZER': 'todo.funcs.serializers.KnoxSerializer',
+#     'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
+# }
 
 # Django REST Framework JWT
 # REST_USE_JWT = True

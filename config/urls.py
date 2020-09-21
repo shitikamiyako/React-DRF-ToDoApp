@@ -15,10 +15,10 @@ urlpatterns = [
     path('todo/', include('todo.urls')),
     path('user/', include('users.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('dj-rest-auth/', include('users.signin.urls')),
-    # path('dj-rest-auth/', include('dj_rest_auth.urls')),　# jwt用
-    path('dj-rest-auth/registration/', include('users.registration.urls')),
-    # path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')), # jwt用
+    # path('dj-rest-auth/', include('users.signin.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')), # jwt用
+    # path('dj-rest-auth/registration/', include('users.registration.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')), # jwt用
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
          name='account_email_verification_sent'),
     path('docs/', include_docs_urls(title=API_TITLE,
