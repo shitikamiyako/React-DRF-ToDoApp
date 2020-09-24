@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -62,15 +63,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # CORS middlewares
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # 3rd party middlewares
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -183,6 +182,9 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
 }
 
+CSRF_COOKIE_NAME = "csrftoken"
+# CSRF_USE_SESSIONS = True
+
 REST_USE_JWT = True
 ## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
 # JWT_AUTH_SECURE = True
@@ -199,9 +201,24 @@ DRF_FIREBASE_AUTH = {
 
 # CORS setting
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
+# CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = (
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    'localhost:3000',
+    '127.0.0.1:3000'
+]
+
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-CSRFTOKEN',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # django-allauth settings
 AUTHENTICATION_BACKENDS = (

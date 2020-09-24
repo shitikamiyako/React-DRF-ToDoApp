@@ -40,14 +40,19 @@ import React, { Component } from "react";
 // import { Notifs } from 'redux-notifications';
 // import store from "../store";
 // import Header from "./Header";
-import Auth from "./usercomponents/Auth";
+import Auth from "./usercomponents2/Auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import history from "./utils/historyUtils";
+import { Router } from 'react-router-dom';
+
 
 export default class App extends Component {
   render() {
     return (
       <div className="container">
-        {/* <Notifs store={store} />　                <Header /> */}
-        <Auth />
+        <Router history={history}>
+          <Auth />
+        </Router>
       </div>
     );
   }

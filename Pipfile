@@ -12,7 +12,7 @@ v = {editable = true,version = "*"}
 [packages]
 django = "==2.2"
 djangorestframework = "*"
-django-cors-headers = "==2.4.0"
+django-cors-headers = "*"
 pygments = "*"
 django-bootstrap4 = "*"
 pandas = "*"

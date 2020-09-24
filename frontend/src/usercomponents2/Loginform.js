@@ -49,6 +49,10 @@ class LoginForm extends Component {
                         <button action="submit" className="btn btn-primary">Login</button>
                     </fieldset>
 
+                    <fieldset className="form-group">
+                        {renderError(error)}
+                        <button action="submit" className="btn btn-primary">Logout</button>
+                    </fieldset>
 
                     <p>Not registered? <Link to="/signup">Signup Here!</Link></p>
                     <Link to="/reset_password">forgot password?</Link>
