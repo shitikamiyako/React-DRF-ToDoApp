@@ -1,22 +1,14 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-import reducer from '../usercomponents/reducers';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import spinnerReducer from './spinnerSlice';
+import authReducer from './authSlice';
+import alertReducer from './alertSlice';
 
-function configureStore(initialState) {
-    let createStoreWithMiddleware;
-
-    const logger = createLogger();
-    const middleware = applyMiddleware(thunk, logger);
-
-    createStoreWithMiddleware = compose(
-        middleware,
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
-
-    return createStoreWithMiddleware(createStore)(reducer, initialState);
-}
-
-let store = configureStore();
+export const store = configureStore({
+    reducer: combineReducers({
+        spinner: spinnerReducer,
+        auth: authReducer,
+        notifications: alertReducer,
+    }),
+});
 
 export default store;

@@ -5,13 +5,19 @@
 
 // フォーム
 
-import React from 'react';
-import { useForm }from 'react-hook-form'
-import { Container, Form, Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
-import showResults from "../utils/showResults";
+import React from "react";
+// import axios from "axios";
+import { useForm } from "react-hook-form";
+import { Form, Row, Col, Button, ButtonToolbar } from "react-bootstrap";
+// import showResults from "../utils/showResults";
+// import asyncLogin from "../utils/asyncLogin";
 
 // import Cookies from 'js-cookie';
-
+// import useAlert from '../hooks/useAlert';
+// import useAuth from '../hooks/useAuth';
+// import useSpinner from '../hooks/useSpinner';
+// import { useDispatch } from 'react-redux';
+// import { AuthUrls } from "../usercomponents2/urls";
 
 // const loginUrl = AuthUrls.LOGIN;
 // var csrftoken = Cookies.get('csrftoken');
@@ -20,98 +26,91 @@ import showResults from "../utils/showResults";
 // axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 // axios.defaults.withCredentials = true
 
-const MyForm = () => {
-    const { register, handleSubmit, watch, errors, reset, formState } = useForm();
+const LoginForm = ({onSubmit}) => {
+    const { register, handleSubmit, errors, reset, formState } = useForm();
 
-    const onSubmit = showResults;
-    // const onSubmit = axios.post(loginUrl, data).then((response) => {
-    //     // const cookiesdata = Cookies.get()
-    //     // console.log({ cookiesdata })
-    //     dispatch(loginUser());
+  // Submitテスト用関数
+  // const onSubmit = showResults;
 
-    //     history.push("/");
-    // })
-    //     .catch((error) => {
-    //         console.log(error.response);
-    // })
+    // const { setAlert, closeAlert, alertMessage, type } = useAlert();
+    // const { loginUser } = useAuth();
+    // const { startProgress, stopProgress } = useSpinner;
 
-    return (
-        <div>
-            <Container style={{padding:15}}>
-                <Row>
-                    <Col sm={10}>
-                        <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-                        {/* username input */}
-                            <Form.Group as={Row} controlId={'username'}>
-                                <Form.Label column sm={2}>{'ユーザー名'}</Form.Label>
-                                <Col sm={5}>
-                                    <Form.Control
-                                        name={'username'}
-                                        placeholder={'Username'}
-                                        type={'text'}
-                                        isInvalid={errors.username}
-                                        ref={register({
-                                            required: "ユーザ名は必須です",
-                                            maxLength: {
-                                                value: 30,
-                                                message: '30文字以内です'
-                                            }
-                                        })}
-                                    />
-                                    {
-                                        errors.username &&
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.username.message}
-                                        </Form.Control.Feedback>
-                                    }
-                                </Col>
-                            </Form.Group>
+  // 以下render部分、進捗が進んだらパーツごとに分割してmemoでラップしたい
 
-                            {/* password input */}
-                            <Form.Group as={Row} controlId={'password'}>
-                                <Form.Label column sm={2}>{'パスワード'}</Form.Label>
-                                <Col sm={5}>
-                                    <Form.Control
-                                        name={'password'}
-                                        placeholder={'Password'}
-                                        type={'password'}
-                                        isInvalid={errors.password}
-                                        ref={register({
-                                            required: "パスワードは必須です",
-                                            maxLength: {
-                                                value: 30,
-                                                message: '30文字以内です'
-                                            }
-                                        })}
-                                    />
-                                    {
-                                        errors.password &&
-                                        <Form.Control.Feedback type="invalid">
-                                            {errors.password.message}
-                                        </Form.Control.Feedback>
-                                    }
-                                </Col>
-                            </Form.Group>
-                            <Form.Group>
-                                <Col smoffset={2} sm={5}>
-                                    <ButtonToolbar>
-                                        <Button variant={'primary'} type="submit" disabled={formState.isSubmitting}>登録</Button>
-                                        <Button variant={'secondary'} type="button" onClick={reset}>クリア</Button>
-                                    </ButtonToolbar>
-                                </Col>
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
-            <div>
-                <p className="watch-text">watch output: {watch('username')}</p>
-                <p className="watch-text">watch output: {watch('password')}</p>
-            </div>
-        </div>
-    );
+  return (
+    <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+      {/* username input */}
+      <Form.Group as={Row} controlId={"username"}>
+        <Form.Label column sm={2}>
+          {"ユーザー名"}
+        </Form.Label>
+        <Col sm={5}>
+          <Form.Control
+            name={"username"}
+            placeholder={"Username"}
+            type={"text"}
+            isInvalid={errors.username}
+            ref={register({
+              required: "ユーザ名は必須です",
+              maxLength: {
+                value: 30,
+                message: "30文字以内です",
+              },
+            })}
+          />
+          {errors.username && (
+            <Form.Control.Feedback type="invalid">
+              {errors.username.message}
+            </Form.Control.Feedback>
+          )}
+        </Col>
+      </Form.Group>
+
+      {/* password input */}
+      <Form.Group as={Row} controlId={"password"}>
+        <Form.Label column sm={2}>
+          {"パスワード"}
+        </Form.Label>
+        <Col sm={5}>
+          <Form.Control
+            name={"password"}
+            placeholder={"Password"}
+            type={"password"}
+            isInvalid={errors.password}
+            ref={register({
+              required: "パスワードは必須です",
+              maxLength: {
+                value: 30,
+                message: "30文字以内です",
+              },
+            })}
+          />
+          {errors.password && (
+            <Form.Control.Feedback type="invalid">
+              {errors.password.message}
+            </Form.Control.Feedback>
+          )}
+        </Col>
+      </Form.Group>
+      <Form.Group>
+        <Col smoffset={2} sm={5}>
+          <ButtonToolbar>
+            <Button
+              variant={"primary"}
+              type="submit"
+              disabled={formState.isSubmitting}
+            >
+              Login
+            </Button>
+            <Button variant={"secondary"} type="button" onClick={reset}>
+              クリア
+            </Button>
+          </ButtonToolbar>
+        </Col>
+      </Form.Group>
+    </Form>
+  );
 };
 
-
-
-export default MyForm
+export default LoginForm;

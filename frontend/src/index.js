@@ -22,7 +22,7 @@ import store from "./store/";
 // import history from "./utils/historyUtils";
 // import { authLogin } from "./actions/authActions";
 import App from "./App";
-
+import "./css/style.css";
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 
 

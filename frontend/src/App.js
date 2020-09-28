@@ -41,19 +41,22 @@ import React, { Component } from "react";
 // import store from "../store";
 // import Header from "./Header";
 import Auth from "./usercomponents2/Auth";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import history from "./utils/historyUtils";
-import { Router } from 'react-router-dom';
-
+import { Router } from "react-router-dom";
+import AlertComponent from './components/Alert';
 
 export default class App extends Component {
   render() {
     return (
-      <div className="container">
-        <Router history={history}>
-          <Auth />
-        </Router>
-      </div>
+      <React.Fragment>
+        <div className="container">
+          <Router history={history}>
+            <Auth />
+            <AlertComponent />
+          </Router>
+        </div>
+      </React.Fragment>
     );
   }
 }

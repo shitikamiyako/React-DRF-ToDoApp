@@ -1,20 +1,24 @@
-// action
+// 通常のstore
 
-import { createAction } from "@reduxjs/toolkit";
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import reducer from '../usercomponents/reducers';
 
-// loginuserというアクション名でauthenticatedをTrueにする
-{ type: 'loginuser', authenticated: true}
+function configureStore(initialState) {
+    let createStoreWithMiddleware;
 
-// ActionCreator
+    const logger = createLogger();
+    const middleware = applyMiddleware(thunk, logger);
 
-const initialState = {
-    authenticated: false,
-};
+    createStoreWithMiddleware = compose(
+        middleware,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
 
+    return createStoreWithMiddleware(createStore)(reducer, initialState);
+}
 
-export const loginuser = createAction(
-    'LOGIN',
+let store = configureStore();
 
-)
-
-curl - X POST "http://127.0.0.1:8000/dj-rest-auth/login/ " -H "accept: application/ json" -H "Content - Type: application / json" -H "X - CSRFToken: PtyQD8myoSnHAoelzMxve5JK7OihdwiLMZwuzz1bgjWJ8z7lTqL90j6QGkzrqvg4" -d "{\"username\": \"kibunomi\", \"password\": \"h1r0noml\"}"
+export default store;

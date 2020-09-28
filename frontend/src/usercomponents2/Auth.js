@@ -2,7 +2,8 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 // import RequireAuth from "./auth/RequireAuth";
 // import Landing from "./Landing";
-import MyForm from "./test";
+// import LoginForm from "./test";
+import LoginFormContainer from "./LoginFormContainer";
 // import Logout from "./Logoutform";
 // import Signup from "./auth/Signup";
 // import SignupDone from "./auth/SignupDone";
@@ -19,7 +20,7 @@ const MainContent = () => (
   <div>
     <Switch>
       {/* <Route exact path="/" component={Landing} /> */}
-      <Route path="/login" component={MyForm} />
+      <Route path="/login" component={LoginFormContainer} />
       {/* <Route path="/logout" component={Logout} /> */}
       {/* <Route path="/signup" component={Signup} />
       <Route path="/account/confirm-email/:key" component={AccountActivation} />

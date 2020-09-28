@@ -2,7 +2,7 @@
 
 
 /* base */
-body {
+/* body {
     font-size: 18px;
     width: 100vw;
     margin: 0;
@@ -27,7 +27,12 @@ body {
 }
 .btn__delete:hover {
     background-color: lavenderblush;
+} */
+.backdrop .modal-content{
+  background-color: #000;
+  color: #fff;
 }
+
 
 
 /* todo */
