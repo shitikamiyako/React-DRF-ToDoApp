@@ -6,10 +6,7 @@ import { Modal, Spinner } from 'react-bootstrap';
 import useSpinner from '../hooks/useSpinner';
 
 // モーダルテスト用
-import { useDispatch } from 'react-redux';
-
-
-
+// import { useDispatch } from 'react-redux';
 
 const SpinnerModal = () => {
 
@@ -21,13 +18,12 @@ const SpinnerModal = () => {
     // const dispatch = useDispatch();
     // dispatch(startProgress("ログイン中です"));
 
-
     return (
 
         <Modal show={show} backdrop="static" keyboard={false} className="backdrop">
             <Modal.Header>{dialogMessage}</Modal.Header>
                 <Modal.Body>
-                    <Spinner Spinner animation="border" role="status" >
+                    <Spinner animation="border" role="status" >
                         <span className="sr-only">Loading...</span>
                     </Spinner>
                 </Modal.Body>

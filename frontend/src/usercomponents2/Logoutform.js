@@ -1,70 +1,43 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logoutUser } from "./operations";
-import { getAuthState } from "./selectors"
+import React from "react";
+import axios from "axios";
+
+import { useForm } from "react-hook-form";
+import { Form, Button, ButtonToolbar } from "react-bootstrap";
+import { useDispatch } from 'react-redux';
+import { AuthUrls } from "../usercomponents2/urls";
 
 
-class LogoutForm extends Component {
-
-    // static propTypes = {
-    //     logoutUser: PropTypes.func.isRequired
-    // };
-
-    // // 初期化
-    // constructor(props) {
-    //     super(props)
-    //     this.state = {
-    //         auth: this.props.authenticated,
-    //         token: this.props.token
-    //     }
-    // }
+import useAuth from '../hooks/useAuth';
 
 
-    // // 変更されようとしているpropsと現在のstateを代入
-    // static getDerivedStateFromProps(nextProps, prevState) {
+const LogoutForm = () => {
 
-    // }
+    const { handleSubmit } = useForm();
+    const { logoutUser } = useAuth();
 
 
-    // コンポーネントにマウント
-    componentDidMount() {
-        logoutUser();
+    const dispatch = useDispatch();
+    const logoutUrl = AuthUrls.LOGOUT;
+
+    const onSubmit = async() => {
+        await axios.post(logoutUrl);
+        dispatch(logoutUser());
     }
 
 
+    return (
+        <div >
+            <h1>Welcome to this wonderful site.</h1>
 
-    render() {
-        return (
-            <h2>Sorry to see you go...</h2>
-        );
-    }
-}
+            <Form noValidate onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
+                <Form.Group>
+                    <ButtonToolbar className="justify-content-center">
+                        <Button variant={"primary"} type="submit" > ログアウト </Button>
+                    </ButtonToolbar>
+                </Form.Group>
+            </Form>
+        </div>
+    );
+};
 
-export default LogoutForm
-
-// export default connect(mapStateToProps, { logoutUser })(LogoutForm);
-
-// import React, { Component } from "react";
-// import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-// import { logoutUser } from "./operations";
-
-// class Logout extends Component {
-
-//     static propTypes = {
-//         logoutUser: PropTypes.func.isRequired
-//     };
-
-//     componentDidMount() {
-//         this.props.logoutUser();
-//     }
-
-//     render() {
-//         return (
-//             <h2>Sorry to see you go...</h2>
-//         );
-//     }
-// }
-
-// export default connect(null, { logoutUser })(Logout);
+export default LogoutForm;

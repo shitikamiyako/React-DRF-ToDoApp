@@ -40,10 +40,10 @@ import React, { Component } from "react";
 // import { Notifs } from 'redux-notifications';
 // import store from "../store";
 // import Header from "./Header";
-import Auth from "./usercomponents2/Auth";
+import MainContent from "./usercomponents2/MainContent";
 import "bootstrap/dist/css/bootstrap.min.css";
-import history from "./utils/historyUtils";
-import { Router } from "react-router-dom";
+// import history from "./utils/historyUtils";
+import { BrowserRouter } from "react-router-dom";
 import AlertComponent from './components/Alert';
 
 export default class App extends Component {
@@ -51,10 +51,10 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <div className="container">
-          <Router history={history}>
-            <Auth />
+          <BrowserRouter>
+            <MainContent />
             <AlertComponent />
-          </Router>
+          </BrowserRouter>
         </div>
       </React.Fragment>
     );

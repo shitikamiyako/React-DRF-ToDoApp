@@ -1,13 +1,18 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 
 const LoginFormLayout = (props) => {
   return (
     <div>
       <Container style={{ padding: 15 }}>
-        <Row>
-          <Col sm={10}>
-            {props.children}
+        <Row className="justify-content-center mx-auto mt-5 p-2">
+          <Col sm={4} md={8}>
+            <Card className="text-center">
+              <Card.Header>ログインフォーム</Card.Header>
+              <Card.Body>
+                {props.children}
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>

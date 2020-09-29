@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from './test';
+import LoginForm from './LoginForm';
 import SpinnerModal from '../components/Spinner';
 // import AlertComponent from '../components/Alert';
 import LoginFormLayout from './LoginFormLayout';
@@ -40,53 +40,13 @@ const LoginFormContainer = () => {
     const { createAlert } = useAlert();
     const { loginUser } = useAuth();
     const { startProgress, stopProgress, progress } = useSpinner();
-    // const [alert, setAlert] = useState({ type: "", message: "" });
-    // const [open, setShow] = useState(false);
-    // const dispatch = useDispatch();
 
-    // const onSubmit = async (data) => {
-    //     // dispatch(startProgress("ログイン中です"));
-    //     const flag = false
-    //     try {
-    //         const response = await sleep(500);
-    //         // console.log(response);
-    //         // dispatch(loginUser());
 
-    //         // ログイン後のリダイレクト処理
-    //         // history.push("/");
-
-    //         return !flag
-    //     } catch (error) {
-    //         console.log(error);
-
-    //     } finally {
-    //             dispatch(createAlert({
-    //                 message: "ログインに成功しました",
-    //                 type: "success"
-    //             })
-    //             );
-    //             console.log(alert);
-    //             console.log(alerts);
-
-    //         // window.alert(`You submitted:\n\n${JSON.stringify(data, null, 2)}`);
-    //     }
-    // };
-
-    // モーダルテスト用
-    // const classes = useStyles();
-    // let form = (
-    //     <Backdrop className={classes.backdrop} open={progress}>
-    //         <CircularProgress color="inherit" />
-    //     </Backdrop>
-    // );
-
-    let form = (<SpinnerModal />);
+    let Modal = (<SpinnerModal />);
 
     const dispatch = useDispatch();
 
     console.log(alert);
-
-    // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
     // 実際のSubmit
 
@@ -105,8 +65,6 @@ const LoginFormContainer = () => {
                 type: "success"
             })
             );
-            // ログイン後のリダイレクト処理
-            // history.push("/");
         } catch (error) {
             console.log(error);
             dispatch(createAlert({
@@ -123,16 +81,15 @@ const LoginFormContainer = () => {
 
 
     if (!progress) {
-        form = (<LoginForm onSubmit={onSubmit}/>);
+        Modal = (<SpinnerModal show={false} />);
     }
 
     return (
         <React.Fragment>
+            {Modal}
             <LoginFormLayout>
-                {form}
+                <LoginForm onSubmit={onSubmit} />
             </LoginFormLayout>
-            {/* <AlertComponent /> */}
-            {/* <Alert show={open} variant={alert.type} onClose={onClose}>{alert.message}</Alert> */}
         </React.Fragment>
 
     );
