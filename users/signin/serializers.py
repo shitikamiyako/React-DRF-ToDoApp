@@ -12,6 +12,7 @@ except ImportError:
     from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions, serializers
 from rest_framework.exceptions import ValidationError
+from dj_rest_auth.serializers import LoginSerializer
 
 
 # Get the UserModel
@@ -20,9 +21,12 @@ UserModel = get_user_model()
 # usernameとpasswordのみでログインしたい場合のシリアライザ
 # settings.pyに読み込ませる
 
-class LoginSerializer(serializers.Serializer):
+
+class LoginSerializer(LoginSerializer):
     username = serializers.CharField(required=False, allow_blank=True)
     password = serializers.CharField(style={'input_type': 'password'})
+
+
 
     def authenticate(self, **kwargs):
         return authenticate(self.context['request'], **kwargs)

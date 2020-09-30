@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Landing from "./Landing";
 // import LoginForm from "./test";
 import LoginFormContainer from "./LoginFormContainer";
-import Logout from "./Logoutform";
+import Logout from "./LogoutForm";
 // import Signup from "./auth/Signup";
 // import SignupDone from "./auth/SignupDone";
 // import AccountActivation from "./auth/AccountActivation";

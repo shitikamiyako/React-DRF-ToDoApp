@@ -8,7 +8,7 @@ function useAuth() {
 
     return {
         // Sliceで定義したstate(progress)をuseSelectorを用いて取得
-        progress: useSelector(selectAuthenticated),
+        authenticated: useSelector(selectAuthenticated),
         // 以下はアクションの呼び出し
         loginUser: () => dispatch(loginUser()),
         logoutUser: () => dispatch(logoutUser()),

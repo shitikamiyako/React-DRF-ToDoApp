@@ -1,10 +1,10 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 // import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
 // import LoginForm from "./test";
 import LoginFormContainer from "./LoginFormContainer";
-import Logout from "./Logoutform";
+import Logout from "./LogoutForm";
 // import Signup from "./auth/Signup";
 // import SignupDone from "./auth/SignupDone";
 // import AccountActivation from "./auth/AccountActivation";
@@ -15,13 +15,18 @@ import Logout from "./Logoutform";
 // import PasswordResetDone from "./auth/PasswordResetDone";
 // import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 // import NoMatch from "./NoMatch";
+import LoginRoute from './LoginRoute';
+import LogoutRoute from './LogoutRoute';
+
 
 const MainContent = () => (
     <div>
         <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route path="/login" component={LoginFormContainer} />
-            <Route path="/logout" component={Logout} />
+            <Route path="/" exact><Landing /></Route>
+            <LoginRoute path="/login"  component={LoginFormContainer}>
+            </LoginRoute>
+            <LogoutRoute path="/logout" component={Logout} />
+            <Redirect to="/" />
             {/* <Route path="/signup" component={Signup} />
       <Route path="/account/confirm-email/:key" component={AccountActivation} />
       <Route path="/signup_done" component={SignupDone} />

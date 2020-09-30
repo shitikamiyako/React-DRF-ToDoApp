@@ -1,5 +1,6 @@
 import React from "react";
 import LoginForm from './LoginForm';
+import LogoutForm from './LogoutForm';
 import SpinnerModal from '../components/Spinner';
 // import AlertComponent from '../components/Alert';
 import LoginFormLayout from './LoginFormLayout';
@@ -12,6 +13,8 @@ import useAuth from '../hooks/useAuth';
 import useSpinner from '../hooks/useSpinner';
 import { useDispatch } from 'react-redux';
 import { AuthUrls } from "../usercomponents2/urls";
+// import history from "../utils/historyUtils";
+
 // import { useEffect, useState } from "react";
 // import { Alert } from 'react-bootstrap';
 
@@ -38,15 +41,13 @@ axios.defaults.withCredentials = true
 const LoginFormContainer = () => {
 
     const { createAlert } = useAlert();
-    const { loginUser } = useAuth();
+    const { loginUser, authenticated } = useAuth();
     const { startProgress, stopProgress, progress } = useSpinner();
 
 
     let Modal = (<SpinnerModal />);
 
     const dispatch = useDispatch();
-
-    console.log(alert);
 
     // 実際のSubmit
 
@@ -63,8 +64,8 @@ const LoginFormContainer = () => {
             dispatch(createAlert({
                 message: "ログインに成功しました",
                 type: "success"
-            })
-            );
+            }));
+            dispatch(stopProgress());
         } catch (error) {
             console.log(error);
             dispatch(createAlert({
@@ -72,23 +73,28 @@ const LoginFormContainer = () => {
                 type: "danger"
             })
             );
-
-        } finally {
             dispatch(stopProgress());
         }
 
     };
 
+    let form = (<LoginForm onSubmit={onSubmit} />);
+
+    console.log({authenticated});
+
+    if (authenticated === true) {
+        form = <LogoutForm />;
+    }
 
     if (!progress) {
-        Modal = (<SpinnerModal show={false} />);
+        Modal = <SpinnerModal show={false} />;
     }
 
     return (
         <React.Fragment>
             {Modal}
             <LoginFormLayout>
-                <LoginForm onSubmit={onSubmit} />
+                {form}
             </LoginFormLayout>
         </React.Fragment>
 
