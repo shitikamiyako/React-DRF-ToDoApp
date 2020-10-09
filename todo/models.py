@@ -35,6 +35,8 @@ class Todo(models.Model):
         CustomUser, related_name="like", blank=True)
     owner = models.ForeignKey(
         CustomUser, verbose_name="ユーザー", related_name="todo", blank=True, null=True, on_delete=models.CASCADE)
+
+    is_Completed = models.BooleanField(blank=True,default=False)
     add_datetime = models.DateTimeField(
         "追加日", default=datetime.now)
     close_datetime = models.DateTimeField(

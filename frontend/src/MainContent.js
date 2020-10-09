@@ -1,10 +1,10 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 // import RequireAuth from "./auth/RequireAuth";
-import Landing from "./Landing";
+import Landing from "./usercomponents2/Landing";
 // import LoginForm from "./test";
-import LoginFormContainer from "./LoginFormContainer";
-import Logout from "./LogoutForm";
+import LoginFormContainer from "./usercomponents2/LoginFormContainer";
+import Logout from "./usercomponents2/LogoutForm";
 // import Signup from "./auth/Signup";
 // import SignupDone from "./auth/SignupDone";
 // import AccountActivation from "./auth/AccountActivation";
@@ -15,9 +15,10 @@ import Logout from "./LogoutForm";
 // import PasswordResetDone from "./auth/PasswordResetDone";
 // import PasswordResetConfirm from "./auth/PasswordResetConfirm";
 // import NoMatch from "./NoMatch";
-import LoginRoute from './LoginRoute';
-import LogoutRoute from './LogoutRoute';
-
+import LoginRoute from './usercomponents2/LoginRoute';
+import LogoutRoute from './usercomponents2/LogoutRoute';
+import todo from "./todocomponents/todo";
+import PrivateRoute from './todocomponents/PrivateRoute';
 
 const MainContent = () => (
     <div>
@@ -26,6 +27,8 @@ const MainContent = () => (
             <LoginRoute path="/login"  component={LoginFormContainer}>
             </LoginRoute>
             <LogoutRoute path="/logout" component={Logout} />
+            <PrivateRoute path="/todo/top" component={todo}>
+            </PrivateRoute>
             <Redirect to="/" />
             {/* <Route path="/signup" component={Signup} />
       <Route path="/account/confirm-email/:key" component={AccountActivation} />

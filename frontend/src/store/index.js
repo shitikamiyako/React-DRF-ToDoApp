@@ -2,6 +2,9 @@ import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/
 import spinnerReducer from './spinnerSlice';
 import authReducer from './authSlice';
 import alertReducer from './alertSlice';
+import todosReducer from './todosSlice';
+import changeFlagReducer from './changeFlagSlice';
+// import visibilityFilterReducer from './visibilityFilterReducer';
 import {
     persistReducer,
     FLUSH,
@@ -16,7 +19,11 @@ import storage from 'redux-persist/lib/storage'
 const reducers = combineReducers({
     spinner: spinnerReducer,
     auth: authReducer,
-    notifications: alertReducer,});
+    notifications: alertReducer,
+    todos: todosReducer,
+    flag: changeFlagReducer,
+    // visibilityFilter: visibilityFilterReducer
+});
 
 
 const persistConfig = {

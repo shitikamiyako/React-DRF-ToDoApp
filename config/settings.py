@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'knox', # TokenAuthentication
     'corsheaders',
     'django_filters',
-    'rest_framework_swagger',
+    'drf_yasg',
     'coreapi',
     'drf_firebase_auth', # DRF+Firebase TokenAuthentication
 
@@ -175,6 +176,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
+# SESSION_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SECURE = True
+
 # dj-rest-auth settings
 
 REST_AUTH_SERIALIZERS = {
@@ -189,19 +193,33 @@ REST_USE_JWT = True
 ## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
 # JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'jwt-auth'
+# JWT_AUTH_SAMESITE = 'None'
 ## JWTクッキーを認証に使用する際にDRFで無効になっているCSRFチェックを有効にする。
 JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED = True
 
 
-# DRF Firebase settings
+# django-allauth settings
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
-DRF_FIREBASE_AUTH = {
-    'FIREBASE_SERVICE_ACCOUNT_KEY': './config/env/serviceAccountKey.json'
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+
+# django-rest=simpole-jwt settings
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=60),
 }
 
-# CORS setting
 
-# CORS_ORIGIN_ALLOW_ALL = True
+# CORS setting
 
 CORS_ALLOWED_ORIGINS = (
     'http://localhost:3000',
@@ -220,18 +238,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CORS_ALLOW_CREDENTIALS = True
 
-# django-allauth settings
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+# DRF Firebase settings
 
-LOGIN_REDIRECT_URL = '/'
-
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SITE_ID = 1
+DRF_FIREBASE_AUTH = {
+    'FIREBASE_SERVICE_ACCOUNT_KEY': './config/env/serviceAccountKey.json'
+}
 
 # # Django-Rest-Knox
 # REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'

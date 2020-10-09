@@ -1,3 +1,27 @@
+import React, { Component } from "react";
+// import store from "../store";
+// import Header from "./Header";
+import MainContent from "./MainContent";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import history from "./utils/historyUtils";
+import { BrowserRouter } from "react-router-dom";
+import AlertComponent from './components/Alert';
+
+export default class App extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <div className="container">
+          <BrowserRouter>
+            <MainContent />
+            <AlertComponent />
+          </BrowserRouter>
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
 // import React, { Component } from "react";
 // import axios from "axios";
 
@@ -36,27 +60,3 @@
 // }
 // export default App;
 
-import React, { Component } from "react";
-// import { Notifs } from 'redux-notifications';
-// import store from "../store";
-// import Header from "./Header";
-import MainContent from "./usercomponents2/MainContent";
-import "bootstrap/dist/css/bootstrap.min.css";
-// import history from "./utils/historyUtils";
-import { BrowserRouter } from "react-router-dom";
-import AlertComponent from './components/Alert';
-
-export default class App extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <div className="container">
-          <BrowserRouter>
-            <MainContent />
-            <AlertComponent />
-          </BrowserRouter>
-        </div>
-      </React.Fragment>
-    );
-  }
-}

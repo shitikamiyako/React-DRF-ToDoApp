@@ -3,8 +3,8 @@ import axios from "axios";
 
 import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
-import { useDispatch } from 'react-redux';
-import { AuthUrls } from "./urls";
+// import { useDispatch } from 'react-redux';
+import { AuthUrls } from "../utils/authUrls";
 
 
 import useAuth from '../hooks/useAuth';
@@ -15,13 +15,11 @@ const LogoutForm = () => {
     const { handleSubmit } = useForm();
     const { logoutUser } = useAuth();
 
-
-    const dispatch = useDispatch();
     const logoutUrl = AuthUrls.LOGOUT;
 
     const onSubmit = async() => {
         await axios.post(logoutUrl);
-        dispatch(logoutUser());
+        logoutUser();
     }
 
 

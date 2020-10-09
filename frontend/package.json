@@ -10,11 +10,15 @@
     "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.5",
     "axios": "^0.20.0",
+    "axios-cookiejar-support": "^1.0.0",
     "bootstrap": "^4.5.2",
-    "firebase": "^7.21.0",
+    "firebase": "^7.22.0",
     "formik": "^2.1.5",
     "history": "^5.0.0",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
     "node-fetch": "^2.6.1",
     "npm-check-updates": "^9.0.1",
     "prop-types": "^15.7.2",
@@ -25,6 +29,7 @@
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.8.4",
     "react-loading-overlay": "^1.0.1",
+    "react-moment": "^1.0.0",
     "react-notification-system": "^0.4.0",
     "react-notification-system-redux": "^2.0.1",
     "react-redux": "^7.2.1",
@@ -74,6 +79,7 @@
   },
   "devDependencies": {
     "eslint-plugin-react-hooks": "^4.1.2",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }

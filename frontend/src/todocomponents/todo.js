@@ -1,115 +1,41 @@
 import React from "react";
+import AddTask from "./addTask";
+import TaskList from "./TaskList";
 import axios from "axios";
+import Cookies from 'js-cookie';
+import { Container, Row, Col } from "react-bootstrap";
 
-import "../css/style.css";
-import Form from "./form.js";
-import List from "./list.js";
 
-const endPointUrl = "http://localhost:8000/todo/api";
+var csrftoken = Cookies.get('csrftoken');
+console.log(csrftoken);
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+// axios.defaults.headers.common['Authorization'
+axios.defaults.withCredentials = true
 
-export default class Todo extends React.Component {
-  constructor(props) {
-    super(props);
+const Todo = () => {
 
-    this.getTodo = this.getTodo.bind(this);
-    this.addTodo = this.addTodo.bind(this);
-    this.deleteTodo = this.deleteTodo.bind(this);
-    this.toggleIsChecked = this.toggleIsChecked.bind(this);
-    this.toggleIsDone = this.toggleIsDone.bind(this);
-
-    this.state = {
-      todoList: [],
-    };
-    this.getTodo();
-  }
-
-  getTodo() {
-    let todoData;
-    axios
-      .get(`${endPointUrl}/`)
-      .then(res => {
-        todoData = res.data.map((obj) => {
-          obj.isChecked = false;
-          return obj;
-        });
-        this.setState({
-          todoList: todoData,
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  addTodo(todoText) {
-    let now;
-    now = new Date();
-    axios
-      .post(`${endPointUrl}/`, {
-        task_name: todoText,
-        add_datetime: now,
-      }).then(res => {
-        this.getTodo();
-      }).catch(err => {
-        console.log(err);
-      });
-  }
-
-  deleteTodo() {
-    const newState = this.state.todoList.filter((todoObj, index) => {
-      if (todoObj.isChecked) {
-        axios
-          .delete(`${endPointUrl}/${todoObj.uuid}/`)
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-
-      return !todoObj.isChecked;
-    });
-    this.setState({
-      todoList: newState,
-    });
-  }
-
-  toggleIsChecked(index) {
-    const newTodoList = this.state.todoList;
-    newTodoList[index].isChecked = !this.state.todoList[index].isChecked;
-    this.setState({
-      todoList: newTodoList,
-    });
-  }
-
-  toggleIsDone(index) {
-    axios
-      .put(`${endPointUrl}/${this.state.todoList[index].uuid}/`, {
-        body: this.state.todoList[index].body,
-        isDone: !this.state.todoList[index].isDone,
-      })
-      .then(res => {
-        this.getTodo();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  render() {
+  const TaskListComponent = React.memo(() => {
+    console.log('render')
     return (
-      <div className="todo">
-        <h1 className="todo__title">React on DRF ToDo App</h1>
-        <Form addTodo={this.addTodo} />
-        <h2>ToDo List</h2>
-        <List
-          todoList={this.state.todoList}
-          deleteTodo={this.state.deleteTodo}
-          toggleIsChecked={this.state.toggleIsChecked}
-          toggleIsDone={this.state.toggleIsDone}
-        />
-      </div>
-    );
-  }
-}
+      <TaskList />
+    )
+  })
+
+
+  return (
+    <div>
+      <Container>
+        <Row className="justify-content-center mx-auto mt-5 p-2">          <Col sm={4} md={8}>
+            <h1>Sample Title</h1>
+            <AddTask />
+            <h2>ToDo List</h2>
+          <TaskListComponent />
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default Todo;

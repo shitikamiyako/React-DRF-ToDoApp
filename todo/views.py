@@ -22,6 +22,10 @@ class TodoListAPIView(ListCreateAPIView):
     def get_paginated_response(self, data):
         return Response(data)
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
 class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = Todo.objects.all()
