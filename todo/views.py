@@ -19,8 +19,8 @@ class TodoListAPIView(ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     # APIのレスポンスにペジネーションの情報を含まない
-    def get_paginated_response(self, data):
-        return Response(data)
+    # def get_paginated_response(self, data):
+    #     return Response(data)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

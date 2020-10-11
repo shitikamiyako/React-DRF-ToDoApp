@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
 
 import { TodoUrls } from "../utils/todoUrls";
-import { AuthUrls } from "../utils/authUrls";
 import useSpinner from "../hooks/useSpinner";
 import useAlert from "../hooks/useAlert";
 import useFlag from "../hooks/useFlag";
@@ -15,8 +14,6 @@ import useFlag from "../hooks/useFlag";
 moment.locale('ja')
 
 const add_taskUrl = TodoUrls.ADD_TASK;
-const get_user_dataUrl = AuthUrls.GET_USER_DATA;
-
 // moment test
 let m = moment()
 console.log(m.format("YYYY-MM-DD hh:mm"))
@@ -24,7 +21,7 @@ console.log(m.format("YYYY-MM-DD hh:mm"))
 const AddTask = () => {
   const { startProgress, stopProgress } = useSpinner();
   const { createAlert } = useAlert();
-  const { taskListChange, addTask} = useFlag();
+  const { addTask} = useFlag();
   const { handleSubmit, register, errors, formState, reset } = useForm();
 
   const postNewTask = async (data) => {

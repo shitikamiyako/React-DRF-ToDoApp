@@ -152,6 +152,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # DRF settings
 
 REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M',
     'DEFAULT_PAGINATION_CLASS': 'todo.funcs.paginations.CustomPagination',
     'PAGE_SIZE': 10,
 

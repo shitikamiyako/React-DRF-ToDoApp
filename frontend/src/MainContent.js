@@ -18,6 +18,8 @@ import Logout from "./usercomponents2/LogoutForm";
 import LoginRoute from './usercomponents2/LoginRoute';
 import LogoutRoute from './usercomponents2/LogoutRoute';
 import todo from "./todocomponents/todo";
+import TodoDelete from "./todocomponents/TodoDelete";
+import TodoEdit from "./todocomponents/TodoEdit";
 import PrivateRoute from './todocomponents/PrivateRoute';
 
 const MainContent = () => (
@@ -29,6 +31,8 @@ const MainContent = () => (
             <LogoutRoute path="/logout" component={Logout} />
             <PrivateRoute path="/todo/top" component={todo}>
             </PrivateRoute>
+            <PrivateRoute path="/todo/delete/:id" component={TodoDelete} />
+            <PrivateRoute path="/todo/edit/:id" component={TodoEdit} />
             <Redirect to="/" />
             {/* <Route path="/signup" component={Signup} />
       <Route path="/account/confirm-email/:key" component={AccountActivation} />

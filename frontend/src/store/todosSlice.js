@@ -1,7 +1,6 @@
-import _ from 'lodash';
 import { createSlice } from '@reduxjs/toolkit'
 
-let nextTodoId = 0
+// let nextTodoId = 0
 
 // const initialState = {
 //     tasks: [],

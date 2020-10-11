@@ -4,6 +4,7 @@ import authReducer from './authSlice';
 import alertReducer from './alertSlice';
 import todosReducer from './todosSlice';
 import changeFlagReducer from './changeFlagSlice';
+import pageNationSliceReducer from './pageNationSlice';
 // import visibilityFilterReducer from './visibilityFilterReducer';
 import {
     persistReducer,
@@ -22,6 +23,7 @@ const reducers = combineReducers({
     notifications: alertReducer,
     todos: todosReducer,
     flag: changeFlagReducer,
+    page: pageNationSliceReducer,
     // visibilityFilter: visibilityFilterReducer
 });
 

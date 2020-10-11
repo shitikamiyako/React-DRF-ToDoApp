@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-let nextTodoId = 0
 
 const initialState = {
     taskListChange: false,
+    taskID: null,
 };
 
-// addとtoggleの部分は書き直し予定
 const changeFlagSlice = createSlice({
     name:'flag',
     initialState,
@@ -19,6 +18,14 @@ const changeFlagSlice = createSlice({
 
             }
         },
+
+        // deleteTask: (state) => {
+        //     return {
+        //         ...state,
+        //         taskListChange: true,
+
+        //     }
+        // },
 
         TaskListChangeReset: (state) => {
             return {

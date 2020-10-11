@@ -26,11 +26,12 @@ const Todo = () => {
   return (
     <div>
       <Container>
-        <Row className="justify-content-center mx-auto mt-5 p-2">          <Col sm={4} md={8}>
-            <h1>Sample Title</h1>
-            <AddTask />
-            <h2>ToDo List</h2>
-          <TaskListComponent />
+        <Row className="justify-content-center mx-auto mt-3 p-2">
+          <Col sm={12} md={12}>
+            <h3 className="text-center mb-3 mt-3">Sample Title</h3>
+            <AddTask className="mb-3 mt-3" />
+            <h3 className="text-center mb-3 mt-3">ToDo List</h3>
+            <TaskListComponent />
           </Col>
         </Row>
       </Container>
