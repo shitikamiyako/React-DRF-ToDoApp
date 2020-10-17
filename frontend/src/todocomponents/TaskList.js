@@ -13,6 +13,7 @@ import {
   Col,
   Row
 } from "react-bootstrap";
+import { AuthUrls } from "../utils/authUrls";
 import { TodoUrls } from "../utils/todoUrls";
 import useSpinner from "../hooks/useSpinner";
 import useFlag from "../hooks/useFlag";
@@ -36,14 +37,30 @@ const TaskList = () => {
   } = usePage();
   const { taskListChange, TaskListChangeReset } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
+  const get_userUrl = AuthUrls.GET_USER_DATA;
+  let username = "";
   let get_task_listUrl = null;
+  // resetTaskList();
+
 
   const pullTaskList = async () => {
     startProgress();
     resetTaskList();
 
+    // 初回レンダー及び最初の10件を取得するためのURL
     if (get_task_listUrl === null) {
       get_task_listUrl = TodoUrls.GET_TASK_LIST;
+    }
+    // 通常のタスク取得処理をif文でラップしてSORT_CATEGORYがTrueならDjango_Filterを使用したリクエストを叩くようにする
+    // URL例 = http://localhost:8000/todo/api/?owner=4
+    // 通常のタスク取得処理
+
+    try {
+      const user = await axios.get(get_userUrl);
+      console.log(user)
+      username = user.data.username
+    } catch(error) {
+      console.log(error)
     }
 
     try {
@@ -74,6 +91,10 @@ const TaskList = () => {
   console.log(Object.values(tasks));
   console.log(tasks);
 
+  // Filter処理
+
+
+  // 実際にrenderするためにstateに保存したタスクを配列にする
   const taskList = Object.values(tasks);
 
   console.log(taskList.length);

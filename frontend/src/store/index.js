@@ -3,6 +3,7 @@ import spinnerReducer from './spinnerSlice';
 import authReducer from './authSlice';
 import alertReducer from './alertSlice';
 import todosReducer from './todosSlice';
+import categoryReducer from './categorySlice';
 import changeFlagReducer from './changeFlagSlice';
 import pageNationSliceReducer from './pageNationSlice';
 // import visibilityFilterReducer from './visibilityFilterReducer';
@@ -22,6 +23,7 @@ const reducers = combineReducers({
     auth: authReducer,
     notifications: alertReducer,
     todos: todosReducer,
+    category: categoryReducer,
     flag: changeFlagReducer,
     page: pageNationSliceReducer,
     // visibilityFilter: visibilityFilterReducer

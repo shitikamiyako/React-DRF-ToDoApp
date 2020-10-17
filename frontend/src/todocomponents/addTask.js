@@ -64,7 +64,6 @@ const AddTask = () => {
 
   return (
     <Form
-      noValidate
       onSubmit={handleSubmit(onSubmit)}
       className="justify-content-center"
     >
@@ -95,6 +94,7 @@ const AddTask = () => {
           <Button
             variant={"primary"}
             type="submit"
+            // onClick={handleSubmit(onSubmit)}
             disabled={formState.isSubmitting}
           >
             タスク追加

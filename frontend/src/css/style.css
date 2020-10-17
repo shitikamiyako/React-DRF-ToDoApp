@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+@media screen and (min-width:768px) and ( max-width:3000px) {
+  .container{
+      max-width: 720px;
+  }
+}
 
 /* base */
 /* body {
@@ -36,6 +41,10 @@
    text-align:center;
 }
 
+li {
+  list-style: none;
+}
+
 
 
 /* todo */
@@ -43,10 +52,10 @@
     margin: 0 20vw;
 }
 
-.taskList {
+/* .taskList {
     margin-left: 100px;
     margin-right: 100px;
-}
+} */
 
 
 /* form */

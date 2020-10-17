@@ -10,7 +10,6 @@ var csrftoken = Cookies.get('csrftoken');
 console.log(csrftoken);
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-// axios.defaults.headers.common['Authorization'
 axios.defaults.withCredentials = true
 
 const Todo = () => {

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # local
     'users.apps.UsersConfig',
     'todo.apps.TodoConfig',
+    'category.apps.CategoryConfig',
 
     # 3rd party
 
@@ -208,7 +209,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username"
-
+ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 

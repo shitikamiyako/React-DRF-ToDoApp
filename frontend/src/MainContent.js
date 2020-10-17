@@ -3,39 +3,30 @@ import { Switch, Route, Redirect } from "react-router-dom";
 // import RequireAuth from "./auth/RequireAuth";
 import Landing from "./usercomponents2/Landing";
 // import LoginForm from "./test";
-import LoginFormContainer from "./usercomponents2/LoginFormContainer";
+import Login from "./usercomponents2/LoginFormContainer";
 import Logout from "./usercomponents2/LogoutForm";
-// import Signup from "./auth/Signup";
-// import SignupDone from "./auth/SignupDone";
-// import AccountActivation from "./auth/AccountActivation";
-// import UserProfile from "./auth/UserProfile";
-// import UserProfileEdit from "./auth/UserProfileEdit";
-// import PasswordChange from "./auth/PasswordChange";
-// import PasswordReset from "./auth/PasswordReset";
-// import PasswordResetDone from "./auth/PasswordResetDone";
-// import PasswordResetConfirm from "./auth/PasswordResetConfirm";
-// import NoMatch from "./NoMatch";
-import LoginRoute from './usercomponents2/LoginRoute';
-import LogoutRoute from './usercomponents2/LogoutRoute';
-import todo from "./todocomponents/todo";
+import Register from "./usercomponents2/RegisterFormLayout"
+
+import PrivateRoute from './Route/PrivateRoute';
+import LoginRoute from './Route/LoginRoute';
+import LogoutRoute from './Route/LogoutRoute';
+import Todo from "./todocomponents/todo";
 import TodoDelete from "./todocomponents/TodoDelete";
 import TodoEdit from "./todocomponents/TodoEdit";
-import PrivateRoute from './todocomponents/PrivateRoute';
 
 const MainContent = () => (
     <div>
         <Switch>
             <Route path="/" exact><Landing /></Route>
-            <LoginRoute path="/login"  component={LoginFormContainer}>
-            </LoginRoute>
+            <LoginRoute path="/login" component={Login} />
+            <LoginRoute path="/signup" component={Register} />
             <LogoutRoute path="/logout" component={Logout} />
-            <PrivateRoute path="/todo/top" component={todo}>
-            </PrivateRoute>
+            <PrivateRoute path="/todo/top" component={Todo} />
             <PrivateRoute path="/todo/delete/:id" component={TodoDelete} />
             <PrivateRoute path="/todo/edit/:id" component={TodoEdit} />
             <Redirect to="/" />
-            {/* <Route path="/signup" component={Signup} />
-      <Route path="/account/confirm-email/:key" component={AccountActivation} />
+        </Switch>
+      {/* <Route path="/account/confirm-email/:key" component={AccountActivation} />
       <Route path="/signup_done" component={SignupDone} />
       <Route path="/reset_password" component={PasswordReset} />
       <Route path="/reset_password_done" component={PasswordResetDone} />
@@ -44,7 +35,6 @@ const MainContent = () => (
       <Route path="/profile_edit" component={RequireAuth(UserProfileEdit)} />
       <Route path="/change_password" component={RequireAuth(PasswordChange)} />
       <Route component={NoMatch} /> */}
-        </Switch>
     </div>
 );
 
