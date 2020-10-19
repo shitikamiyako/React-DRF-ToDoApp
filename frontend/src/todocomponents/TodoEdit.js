@@ -11,7 +11,7 @@ import useCategory from "../hooks/useCategory";
 import usePage from "../hooks/usePage";
 import useAlert from "../hooks/useAlert";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
 import { TodoUrls } from "../utils/todoUrls";
 // import useAlert from "../hooks/useAlert";
@@ -19,7 +19,14 @@ import { TodoUrls } from "../utils/todoUrls";
 const TodoEdit = () => {
   const { id } = useParams();
   let history = useHistory();
-  const { handleSubmit, register, errors, formState, reset } = useForm();
+  const {
+    handleSubmit,
+    register,
+    errors,
+    formState,
+    reset,
+    control,
+  } = useForm();
   const {
     handleSubmit: handleSubmit2,
     register: register2,
@@ -32,12 +39,12 @@ const TodoEdit = () => {
     handleSubmit: handleSubmit3,
     register: register3,
     formState: formState3,
-    watch
+    watch,
   } = useForm();
 
   const watchFields = watch(["category"]);
   console.log(watchFields.category);
-  let categoryPk = watchFields.category
+  let categoryPk = watchFields.category;
 
   const { taskListChange } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
@@ -55,7 +62,7 @@ const TodoEdit = () => {
   console.log(getCategoryListUrl);
   console.log(deleteCategoryUrl);
   console.log(TodoUrls.GET_CATEGORY_LIST);
-  console.log(category)
+  console.log(category);
 
   const pullTask = async () => {
     startProgress();
@@ -187,21 +194,54 @@ const TodoEdit = () => {
   // カテゴリーリスト整形
   const categoryList = Object.values(category);
   console.log(categoryList);
+  console.log(tasks.is_Completed);
 
+  //
+
+  // is_Completedの論理値によって描画を変更
+  let is_Completed_checkbox = (
+    <Form.Check
+      type="checkbox"
+      name={"is_Completed"}
+      label="完了"
+      ref={register}
+    />
+  );
+
+  let is_Completed_column = <li>is_Completed: false</li>;
+
+  if (tasks.is_Completed === true) {
+    is_Completed_column = <li>is_Completed: true</li>;
+    is_Completed_checkbox = (
+      <Form.Check
+        type="checkbox"
+        name={"is_Completed"}
+        label="完了"
+        ref={register}
+        defaultChecked
+      />
+    );
+  }
+
+  // タスク編集のPatchリクエスト発火
   const onSubmit = async (data) => {
     postNewTask(data);
     reset();
   };
 
+  // カテゴリー追加のPostリクエスト発火
   const onSubmit2 = async (data) => {
     addCategory(data);
     reset();
   };
+
+  // カテゴリー削除のDeleteリクエスト発火
   const onSubmit3 = async (data) => {
     deleteCategory(data);
     reset();
   };
 
+  // タスクリスト一覧へ戻る
   const BackTop = () => {
     resetTaskList();
     history.push("/todo/top");
@@ -220,7 +260,9 @@ const TodoEdit = () => {
         </Modal.Header>
         <Modal.Body>
           <li>task_name: {tasks.task_name}</li>
+          <li>task_detail: {tasks.task_detail}</li>
           <li>Category: {tasks.category}</li>
+          {is_Completed_column}
         </Modal.Body>
       </Modal.Dialog>
 
@@ -229,7 +271,7 @@ const TodoEdit = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="justify-content-center"
       >
-        {/* add Task input */}
+        {/* Patch Task input */}
         <Form.Group controlId={"task_name"}>
           <Form.Control
             name={"task_name"}
@@ -251,6 +293,28 @@ const TodoEdit = () => {
           )}
         </Form.Group>
 
+        {/* add Task_Detail textarea */}
+        <Form.Group controlId={"task_detail"}>
+          <Form.Control
+            name={"task_detail"}
+            placeholder={"追加したい備考を入力"}
+            defaultValue={tasks.task_detail}
+            as="textarea"
+            isInvalid={errors.task_detail}
+            ref={register({
+              maxLength: {
+                value: 140,
+                message: "追加できる備考は140文字以内です",
+              },
+            })}
+          />
+          {errors.task_detail && (
+            <Form.Control.Feedback type="invalid">
+              {errors.task_detail.message}
+            </Form.Control.Feedback>
+          )}
+        </Form.Group>
+
         {/* category select input */}
         <Form.Group controlId={"category"}>
           <Form.Label>カテゴリー</Form.Label>
@@ -262,13 +326,19 @@ const TodoEdit = () => {
           >
             <option value={tasks.category}>選択してください</option>
             <optgroup label="カテゴリー一覧">
-            {categoryList.map((category) => (
-              <option key={category.id} value={category.category}>
-                {category.category}
-              </option>
-            ))}
+              {categoryList.map((category) => (
+                <option key={category.id} value={category.category}>
+                  {category.category}
+                </option>
+              ))}
             </optgroup>
           </Form.Control>
+        </Form.Group>
+
+        {/* is_Completed select checkbox */}
+        <Form.Group controlId={"is_Completed"}>
+          <input type="hidden" name={"is_Completed"} ref={register} />
+          {is_Completed_checkbox}
         </Form.Group>
 
         <Form.Group>

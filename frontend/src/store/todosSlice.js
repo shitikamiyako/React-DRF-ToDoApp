@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// let nextTodoId = 0
-
-// const initialState = {
-//     tasks: [],
-// };
 
 // addとtoggleの部分は書き直し予定
 const todosSlice = createSlice({

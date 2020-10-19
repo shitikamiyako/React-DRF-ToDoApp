@@ -45,6 +45,8 @@ class Todo(models.Model):
         CustomUser, verbose_name="ユーザー", related_name="todo", blank=True, null=True, on_delete=models.CASCADE)
 
     is_Completed = models.BooleanField(blank=True, default=False)
+    # is_Completed = models.CharField(
+    #     max_length=255, blank=True, null=True, default="False")
     add_datetime = models.DateTimeField(
         "追加日", default=datetime.now)
     close_datetime = models.DateTimeField(

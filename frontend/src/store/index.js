@@ -6,7 +6,7 @@ import todosReducer from './todosSlice';
 import categoryReducer from './categorySlice';
 import changeFlagReducer from './changeFlagSlice';
 import pageNationSliceReducer from './pageNationSlice';
-// import visibilityFilterReducer from './visibilityFilterReducer';
+import filterReducer from './filterSlice';
 import {
     persistReducer,
     FLUSH,
@@ -26,7 +26,7 @@ const reducers = combineReducers({
     category: categoryReducer,
     flag: changeFlagReducer,
     page: pageNationSliceReducer,
-    // visibilityFilter: visibilityFilterReducer
+    filter: filterReducer
 });
 
 

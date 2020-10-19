@@ -1,22 +1,30 @@
 import React from "react";
 import { useEffect } from "react";
-import { LinkContainer } from 'react-router-bootstrap'
+import { LinkContainer } from "react-router-bootstrap";
 import _ from "lodash";
 import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
+
 import useTodo from "../hooks/useTodo";
 import usePage from "../hooks/usePage";
+import useCategory from "../hooks/useCategory";
+import useSpinner from "../hooks/useSpinner";
+import useFlag from "../hooks/useFlag";
+import useFilter from "../hooks/useFilter";
+// import useFilter from "../hooks/useFilter";
+
+import { AuthUrls } from "../utils/authUrls";
+import { TodoUrls } from "../utils/todoUrls";
+
 import {
   Button,
+  DropdownButton,
   Pagination,
   Toast,
   Col,
-  Row
+  Row,
+  Dropdown,
 } from "react-bootstrap";
-import { AuthUrls } from "../utils/authUrls";
-import { TodoUrls } from "../utils/todoUrls";
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
 
 axios.defaults.withCredentials = true;
 
@@ -35,32 +43,55 @@ const TaskList = () => {
     pageNationLastNumber,
     pageNationCurrent,
   } = usePage();
-  const { taskListChange, TaskListChangeReset } = useFlag();
+  const {
+    taskListChange,
+    category_filter_apply,
+    is_Completed_filter_apply,
+    TaskListChangeReset,
+    Apply_Category_filter,
+    Apply_is_Completed_filter,
+    Unfiltered,
+  } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
-  const get_userUrl = AuthUrls.GET_USER_DATA;
-  let username = "";
-  let get_task_listUrl = null;
-  // resetTaskList();
+  const { getCategoryList, resetCategoryList, category } = useCategory();
+  const { setAllTasks, all_tasks, resetTasks } = useFilter();
 
+  const get_userUrl = AuthUrls.GET_USER_DATA;
+  const getCategoryListUrl = TodoUrls.GET_CATEGORY_LIST;
+  let get_task_listUrl = null;
+  let username = "";
+  // resetTaskList();
 
   const pullTaskList = async () => {
     startProgress();
     resetTaskList();
+    resetTasks();
+    resetCategoryList();
 
     // 初回レンダー及び最初の10件を取得するためのURL
     if (get_task_listUrl === null) {
       get_task_listUrl = TodoUrls.GET_TASK_LIST;
     }
-    // 通常のタスク取得処理をif文でラップしてSORT_CATEGORYがTrueならDjango_Filterを使用したリクエストを叩くようにする
-    // URL例 = http://localhost:8000/todo/api/?owner=4
-    // 通常のタスク取得処理
 
     try {
       const user = await axios.get(get_userUrl);
-      console.log(user)
-      username = user.data.username
-    } catch(error) {
-      console.log(error)
+      console.log(user);
+      username = user.data.username;
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const response = await axios.get(getCategoryListUrl);
+      console.log(response);
+      console.log(response.data.results);
+      const responseMap = response.data.results.map((obj) => {
+        return obj;
+      });
+      const CategoryList = _.mapKeys(responseMap, "id");
+      getCategoryList(CategoryList);
+    } catch (error) {
+      console.log(error);
     }
 
     try {
@@ -81,6 +112,7 @@ const TaskList = () => {
       console.log(responseMap);
       console.log(TaskList);
       getTaskList(TaskList);
+      setAllTasks(TaskList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -88,21 +120,63 @@ const TaskList = () => {
     }
   };
 
-  console.log(Object.values(tasks));
-  console.log(tasks);
+  console.log(Object.values(all_tasks));
+  console.log(all_tasks);
 
-  // Filter処理
+  // stateに保存したタスクを整形
 
+  // 取得してきたタスクリストのマスター
+  let saveTaskList = Object.values(tasks);
 
-  // 実際にrenderするためにstateに保存したタスクを配列にする
-  const taskList = Object.values(tasks);
+  // 実際に描画に使うタスクリスト
+  let taskList = Object.values(all_tasks);
+  console.log(taskList);
 
-  console.log(taskList.length);
+  // カテゴリーリスト整形
+  const categoryList = Object.values(category);
+
+  // CategoryでのFilter処理
+  const task_category_filter = (category_name) => {
+    Unfiltered();
+    Apply_Category_filter();
+    resetTasks();
+    const category_item = category_name;
+    const filtered_tasks = saveTaskList.filter(
+      (task) => task.category === category_item
+    );
+    setAllTasks(filtered_tasks);
+  };
+
+  // is_CompletedがTrueのタスクをFilterする
+  const task_is_Completed_filter = () => {
+    Unfiltered();
+    Apply_is_Completed_filter();
+    resetTasks();
+    const filtered_tasks = saveTaskList.filter(
+      (task) => task.is_Completed === true
+    );
+    setAllTasks(filtered_tasks);
+  };
+
+  // is_CompletedがFalseのタスクをFilterする
+  const task_is_unCompleted_filter = () => {
+    Apply_is_Completed_filter();
+    resetTasks();
+    const filtered_tasks = saveTaskList.filter(
+      (task) => task.is_Completed === false
+    );
+    setAllTasks(filtered_tasks);
+  };
+
+  // Filterリセット
+  const task_filter_reset = () => {
+    Unfiltered();
+    resetTasks();
+    setAllTasks(saveTaskList);
+  };
 
   // ペジネーション
   let CurrentPage = pageNationCurrent;
-
-
 
   // useEffect
   useEffect(() => {
@@ -115,36 +189,105 @@ const TaskList = () => {
 
   return (
     <div>
+      <Row>
+        <Col xs={6} sm={6} md={6}>
+          <DropdownButton
+            id="dropdown-item-button"
+            title="Category Filter"
+            variant="secondary"
+            className="mb-2"
+          >
+            <Dropdown.ItemText>カテゴリーでフィルタリング</Dropdown.ItemText>
+            <Dropdown.Divider />
+            {categoryList.map((category) => (
+              <Dropdown.Item
+                as="button"
+                key={category.id}
+                onClick={() => {
+                  task_category_filter(category.category);
+                }}
+              >
+                {category.category}
+              </Dropdown.Item>
+            ))}
+            <Dropdown.Divider />
+            <Dropdown.Item
+              as="button"
+              onClick={() => {
+                task_filter_reset();
+              }}
+            >
+              フィルタリングを解除
+            </Dropdown.Item>
+          </DropdownButton>
+        </Col>
+        <Col xs={6} sm={6} md={6}>
+          <DropdownButton
+            id="dropdown-item-button"
+            title="is_Completed Filter"
+            variant="secondary"
+            className="mb-2"
+          >
+            <Dropdown.ItemText>完了・未完了でフィルタリング</Dropdown.ItemText>
+            <Dropdown.Divider />
+            <Dropdown.Item
+              as="button"
+              onClick={() => {
+                task_is_Completed_filter();
+              }}
+            >
+              完了したタスクを表示
+            </Dropdown.Item>
+            <Dropdown.Item
+              as="button"
+              onClick={() => {
+                task_is_unCompleted_filter();
+              }}
+            >
+              未完了のタスクを表示
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item
+              as="button"
+              onClick={() => {
+                task_filter_reset();
+              }}
+            >
+              フィルタリングを解除
+            </Dropdown.Item>
+          </DropdownButton>
+        </Col>
+      </Row>
+
       <Row className="taskList">
         {taskList.map((task) => (
-          <Col xs={12} sm={12} md={6} key={task.id}  >
+          <Col xs={12} sm={12} md={6} key={task.id}>
             <Toast className="justify-content-center mb-3">
               <Toast.Header closeButton={false}>
                 <strong className="mr-auto">{task.task_name}</strong>
-                <br/>
+                <br />
                 <small>{task.add_datetime}</small>
               </Toast.Header>
               <Toast.Body className="text-align-center">
-                {task.task_detail}
-                <br/>
-                <br/>
+                Category:{task.category}
+                <br />
+                task_detail:{task.task_detail}
+                <br />
+                <br />
                 <div className="taskButton">
                   <LinkContainer to={`/todo/edit/${task.id}`}>
-                    <Button variant="success"  className="mr-2">
+                    <Button variant="success" className="mr-2">
                       Edit
                     </Button>
                   </LinkContainer>
 
                   <LinkContainer to={`/todo/delete/${task.id}`}>
-                    <Button variant="danger">
-                      Delete
-                    </Button>
+                    <Button variant="danger">Delete</Button>
                   </LinkContainer>
                 </div>
               </Toast.Body>
             </Toast>
           </Col>
-
         ))}
       </Row>
 
@@ -179,4 +322,3 @@ const TaskList = () => {
 };
 
 export default TaskList;
-
