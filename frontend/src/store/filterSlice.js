@@ -14,17 +14,17 @@ export const VisibilityFilters = {
     // // カテゴリーでソート
     // SORT_CATEGORY: 'SORT_CATEGORY',
 
-    all_tasks: [],
-    filter_tasks: []
+    // all_tasks: [],
+    // filter_tasks: []
 
 }
 const filterSlice = createSlice({
     name: 'filter',
     initialState: [],
     reducers: {
-        setVisibilityFilter(state, action) {
-            return action.payload
-        },
+        // setVisibilityFilter(state, action) {
+        //     return action.payload
+        // },
 
         setAllTasks:(state, action) => {
             return {
@@ -37,19 +37,19 @@ const filterSlice = createSlice({
             return []
         },
 
-        setCategoryFilterTasks(state, action) {
-            return {
-                filter_tasks: [
-                    ...state,
-                    ...action.payload
-                ]
-            };
-        }
+        // setCategoryFilterTasks(state, action) {
+        //     return {
+        //         filter_tasks: [
+        //             ...state,
+        //             ...action.payload
+        //         ]
+        //     };
+        // }
     }
 
 })
 
-export const { setVisibilityFilter, setAllTasks, resetTasks, setCategoryFilterTasks } = filterSlice.actions
+export const { setAllTasks, resetTasks } = filterSlice.actions
 export const selectAll_tasks = ({ filter }) => filter
-export const selectFilterTasks = ({ filter }) => filter.filter_tasks
+// export const selectFilterTasks = ({ filter }) => filter.filter_tasks
 export default filterSlice.reducer

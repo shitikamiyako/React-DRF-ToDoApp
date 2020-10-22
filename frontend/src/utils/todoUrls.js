@@ -6,6 +6,9 @@ const ROOT_URL = "http://localhost:8000/";
 export const TodoUrls = {
     GET_TASK_LIST: `${ROOT_URL}todo/api/`,
     GET_TASK_LIST_Last: `${ROOT_URL}todo/api/?page=`,
+    GET_TASK_READ_ONLY_LIST: `${ROOT_URL}todo/api/readonly`,
+    GET_TASK_READ_ONLY_LIST_SEARCH: `${ROOT_URL}todo/api/readonly?owner__username=`,
+    TEST_URL: `/todo/api/readonly?owner__username=`,
     GET_TASK: `${ROOT_URL}todo/api/`,
     ADD_TASK: `${ROOT_URL}todo/api/`,
     PUT_TASK: `${ROOT_URL}todo/api/`,

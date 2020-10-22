@@ -11,5 +11,6 @@ export const AuthUrls = {
   // RESET_PASSWORD: `${ROOT_URL}dj-rest-auth/password/reset/`,
   // RESET_PASSWORD_CONFIRM: `${ROOT_URL}dj-rest-auth/password/reset/confirm/`,
   // USER_ACTIVATION: `${ROOT_URL}dj-rest-auth/registration/verify-email/`,
-  GET_USER_DATA: `${ROOT_URL}dj-rest-auth/user/`
+  GET_USER_DATA: `${ROOT_URL}dj-rest-auth/user/`,
+  GET_USER_LIST: `${ROOT_URL}user/api/readonly`,
 };

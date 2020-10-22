@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from todo.funcs.serializers import TodoSerializer, CustomUserSerializer
+from todo.funcs.serializers import TodoSerializer, CustomUserSerializer, CustomUserListSerializer
 from todo.funcs.permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
@@ -21,6 +21,20 @@ from users.funcs.utils import create_knox_token
 User = get_user_model()
 
 
+class UserReadOnlyListAPIView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = CustomUserListSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class UserReadOnlyDetailAPIView(RetrieveAPIView):
+
+    queryset = User.objects.all()
+    serializer_class = CustomUserListSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
 class UserListAPIView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
@@ -38,6 +52,7 @@ class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CustomUserSerializer
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
 
 
 @api_view(['GET'])

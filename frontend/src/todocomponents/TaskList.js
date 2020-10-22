@@ -1,10 +1,13 @@
+// ライブラリなどのインポート
 import React from "react";
 import { useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+// import { LinkContainer } from "react-router-bootstrap";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 
+// カスタムHooks
 import useTodo from "../hooks/useTodo";
 import usePage from "../hooks/usePage";
 import useCategory from "../hooks/useCategory";
@@ -13,9 +16,9 @@ import useFlag from "../hooks/useFlag";
 import useFilter from "../hooks/useFilter";
 // import useFilter from "../hooks/useFilter";
 
-import { AuthUrls } from "../utils/authUrls";
+// その他インポート
 import { TodoUrls } from "../utils/todoUrls";
-
+// react-bootstrap
 import {
   Button,
   DropdownButton,
@@ -31,7 +34,9 @@ axios.defaults.withCredentials = true;
 axiosCookieJarSupport(axios);
 
 const TaskList = () => {
+  // タスクに関するHooks
   const { getTaskList, resetTaskList, tasks } = useTodo();
+  // ページネーションに関するHooks
   const {
     get_pageNationNext,
     get_pageNationPrevious,
@@ -43,24 +48,29 @@ const TaskList = () => {
     pageNationLastNumber,
     pageNationCurrent,
   } = usePage();
+  // 変更などのフラグに関するHooks
   const {
     taskListChange,
-    category_filter_apply,
-    is_Completed_filter_apply,
+    // category_filter_apply,
+    // is_Completed_filter_apply,
     TaskListChangeReset,
     Apply_Category_filter,
     Apply_is_Completed_filter,
     Unfiltered,
   } = useFlag();
+  // スピナーに関するHooks
   const { startProgress, stopProgress } = useSpinner();
+  // カテゴリーに関するHooks
   const { getCategoryList, resetCategoryList, category } = useCategory();
+  // フィルターに関するHooks
   const { setAllTasks, all_tasks, resetTasks } = useFilter();
-
-  const get_userUrl = AuthUrls.GET_USER_DATA;
+  // React Routerによるページ遷移のHooks。history.pushを使用可能にする
+  const history = useHistory()
+  // カテゴリーAPIへのGETリクエストURL
   const getCategoryListUrl = TodoUrls.GET_CATEGORY_LIST;
+  // TodoAPIへのGETリクエストURL
   let get_task_listUrl = null;
-  let username = "";
-  // resetTaskList();
+    // resetTaskList();
 
   const pullTaskList = async () => {
     startProgress();
@@ -73,14 +83,7 @@ const TaskList = () => {
       get_task_listUrl = TodoUrls.GET_TASK_LIST;
     }
 
-    try {
-      const user = await axios.get(get_userUrl);
-      console.log(user);
-      username = user.data.username;
-    } catch (error) {
-      console.log(error);
-    }
-
+    // カテゴリー取得のリクエスト
     try {
       const response = await axios.get(getCategoryListUrl);
       console.log(response);
@@ -94,6 +97,7 @@ const TaskList = () => {
       console.log(error);
     }
 
+    // タスクリスト取得のリクエスト
     try {
       const response = await axios.get(get_task_listUrl);
       console.log(response);
@@ -275,7 +279,12 @@ const TaskList = () => {
                 <br />
                 <br />
                 <div className="taskButton">
-                  <LinkContainer to={`/todo/edit/${task.id}`}>
+                  <Button variant="success" className="mr-2" onClick={() => history.push(`/todo/edit/${task.id}`)}>
+                    Edit
+                  </Button>
+
+                  <Button variant="danger" onClick={() => history.push(`/todo/delete/${task.id}`)}>Delete</Button>
+                  {/* <LinkContainer to={`/todo/edit/${task.id}`}>
                     <Button variant="success" className="mr-2">
                       Edit
                     </Button>
@@ -283,7 +292,7 @@ const TaskList = () => {
 
                   <LinkContainer to={`/todo/delete/${task.id}`}>
                     <Button variant="danger">Delete</Button>
-                  </LinkContainer>
+                  </LinkContainer> */}
                 </div>
               </Toast.Body>
             </Toast>
@@ -317,7 +326,9 @@ const TaskList = () => {
           }}
         />
       </Pagination>
-    </div>
+      <Button variant="success" className="mr-2" onClick={() => history.push(`/`)}>
+        Go Back Top
+      </Button>    </div>
   );
 };
 

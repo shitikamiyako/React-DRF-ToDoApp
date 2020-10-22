@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from .models import Todo, Category
@@ -15,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
-
+# ユーザーがタスクを追加・一覧表示するためのView
 class TodoListAPIView(ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
@@ -40,10 +40,36 @@ class TodoListAPIView(ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+# タスクの編集・削除のためのView
 class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+# 他人のタスクを閲覧したり、自分のタスクを他人に閲覧させるためのView
+class TodoReadOnlyListAPIView(ListAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
+    filter_backends = [DjangoFilterBackend]
+    # ownerフィールドで絞り込んで渡すようにする
+    filterset_fields = ['owner__username']
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+    # APIのレスポンスにペジネーションの情報を含まない
+    # def get_paginated_response(self, data):
+    #     return Response(data)
+
+# 他人のタスクの詳細を閲覧したり、自分のタスクの詳細を他人に閲覧させるためのView
+class TodoReadOnlyDetailAPIView(RetrieveAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['owner__username']
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 

@@ -15,20 +15,25 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email')
         read_only_fields = ('email', )
 
-class KnoxSerializer(serializers.Serializer):
-    """
-    Serializer for Knox authentication.
-    """
-    token = serializers.CharField()
-    user = UserDetailsSerializer()
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='user_detail', format='html')
     todo = serializers.HyperlinkedIdentityField(
         many=True, view_name='todo_detail')
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'todo']
+        fields = ['url', 'id', 'username', 'email', 'todo']
+
+class CustomUserListSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='user_readonly_detail', format='html')
+
+
+    class Meta:
+        model = User
+        fields = ['url', 'id', 'username']
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -59,3 +64,10 @@ class TodoSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'owner', 'task_name', 'task_detail',
                   'category', 'rate', 'is_Completed', 'add_datetime',  'close_datetime']
 
+
+class KnoxSerializer(serializers.Serializer):
+    """
+    Serializer for Knox authentication.
+    """
+    token = serializers.CharField()
+    user = UserDetailsSerializer()

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setVisibilityFilter, setAllTasks, resetTasks, setCategoryFilterTasks, selectAll_tasks, selectFilterTasks } from '../store/filterSlice';
+import { setAllTasks, resetTasks,  selectAll_tasks } from '../store/filterSlice';
 
 function useFilter () {
 
@@ -7,11 +7,11 @@ function useFilter () {
 
     return {
         all_tasks: useSelector(selectAll_tasks),
-        filter_tasks: useSelector(selectFilterTasks),
-        setVisibilityFilter: () => dispatch(setVisibilityFilter()),
         setAllTasks: (tasks) => dispatch(setAllTasks(tasks)),
-        setCategoryFilterTasks: () => dispatch(setCategoryFilterTasks()),
         resetTasks: () => dispatch(resetTasks()),
+        // filter_tasks: useSelector(selectFilterTasks),
+        // setVisibilityFilter: () => dispatch(setVisibilityFilter()),
+        // setCategoryFilterTasks: () => dispatch(setCategoryFilterTasks()),
     };
 }
 

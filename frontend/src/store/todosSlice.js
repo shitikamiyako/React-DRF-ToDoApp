@@ -27,7 +27,7 @@ const todosSlice = createSlice({
     }
 })
 
-export const { addTask, getTaskList, resetTaskList, toggleTask } = todosSlice.actions
+export const { getTaskList, resetTaskList, toggleTask } = todosSlice.actions
 // const { tasks } = useSelector(state => state.tasks)のuseSelectorの引数に相当するものを書きたい
 export const selectTasks = ({ todos }) => todos
 // export const selectTodo = ({ todos }) => todos.test

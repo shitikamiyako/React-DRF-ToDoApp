@@ -11,6 +11,7 @@ import PrivateRoute from './Route/PrivateRoute';
 import LoginRoute from './Route/LoginRoute';
 import LogoutRoute from './Route/LogoutRoute';
 import Todo from "./todocomponents/todo";
+import Todo_Public from "./todocomponents/todo_Public";
 import TodoDelete from "./todocomponents/TodoDelete";
 import TodoEdit from "./todocomponents/TodoEdit";
 
@@ -22,6 +23,7 @@ const MainContent = () => (
             <LoginRoute path="/signup" component={Register} />
             <LogoutRoute path="/logout" component={Logout} />
             <PrivateRoute path="/todo/top" component={Todo} />
+            <PrivateRoute path="/todo/public/:username" component={Todo_Public} />
             <PrivateRoute path="/todo/delete/:id" component={TodoDelete} />
             <PrivateRoute path="/todo/edit/:id" component={TodoEdit} />
             <Redirect to="/" />
