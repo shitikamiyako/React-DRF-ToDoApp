@@ -69,6 +69,9 @@ const Landing_authenticated = () => {
                 {user.username} Task
                 </Button>
             ))}
+            <Button variant="danger" className="mr-2" onClick={() => history.push(`/logout`)}>
+                Logout
+            </Button>
         </div>
 
     );

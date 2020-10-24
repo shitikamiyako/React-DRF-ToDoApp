@@ -23,3 +23,7 @@ class CustomPagination(PageNumberPagination):
 class CategoryListPagination(LimitOffsetPagination):
     default_limit = 100
     max_limit = 100
+
+class ReactionPagination(LimitOffsetPagination):
+    default_limit = 100
+    max_limit = 100

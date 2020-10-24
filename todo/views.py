@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from .models import Todo, Category
-from todo.funcs.serializers import TodoSerializer, CategorySerializer
+from todo.funcs.serializers import TodoSerializer, CategorySerializer, ReactionSerializer
 from todo.funcs.permissions import IsOwnerOrReadOnly
-from todo.funcs.paginations import CategoryListPagination
-from rest_framework.decorators import api_view
+from todo.funcs.paginations import CategoryListPagination, ReactionPagination
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.reverse import reverse
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import get_user_model
+
+
 
 
 
@@ -38,6 +41,53 @@ class TodoListAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+# いいねを管理するView、中間モデルを使うのでモデルに依存しないAPIViewを使う。今回は関数ベースのそれ。
+@api_view(['POST'])
+@permission_classes([
+    permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly])
+def reaction_view(request, *args, **kwargs):
+    """
+    id is required.
+    Action Option are: Like, Unlike
+    """
+    serializer = ReactionSerializer(data=request.data)
+    pagination_class = ReactionPagination
+    User = request.user
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        task_id = data.get("id")
+        # action = data.get("action")
+        # 該当タスク抽出
+        queryset = Todo.objects.filter(id=task_id)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset.exists():
+            return Response({}, status=404)
+        # 取得してきたものをインスタンス化
+        obj = queryset.first()
+        # すでにいいね済みだった場合、いいねを取り消す
+        if User in obj.reaction_obj.all():
+            obj.reaction_obj.remove(request.user)
+            like_sum = obj.reaction_obj.count()
+            return Response(like_sum, status=200)
+        # いいね処理
+        else:
+            obj.reaction_obj.add(request.user)
+            like_sum = obj.reaction_obj.count()
+            return Response(like_sum, status=200)
+
+            # return Response(serializer.data, status=200)
+        # # リクエストでaction=Likeを受け取ったらいいね処理
+        # if action == "like":
+        #     obj.reaction_obj.add(request.user)
+        #     return Response(serializer.data, status=200)
+        # # すでにいいね済みだった場合、いいねを取り消す
+        # elif action == "unlike":
+        #     obj.reaction_obj.remove(request.user)
+            # return Response(serializer.data, status=200)
+    return Response({"message": "Action Success"}, status=200)
+
+
 
 
 # タスクの編集・削除のためのView

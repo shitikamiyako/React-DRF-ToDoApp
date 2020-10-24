@@ -27,8 +27,9 @@ SECRET_KEY = '^zk(t-gv@!k=2lwl70a3vsuo21!4f!jo4_l(b$9#$2cnr=s5s-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# General Settings
 ALLOWED_HOSTS = []
-
+REACTION_OPTION = ["Like", "Unlike"]
 
 # Application definition
 

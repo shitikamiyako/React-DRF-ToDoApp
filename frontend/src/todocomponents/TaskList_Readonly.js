@@ -46,10 +46,15 @@ const Task_ReadOnly_List = () => {
         taskListChange,
         // category_filter_apply,
         // is_Completed_filter_apply,
+        like,
+        like_sum,
         TaskListChangeReset,
         Apply_Category_filter,
         Apply_is_Completed_filter,
         Unfiltered,
+        LikeReaction,
+        UnlikeReaction,
+        setLikeCount
     } = useFlag();
     const { startProgress, stopProgress } = useSpinner();
     const { getCategoryList, resetCategoryList, category } = useCategory();
@@ -59,6 +64,7 @@ const Task_ReadOnly_List = () => {
 
 
     const getCategoryListUrl = TodoUrls.GET_CATEGORY_LIST;
+    const postReactionUrl = TodoUrls.REACTION;
     let get_task_readonly_listUrl = null;
     // resetTaskList();
 
@@ -92,6 +98,8 @@ const Task_ReadOnly_List = () => {
         try {
             const response = await axios.get(get_task_readonly_listUrl);
             console.log(response);
+            console.log(response.data.results.reaction_obj);
+
             // ペジネーション関係の情報をstateに格納
             get_pageNationNext(response.data.next);
             get_pageNationPrevious(response.data.previous);
@@ -169,6 +177,31 @@ const Task_ReadOnly_List = () => {
         resetTasks();
         setAllTasks(saveTaskList);
     };
+
+    // いいね
+    const reactionPost = async(task_id) => {
+        const id = task_id
+        console.log(id)
+
+        const data = {
+            'id': id,
+            // 'action': action
+        }
+
+        const response = await axios.post(postReactionUrl, data);
+        console.log(response);
+
+        pullTaskList()
+
+
+        // if (like === true) {
+        //     UnlikeReaction()
+        // } else if (like === false) {
+        //     LikeReaction()
+        // }
+        // setLikeCount(response.data)
+
+    }
 
     // ペジネーション
     let CurrentPage = pageNationCurrent;
@@ -267,17 +300,17 @@ const Task_ReadOnly_List = () => {
                                 task_detail:{task.task_detail}
                                 <br />
                                 <br />
-                                {/* <div className="taskButton">
-                                    <LinkContainer to={`/todo/edit/${task.id}`}>
-                                        <Button variant="success" className="mr-2">
-                                            Edit
-                                        </Button>
-                                    </LinkContainer>
-
+                                <div className="taskButton">
+                                    <Button variant="success" className="mr-2" onClick={() => {
+                                        reactionPost(`${task.id}`);
+                                    }}>
+                                       {task.reaction_obj} いいね
+                                    </Button>
+                                    {/*
                                     <LinkContainer to={`/todo/delete/${task.id}`}>
                                         <Button variant="danger">Delete</Button>
-                                    </LinkContainer>
-                                </div> */}
+                                    </LinkContainer> */}
+                                </div>
                             </Toast.Body>
                         </Toast>
                     </Col>

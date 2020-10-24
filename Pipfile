@@ -35,6 +35,7 @@ uritemplate = "*"
 djangorestframework-simplejwt = "*"
 drf-firebase-auth = "*"
 drf-yasg = {extras = ["validation"],version = "*"}
+sqlite3 = "*"
 
 [scripts]
 start = "python manage.py runserver"

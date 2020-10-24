@@ -13,6 +13,7 @@ export const TodoUrls = {
     ADD_TASK: `${ROOT_URL}todo/api/`,
     PUT_TASK: `${ROOT_URL}todo/api/`,
     PATCH_TASK: `${ROOT_URL}todo/api/`,
+    REACTION: `${ROOT_URL}todo/api/action/`,
     GET_CATEGORY_LIST: `${ROOT_URL}category/api/`,
     ADD_CATEGORY: `${ROOT_URL}category/api/`,
     DELETE_CATEGORY: `${ROOT_URL}category/api/`,
