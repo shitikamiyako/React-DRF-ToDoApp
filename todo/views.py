@@ -11,9 +11,7 @@ from rest_framework.reverse import reverse
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
-
-
-
+import datetime
 
 
 # Create your views here.
@@ -28,21 +26,22 @@ class TodoListAPIView(ListCreateAPIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-
     # APIのレスポンスにペジネーションの情報を含まない
     # def get_paginated_response(self, data):
     #     return Response(data)
 
     # ログインユーザーのデータのみ返す
+
     def get_queryset(self):
         user = self.request.user
         return Todo.objects.filter(owner=user)
-
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 # いいねを管理するView、中間モデルを使うのでモデルに依存しないAPIViewを使う。今回は関数ベースのそれ。
+
+
 @api_view(['POST'])
 @permission_classes([
     permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly])
@@ -87,16 +86,43 @@ def reaction_view(request, *args, **kwargs):
             # return Response(serializer.data, status=200)
     return Response({"message": "Action Success"}, status=200)
 
-
-
-
 # タスクの編集・削除のためのView
+
+
 class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    # パラメータ取得
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+
+    def patch(self, request, *args, **kwargs):
+        data = request.data
+        # 取得したパラメーターからタスクのpkを抽出
+        task_id = self.kwargs['pk']
+        # リクエストからタスクの完了・未完了フラグを取得
+        is_Completed = data.get("is_Completed")
+        # タスクをフィルタリング
+        queryset = Todo.objects.filter(id=task_id)
+        # インスタンス化
+        obj = queryset.first()
+        # Falseの場合はclose_datetime(タスクの完了日)をnullにする
+        if(is_Completed == False):
+            obj.close_datetime = None
+            obj.save()
+            return self.partial_update(request, *args, **kwargs)
+        # Trueなら完了日を登録
+        else:
+            obj.close_datetime = datetime.datetime.now()
+            obj.save()
+            return self.partial_update(request, *args, **kwargs)
+
+
 
 # 他人のタスクを閲覧したり、自分のタスクを他人に閲覧させるためのView
 class TodoReadOnlyListAPIView(ListAPIView):
@@ -109,12 +135,13 @@ class TodoReadOnlyListAPIView(ListAPIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-
     # APIのレスポンスにペジネーションの情報を含まない
     # def get_paginated_response(self, data):
     #     return Response(data)
 
 # 他人のタスクの詳細を閲覧したり、自分のタスクの詳細を他人に閲覧させるためのView
+
+
 class TodoReadOnlyDetailAPIView(RetrieveAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer

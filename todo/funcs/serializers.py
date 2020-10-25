@@ -51,6 +51,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
 class TodoSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    # reaction_objを取得する。実際は後述のメソッドのreturnの値を取得
     reaction_obj = serializers.SerializerMethodField(read_only=True)
     # category_obj = serializers.SlugRelatedField(
     #     many=True,
@@ -59,6 +60,7 @@ class TodoSerializer(serializers.HyperlinkedModelSerializer):
     # )
     url = serializers.HyperlinkedIdentityField(view_name='todo_detail', format='html')
 
+    # 該当タスクidが含まれているreaction_objを計数する
     def get_reaction_obj(self, obj):
         return obj.reaction_obj.count()
 
@@ -72,7 +74,6 @@ class TodoSerializer(serializers.HyperlinkedModelSerializer):
 
 class ReactionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    # action = serializers.CharField()
 
     def validate_action(self, value):
         value = value.lower().strip() # 値整形

@@ -23,6 +23,7 @@ import {
     Col,
     Row,
     Dropdown,
+    Badge
 } from "react-bootstrap";
 
 axios.defaults.withCredentials = true;
@@ -301,10 +302,10 @@ const Task_ReadOnly_List = () => {
                                 <br />
                                 <br />
                                 <div className="taskButton">
-                                    <Button variant="success" className="mr-2" onClick={() => {
+                                    <Button variant="outline-info" size="sm" className="mr-2" onClick={() => {
                                         reactionPost(`${task.id}`);
                                     }}>
-                                       {task.reaction_obj} いいね
+                                        Good <Badge variant="light">{task.reaction_obj} </Badge>
                                     </Button>
                                     {/*
                                     <LinkContainer to={`/todo/delete/${task.id}`}>

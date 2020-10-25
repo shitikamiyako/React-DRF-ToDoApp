@@ -45,7 +45,7 @@ class Todo(models.Model):
 
     # ここにtask_order(優先順位)のフィールドを定義、ソートの仕方でmodels.Fieldは決める
 
-    rate = models.FloatField(blank=True, null=True)
+    rate = models.FloatField(blank=True, null=True, default=0)
     reaction_obj = models.ManyToManyField(
         CustomUser, related_name="like", blank=True, through=Reaction)
     owner = models.ForeignKey(
@@ -57,7 +57,7 @@ class Todo(models.Model):
     add_datetime = models.DateTimeField(
         "追加日", default=datetime.now)
     close_datetime = models.DateTimeField(
-        "完了日", blank=True, null=True)
+        "完了日", blank=True, null=True, auto_now_add=True)
 
     def get_absolute_url(self):
         return reverse("todo:todo_list_readonly", kwargs={"slug": self.slug})

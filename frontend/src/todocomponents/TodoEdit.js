@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useState,useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
@@ -15,10 +15,13 @@ import { useForm, Controller } from "react-hook-form";
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
 import { TodoUrls } from "../utils/todoUrls";
 // import useAlert from "../hooks/useAlert";
+import ReactStars from "react-rating-stars-component";
 
 const TodoEdit = () => {
   const { id } = useParams();
   let history = useHistory();
+  // レーティングに使うHook
+  const [currentValue, setCurrentValue] = useState(0);
   const {
     handleSubmit,
     register,
@@ -90,6 +93,8 @@ const TodoEdit = () => {
       console.log(response.data);
       getTaskList(response.data);
       resetItem();
+      setCurrentValue(response.data.rate)
+      console.log(response.data.rate);
     } catch (error) {
       console.log(error);
     } finally {
@@ -208,7 +213,9 @@ const TodoEdit = () => {
     />
   );
 
+
   let is_Completed_column = <li>is_Completed: false</li>;
+
 
   if (tasks.is_Completed === true) {
     is_Completed_column = <li>is_Completed: true</li>;
@@ -221,7 +228,14 @@ const TodoEdit = () => {
         defaultChecked
       />
     );
+
   }
+
+  // レーティング
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
+    setCurrentValue(newRating)
+  };
 
   // タスク編集のPatchリクエスト発火
   const onSubmit = async (data) => {
@@ -262,7 +276,17 @@ const TodoEdit = () => {
           <li>task_name: {tasks.task_name}</li>
           <li>task_detail: {tasks.task_detail}</li>
           <li>Category: {tasks.category}</li>
+          <li>Rate:<ReactStars
+            name="rate"
+            count={5}
+            size={24}
+            edit={false}
+            isHalf={true}
+            value={tasks.rate}
+            activeColor="#ffd700"
+          /></li>
           {is_Completed_column}
+          <li>close_datetime: {tasks.close_datetime}</li>
         </Modal.Body>
       </Modal.Dialog>
 
@@ -339,6 +363,18 @@ const TodoEdit = () => {
         <Form.Group controlId={"is_Completed"}>
           <input type="hidden" name={"is_Completed"} ref={register} />
           {is_Completed_checkbox}
+        </Form.Group>
+
+        <Form.Group controlId={"rate"}>
+          <ReactStars
+            name="rate"
+            count={5}
+            onChange={ratingChanged}
+            size={24}
+            isHalf={true}
+            activeColor="#ffd700"
+          />
+          <input type="text" name={"rate"} ref={register} onChange={ratingChanged} value={currentValue}/>
         </Form.Group>
 
         <Form.Group>
