@@ -40,8 +40,6 @@ class TodoListAPIView(ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 # いいねを管理するView、中間モデルを使うのでモデルに依存しないAPIViewを使う。今回は関数ベースのそれ。
-
-
 @api_view(['POST'])
 @permission_classes([
     permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly])
@@ -87,8 +85,6 @@ def reaction_view(request, *args, **kwargs):
     return Response({"message": "Action Success"}, status=200)
 
 # タスクの編集・削除のためのView
-
-
 class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = Todo.objects.all()
@@ -122,8 +118,6 @@ class TodoDetailAPIView(RetrieveUpdateDestroyAPIView):
             obj.save()
             return self.partial_update(request, *args, **kwargs)
 
-
-
 # 他人のタスクを閲覧したり、自分のタスクを他人に閲覧させるためのView
 class TodoReadOnlyListAPIView(ListAPIView):
     queryset = Todo.objects.all()
@@ -140,8 +134,6 @@ class TodoReadOnlyListAPIView(ListAPIView):
     #     return Response(data)
 
 # 他人のタスクの詳細を閲覧したり、自分のタスクの詳細を他人に閲覧させるためのView
-
-
 class TodoReadOnlyDetailAPIView(RetrieveAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer

@@ -279,11 +279,13 @@ const TaskList = () => {
                 <br />
                 <br />
                 <div className="taskButton">
-                  <Button variant="success" className="mr-2" onClick={() => history.push(`/todo/edit/${task.id}`)}>
+                  <Button variant="outline-success" className="mr-2" onClick={() => history.push(`/todo/edit/${task.id}`)}>
                     Edit
                   </Button>
 
-                  <Button variant="danger" onClick={() => history.push(`/todo/delete/${task.id}`)}>Delete</Button>
+                  <Button variant="outline-danger" className="mr-2" onClick={() => history.push(`/todo/delete/${task.id}`)}>Delete</Button>
+                  <Button variant="outline-info" onClick={() => history.push(`/todo/timer/${task.id}`)}>Timer</Button>
+
                   {/* <LinkContainer to={`/todo/edit/${task.id}`}>
                     <Button variant="success" className="mr-2">
                       Edit

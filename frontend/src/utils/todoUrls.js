@@ -15,6 +15,7 @@ export const TodoUrls = {
     PATCH_TASK: `${ROOT_URL}todo/api/`,
     REACTION: `${ROOT_URL}todo/api/action/`,
     GET_CATEGORY_LIST: `${ROOT_URL}category/api/`,
+    GET_CATEGORY_READ_ONLY_LIST_SEARCH: `${ROOT_URL}category/api/readonly?owner__username=`,
     ADD_CATEGORY: `${ROOT_URL}category/api/`,
     DELETE_CATEGORY: `${ROOT_URL}category/api/`,
     // TOKEN_VERIFY: `${ROOT_URL}dj-rest-auth/token/verify/`,

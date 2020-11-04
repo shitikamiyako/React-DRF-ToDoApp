@@ -365,6 +365,7 @@ const TodoEdit = () => {
           {is_Completed_checkbox}
         </Form.Group>
 
+        {/* select rate input */}
         <Form.Group controlId={"rate"}>
           <ReactStars
             name="rate"

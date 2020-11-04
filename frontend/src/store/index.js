@@ -28,7 +28,7 @@ const reducers = combineReducers({
     flag: changeFlagReducer,
     page: pageNationSliceReducer,
     filter: filterReducer,
-    users: usersReducer
+    users: usersReducer,
 });
 
 

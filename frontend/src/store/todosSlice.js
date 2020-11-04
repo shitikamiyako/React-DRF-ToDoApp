@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-
-// addとtoggleの部分は書き直し予定
 const todosSlice = createSlice({
     name:'todos',
     initialState: [],

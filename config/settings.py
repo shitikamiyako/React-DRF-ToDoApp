@@ -42,9 +42,16 @@ INSTALLED_APPS = [
     # 3rd party
 
     'rest_framework',
+    'rest_framework.authtoken',
+    # 'oauth2_provider',
+    'social_django',
+    'rest_social_auth',
+    # 'social_django_mongoengine',
+    # 'rest_framework_social_oauth2',
     'allauth',  # django-allauth
     'allauth.account',  # django-allauth
     'allauth.socialaccount',  # django-allauth
+    'allauth.socialaccount.providers.twitter',  # django-allauth
     'dj_rest_auth.registration',  # django-allauth
     'dj_rest_auth', # API Authentication
     'knox', # TokenAuthentication
@@ -88,6 +95,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -158,15 +167,18 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'todo.funcs.paginations.CustomPagination',
     'PAGE_SIZE': 10,
 
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'allauth.account.auth_backends.AuthenticationBackend',
         # 'drf_firebase_auth.authentication.FirebaseAuthentication',
         # 'knox.auth.TokenAuthentication', # knox
+        # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        # 'rest_framework_social_oauth2.authentication.SocialAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',  # Django REST Framework JWT
     ],
 
@@ -178,9 +190,11 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
-
 # SESSION_COOKIE_SAMESITE = 'None'
+# CSRF_COOKIE_SAMESITE = 'None'
 # SESSION_COOKIE_SECURE = True
+
+
 
 # dj-rest-auth settings
 
@@ -192,27 +206,42 @@ REST_AUTH_SERIALIZERS = {
 CSRF_COOKIE_NAME = "csrftoken"
 # CSRF_USE_SESSIONS = True
 
+# REST_SESSION_LOGIN = False
+
 REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'jwt-auth'
 ## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
 # JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'jwt-auth'
 # JWT_AUTH_SAMESITE = 'None'
 ## JWTクッキーを認証に使用する際にDRFで無効になっているCSRFチェックを有効にする。
-JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED = True
+# JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED = True
 
 
 # django-allauth settings
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    # 'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+# SOCIAL_AUTH_STORAGE = 'social_django_mongoengine.models.DjangoStorage'
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_TWITTER_KEY = 'ywoKjbHMU90CzPPZk4nPnOGoY'
+SOCIAL_AUTH_TWITTER_SECRET = 'qIrOix1wlGAg6RSbenGxmoZ8uY9zSSPCbFJZzQxgdXsq3xCm2i'
+REST_SOCIAL_OAUTH_REDIRECT_URI = '127.0.0.1:3000/'
+# REST_SOCIAL_OAUTH_REDIRECT_URI = 'http://127.0.0.1:8000/accounts/twitter/login/callback/'
+
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:3000/twitter-login-callback'
+# LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/twitter/login/callback/'
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_EMAIL_REQUIRED = True
 
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SITE_ID = 1
+SITE_ID = 2
 
 # django-rest=simpole-jwt settings
 
@@ -226,12 +255,17 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = (
     'http://localhost:3000',
+    'http://localhost:8000',
     'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+    'https://api.twitter.com',
+
 )
 
 CSRF_TRUSTED_ORIGINS = [
     'localhost:3000',
-    '127.0.0.1:3000'
+    '127.0.0.1:3000',
+    'api.twitter.com'
 ]
 
 
@@ -240,6 +274,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # DRF Firebase settings
 

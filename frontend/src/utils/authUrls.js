@@ -2,9 +2,14 @@
 
 // export const ROOT_URL = 'http://localhost:8000/user/api/';
 const ROOT_URL = "http://localhost:8000/";
+const ROOT_URL_TWITTER = "http://127.0.0.1:8000/";
 
 export const AuthUrls = {
   LOGIN: `${ROOT_URL}dj-rest-auth/login/`,
+  TEST: `${ROOT_URL}api/login/social/`,
+  LOGIN_TWITTER_POST: `${ROOT_URL_TWITTER}dj-rest-auth/twitter/`,
+  LOGIN_TWITTER: `${ROOT_URL_TWITTER}dj-rest-auth/twitter/getToken`,
+  LOGIN_TWITTER_CALLBACK: `${ROOT_URL_TWITTER}dj-rest-auth/twitter/receiveRedirect`,
   LOGOUT: `${ROOT_URL}dj-rest-auth/logout/`,
   SIGNUP: `${ROOT_URL}dj-rest-auth/registration/`,
   // CHANGE_PASSWORD: `${ROOT_URL}dj-rest-auth/password/change/`,

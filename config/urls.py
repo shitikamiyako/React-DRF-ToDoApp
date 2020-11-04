@@ -7,6 +7,10 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf.urls import url
+from django.views.decorators.csrf import csrf_exempt
+from rest_social_auth.views import SocialSessionAuthView, BaseSocialAuthView
+
+from users.views import TwitterLogin, TwitterGetToken, TwitterReceiveView, MySocialView, MySocialTokenUserAuthView
 
 
 API_TITLE = 'ToDo APP on React+DRF  API'
@@ -29,15 +33,29 @@ urlpatterns = [
     path('todo/', include('todo.urls')),
     path('category/', include('category.urls')),
     path('user/', include('users.urls')),
+    path('', include('social_django.urls')),
+    path('api/login/social/',
+         csrf_exempt(BaseSocialAuthView.as_view()), name='social_login'),
+    path('api/login/social/<provider>/token',
+         MySocialTokenUserAuthView.as_view(), name='social_token_login'),
+    path('api/login/social/<provider>/session',
+         MySocialView.as_view(), name='social_session_login'),
+    path('accounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
     # path('dj-rest-auth/', include('users.signin.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')), # jwt用
+    url(r'^dj-rest-auth/', include('dj_rest_auth.urls')),  # jwt用
     # path('dj-rest-auth/registration/', include('users.registration.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')), # jwt用
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
          name='account_email_verification_sent'),
     path('docs/', include_docs_urls(title=API_TITLE,
                                     description=API_DESCRIPTION)),
+    path('dj-rest-auth/twitter/',
+        TwitterLogin.as_view(), name='twitter_login'),
+    path('dj-rest-auth/twitter/getToken',
+         TwitterGetToken.as_view(), name='twitter_getToken'),
+    path('accounts/twitter/login/callback/',
+         TwitterReceiveView.as_view(), name='twitter_receiveRedirect'),
     url(r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger',

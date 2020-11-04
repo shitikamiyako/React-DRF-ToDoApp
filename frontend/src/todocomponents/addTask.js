@@ -22,7 +22,7 @@ const AddTask = () => {
   const { startProgress, stopProgress } = useSpinner();
   const { createAlert } = useAlert();
   const { addTask} = useFlag();
-  const { handleSubmit, register, errors, formState, reset } = useForm();
+  const { handleSubmit, register, errors, formState, reset } = useForm({mode: "onChange"});
 
   const postNewTask = async (data) => {
     startProgress();
@@ -77,8 +77,8 @@ const AddTask = () => {
           ref={register({
             required: "タスク名は必須です",
             maxLength: {
-              value: 255,
-              message: "タスク名は255文字以内です",
+              value: 30,
+              message: "タスク名は30文字以内です",
             },
           })}
         />

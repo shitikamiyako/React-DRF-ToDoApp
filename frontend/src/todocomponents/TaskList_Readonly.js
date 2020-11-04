@@ -64,7 +64,7 @@ const Task_ReadOnly_List = () => {
     const { username } = useParams()
 
 
-    const getCategoryListUrl = TodoUrls.GET_CATEGORY_LIST;
+    const getCategoryListUrl = TodoUrls.GET_CATEGORY_READ_ONLY_LIST_SEARCH + username;
     const postReactionUrl = TodoUrls.REACTION;
     let get_task_readonly_listUrl = null;
     // resetTaskList();

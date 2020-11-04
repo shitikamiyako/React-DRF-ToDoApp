@@ -3,10 +3,29 @@ from rest_framework import serializers
 from todo.models import Todo, Category
 from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import UserDetailsSerializer
+from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 REACTION_OPTION = settings.REACTION_OPTION
 
+
+class MyUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        exclude = ('password', 'username', 'id')
+
+
+class TokenSerializer(serializers.Serializer):
+
+    token = serializers.SerializerMethodField()
+
+    def get_token(self, obj):
+        token, created = Token.objects.get_or_create(user=obj)
+        return token.key
+
+class MyUserTokenSerializer(TokenSerializer, MyUserSerializer):
+    pass
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     """

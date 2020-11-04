@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from .models import Category
@@ -42,6 +42,29 @@ class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class CategoryReadOnlyListAPIView(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
+    filter_backends = [DjangoFilterBackend]
+    # ownerフィールドで絞り込んで渡すようにする
+    filterset_fields = ['owner__username']
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class CategoryReadOnlyDetailAPIView(RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
+    filter_backends = [DjangoFilterBackend]
+    # ownerフィールドで絞り込んで渡すようにする
+    filterset_fields = ['owner__username']
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
 
 # root View
 

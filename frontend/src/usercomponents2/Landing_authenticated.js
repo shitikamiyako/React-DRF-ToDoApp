@@ -2,21 +2,27 @@ import React from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 
 import useUser from "../hooks/useUser";
 import useFlag from "../hooks/useFlag";
 import useSpinner from "../hooks/useSpinner";
+import useAuth from "../hooks/useAuth";
 
 import { AuthUrls } from "../utils/authUrls";
 // import { TodoUrls } from "../utils/todoUrls";
 
 const Landing_authenticated = () => {
     const get_user_ListUrl = AuthUrls.GET_USER_LIST;
+    const get_userUrl = AuthUrls.GET_USER_DATA;
 
     const history = useHistory();
+
+    const [user, setUser ] = useState();
+    const { logoutUser, authenticated } = useAuth();
+
 
     const { getUserList, resetUserList, users } = useUser();
     const { startProgress, stopProgress } = useSpinner();
@@ -42,6 +48,17 @@ const Landing_authenticated = () => {
             } finally {
             stopProgress();
         }
+
+        try {
+            const response = await axios.get(get_userUrl)
+            console.log(response.data.username);
+            setUser(response.data.username)
+
+            } catch (error) {
+            console.log(error);
+            } finally {
+            stopProgress();
+        }
     }
 
     console.log(Object.values(users));
@@ -58,6 +75,7 @@ const Landing_authenticated = () => {
     return (
         <div>
             <h1>Welcome to this wonderful site.</h1>
+            <p>hello, {user} </p>
             {/* <p>pathname: {location.pathname}</p>
             <p>search: {location.search}</p>
             <p>hash: {location.hash}</p> */}
@@ -72,6 +90,8 @@ const Landing_authenticated = () => {
             <Button variant="danger" className="mr-2" onClick={() => history.push(`/logout`)}>
                 Logout
             </Button>
+            <Button variant={"primary"} type="submit" onClick={() => logoutUser()}> test </Button>
+
         </div>
 
     );
