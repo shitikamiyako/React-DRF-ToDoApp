@@ -4,16 +4,16 @@ import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
 
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
-import useTodo from "../hooks/useTodo";
-import useCategory from "../hooks/useCategory";
-import usePage from "../hooks/usePage";
-import useAlert from "../hooks/useAlert";
+import useSpinner from "../Hooks/useSpinner";
+import useFlag from "../Hooks/useFlag";
+import useTodo from "../Hooks/useTodo";
+import useCategory from "../Hooks/useCategory";
+import usePage from "../Hooks/usePage";
+import useAlert from "../Hooks/useAlert";
 
 import { useForm, Controller } from "react-hook-form";
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
-import { TodoUrls } from "../utils/todoUrls";
+import { TodoUrls } from "../Utils/todoUrls";
 // import useAlert from "../hooks/useAlert";
 import ReactStars from "react-rating-stars-component";
 

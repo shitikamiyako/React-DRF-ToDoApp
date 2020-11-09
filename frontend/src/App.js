@@ -5,7 +5,7 @@ import MainContent from "./MainContent";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import history from "./utils/historyUtils";
 import { BrowserRouter } from "react-router-dom";
-import AlertComponent from './components/Alert';
+import AlertComponent from './Components/Alert';
 
 export default class App extends Component {
   render() {

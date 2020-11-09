@@ -8,16 +8,16 @@ import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 
 // カスタムHooks
-import useTodo from "../hooks/useTodo";
-import usePage from "../hooks/usePage";
-import useCategory from "../hooks/useCategory";
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
-import useFilter from "../hooks/useFilter";
+import useTodo from "../Hooks/useTodo";
+import usePage from "../Hooks/usePage";
+import useCategory from "../Hooks/useCategory";
+import useSpinner from "../Hooks/useSpinner";
+import useFlag from "../Hooks/useFlag";
+import useFilter from "../Hooks/useFilter";
 // import useFilter from "../hooks/useFilter";
 
 // その他インポート
-import { TodoUrls } from "../utils/todoUrls";
+import { TodoUrls } from "../Utils/todoUrls";
 // react-bootstrap
 import {
   Button,
@@ -124,15 +124,10 @@ const TaskList = () => {
     }
   };
 
-  console.log(Object.values(all_tasks));
-  console.log(all_tasks);
-
-  // stateに保存したタスクを整形
-
-  // 取得してきたタスクリストのマスター
+  // stateに保存したタスクを整形。まずは取得してきたタスクリストのマスター
   let saveTaskList = Object.values(tasks);
 
-  // 実際に描画に使うタスクリスト
+  // 同じく、実際に描画に使うタスクリスト
   let taskList = Object.values(all_tasks);
   console.log(taskList);
 
@@ -285,16 +280,6 @@ const TaskList = () => {
 
                   <Button variant="outline-danger" className="mr-2" onClick={() => history.push(`/todo/delete/${task.id}`)}>Delete</Button>
                   <Button variant="outline-info" onClick={() => history.push(`/todo/timer/${task.id}`)}>Timer</Button>
-
-                  {/* <LinkContainer to={`/todo/edit/${task.id}`}>
-                    <Button variant="success" className="mr-2">
-                      Edit
-                    </Button>
-                  </LinkContainer>
-
-                  <LinkContainer to={`/todo/delete/${task.id}`}>
-                    <Button variant="danger">Delete</Button>
-                  </LinkContainer> */}
                 </div>
               </Toast.Body>
             </Toast>

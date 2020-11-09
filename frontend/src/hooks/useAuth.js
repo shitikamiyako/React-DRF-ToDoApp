@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuthenticated, loginUser, logoutUser } from '../store/authSlice';
+import { selectAuthenticated, loginUser, logoutUser } from '../Store/authSlice';
 
 // Sliceで定義した状態管理に対して、useSelectorとuseDispatchを使用したいので関数コンポーネントにし、実際に使うコンポーネントで呼び出せるようにする
 function useAuth() {

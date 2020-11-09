@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserList, resetUserList, selectUsers} from '../store/usersSlice';
+import { getUserList, resetUserList, selectUsers} from '../Store/usersSlice';
 
 function useUser() {
     const dispatch = useDispatch();

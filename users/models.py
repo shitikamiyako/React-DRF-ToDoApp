@@ -37,6 +37,7 @@ class CustomUserManager(UserManager):
 
 # CustomUserModel
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         max_length=255, blank=True, null=True, unique=True)
@@ -74,17 +75,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = _("User")
         verbose_name_plural = _("アカウント情報")
 
-
     def __str__(self):
         return self.username
 
 # UserGroupModel
 
+
 class UserGroup(models.Model):
     members = models.ManyToManyField(
         CustomUser, through="UserGroupRelation", blank=True)
     group_name = models.CharField(max_length=255, blank=True, null=True)
-    password = models.CharField(max_length=255, blank=True, null=True)
+    owner = models.ForeignKey(
+        CustomUser, verbose_name="ユーザー", related_name="GroupOwner", blank=True, null=True, on_delete=models.CASCADE)
+    detail = models.CharField(
+        max_length=60,  blank=True, verbose_name="Group_Detail")
 
     class Meta:
         db_table = "UserGroup"
@@ -94,13 +98,15 @@ class UserGroup(models.Model):
     def __str__(self):
         return self.group_name
 
+
 class UserGroupRelation(models.Model):
     customuser_obj = models.ForeignKey(
         CustomUser, verbose_name="ユーザー", blank=True, on_delete=models.CASCADE)
     UserGroup_obj = models.ForeignKey(
         UserGroup, verbose_name="グループ", blank=True, on_delete=models.CASCADE)
     joined_date = models.DateField(default=datetime.now)
-    detail = models.CharField(max_length=64,  blank=True, verbose_name="What`s Group")
+    detail = models.CharField(
+    	max_length=64,  blank=True, verbose_name="What`s Group")
 
     class Meta:
         db_table = "UserGroupRelation"

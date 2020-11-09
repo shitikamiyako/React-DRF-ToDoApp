@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { createAlert, selectAlerts} from '../store/alertSlice';
+import { createAlert, selectAlerts} from '../Store/alertSlice';
 // import { setAlert, setShow, closeShow, selectOpen, selectType, selectMessage, selectAlertMessage} from '../store/alertSlice';
 
 

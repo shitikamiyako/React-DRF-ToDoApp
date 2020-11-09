@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { resetTaskList, getTaskList, toggleTask, selectTasks } from '../store/todosSlice';
+import { resetTaskList, getTaskList, toggleTask, selectTasks } from '../Store/todosSlice';
 
 function useTodo() {
     const dispatch = useDispatch();

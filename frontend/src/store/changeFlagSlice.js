@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userListChange: false,
   taskListChange: false,
+  groupListChange: false,
+  memberListChange: false,
   like: false,
   category_filter_apply: false,
   is_Completed_filter_apply: false,
@@ -37,6 +39,34 @@ const changeFlagSlice = createSlice({
       return {
         ...state,
         taskListChange: false,
+      };
+    },
+
+    addGroup: (state) => {
+      return {
+        ...state,
+        groupListChange: true,
+      };
+    },
+
+    GroupListChangeReset: (state) => {
+      return {
+        ...state,
+        groupListChange: false,
+      };
+    },
+
+    addMember: (state) => {
+      return {
+        ...state,
+        memberListChange: true,
+      };
+    },
+
+    MemberListChangeReset: (state) => {
+      return {
+        ...state,
+        memberListChange: false,
       };
     },
 
@@ -83,6 +113,10 @@ export const {
   UserListChangeReset,
   addTask,
   TaskListChangeReset,
+  addGroup,
+  GroupListChangeReset,
+  addMember,
+  MemberListChangeReset,
   LikeReaction,
   UnlikeReaction,
   Apply_Category_filter,
@@ -91,6 +125,8 @@ export const {
 } = changeFlagSlice.actions;
 export const selectUserListChange = ({ flag }) => flag.userListChange;
 export const selectTaskListChange = ({ flag }) => flag.taskListChange;
+export const selectGroupListChange = ({ flag }) => flag.groupListChange;
+export const selectMemberListChange = ({ flag }) => flag.memberListChange;
 export const selectLike = ({ flag }) => flag.like;
 export const selectCategoryFilterApply = ({ flag }) =>
   flag.category_filter_apply;

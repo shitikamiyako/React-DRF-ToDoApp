@@ -4,10 +4,10 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
 // import { useDispatch } from 'react-redux';
-import { AuthUrls } from "../utils/authUrls";
+import { AuthUrls } from "../Utils/authUrls";
 
 
-import useAuth from '../hooks/useAuth';
+import useAuth from '../Hooks/useAuth';
 
 
 const LogoutForm = () => {

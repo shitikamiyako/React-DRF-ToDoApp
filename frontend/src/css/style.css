@@ -40,6 +40,13 @@
 .taskButton{
    text-align:center;
 }
+.groupButton{
+   text-align:center;
+}
+.memberButton{
+   text-align:center;
+}
+
 
 li {
   list-style: none;

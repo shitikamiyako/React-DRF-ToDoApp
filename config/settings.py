@@ -42,19 +42,12 @@ INSTALLED_APPS = [
     # 3rd party
 
     'rest_framework',
-    'rest_framework.authtoken',
-    # 'oauth2_provider',
-    'social_django',
-    'rest_social_auth',
-    # 'social_django_mongoengine',
-    # 'rest_framework_social_oauth2',
     'allauth',  # django-allauth
     'allauth.account',  # django-allauth
     'allauth.socialaccount',  # django-allauth
     'allauth.socialaccount.providers.twitter',  # django-allauth
     'dj_rest_auth.registration',  # django-allauth
     'dj_rest_auth', # API Authentication
-    'knox', # TokenAuthentication
     'corsheaders',
     'django_filters',
     'drf_yasg',
@@ -174,7 +167,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [  # 追加
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'allauth.account.auth_backends.AuthenticationBackend',
         # 'drf_firebase_auth.authentication.FirebaseAuthentication',
         # 'knox.auth.TokenAuthentication', # knox
         # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
@@ -195,12 +187,11 @@ REST_FRAMEWORK = {
 # SESSION_COOKIE_SECURE = True
 
 
-
 # dj-rest-auth settings
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
-    'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
+    'USER_DETAILS_SERIALIZER': 'users.funcs.serializers.CustomUserDetailsSerializer',
 }
 
 CSRF_COOKIE_NAME = "csrftoken"
@@ -220,28 +211,15 @@ JWT_AUTH_COOKIE = 'jwt-auth'
 # django-allauth settings
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
-    # 'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-# SOCIAL_AUTH_STORAGE = 'social_django_mongoengine.models.DjangoStorage'
-# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_TWITTER_KEY = 'ywoKjbHMU90CzPPZk4nPnOGoY'
-SOCIAL_AUTH_TWITTER_SECRET = 'qIrOix1wlGAg6RSbenGxmoZ8uY9zSSPCbFJZzQxgdXsq3xCm2i'
-REST_SOCIAL_OAUTH_REDIRECT_URI = '127.0.0.1:3000/'
-# REST_SOCIAL_OAUTH_REDIRECT_URI = 'http://127.0.0.1:8000/accounts/twitter/login/callback/'
 
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:3000/twitter-login-callback'
-# LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/twitter/login/callback/'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_EMAIL_REQUIRED = True
-
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-SITE_ID = 2
+SITE_ID = 1
 
 # django-rest=simpole-jwt settings
 
@@ -281,15 +259,3 @@ CORS_ALLOW_CREDENTIALS = True
 DRF_FIREBASE_AUTH = {
     'FIREBASE_SERVICE_ACCOUNT_KEY': './config/env/serviceAccountKey.json'
 }
-
-# # Django-Rest-Knox
-# REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
-# REST_AUTH_TOKEN_CREATOR = 'users.funcs.utils.create_knox_token'
-# REST_AUTH_SERIALIZERS = {
-#     'USER_DETAILS_SERIALIZER': 'todo.funcs.serializers.UserDetailsSerializer',
-#     'TOKEN_SERIALIZER': 'todo.funcs.serializers.KnoxSerializer',
-#     'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
-# }
-
-# Django REST Framework JWT
-# REST_USE_JWT = True

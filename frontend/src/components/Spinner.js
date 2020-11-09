@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
-import useSpinner from '../hooks/useSpinner';
+import useSpinner from '../Hooks/useSpinner';
 
 // モーダルテスト用
 // import { useDispatch } from 'react-redux';

@@ -26,7 +26,7 @@ const Todo = () => {
       <Container>
         <Row className="justify-content-center mx-auto mt-3 p-2">
           <Col sm={12} md={12}>
-            <h3 className="text-center mb-3 mt-3">ToDo List</h3>
+            <h3 className="text-center mb-3 mt-3">Todo List</h3>
             <TaskListComponent />
           </Col>
         </Row>

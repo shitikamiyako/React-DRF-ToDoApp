@@ -5,15 +5,15 @@ import _ from "lodash";
 import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 
-import useTodo from "../hooks/useTodo";
-import usePage from "../hooks/usePage";
-import useCategory from "../hooks/useCategory";
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
-import useFilter from "../hooks/useFilter";
+import useTodo from "../Hooks/useTodo";
+import usePage from "../Hooks/usePage";
+import useCategory from "../Hooks/useCategory";
+import useSpinner from "../Hooks/useSpinner";
+import useFlag from "../Hooks/useFlag";
+import useFilter from "../Hooks/useFilter";
 // import useFilter from "../hooks/useFilter";
 
-import { TodoUrls } from "../utils/todoUrls";
+import { TodoUrls } from "../Utils/todoUrls";
 
 import {
     Button,
@@ -183,25 +183,13 @@ const Task_ReadOnly_List = () => {
     const reactionPost = async(task_id) => {
         const id = task_id
         console.log(id)
-
         const data = {
             'id': id,
             // 'action': action
         }
-
         const response = await axios.post(postReactionUrl, data);
         console.log(response);
-
         pullTaskList()
-
-
-        // if (like === true) {
-        //     UnlikeReaction()
-        // } else if (like === false) {
-        //     LikeReaction()
-        // }
-        // setLikeCount(response.data)
-
     }
 
     // ペジネーション

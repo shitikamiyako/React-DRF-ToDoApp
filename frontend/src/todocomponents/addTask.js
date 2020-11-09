@@ -6,10 +6,10 @@ import moment from 'moment';
 import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
 
-import { TodoUrls } from "../utils/todoUrls";
-import useSpinner from "../hooks/useSpinner";
-import useAlert from "../hooks/useAlert";
-import useFlag from "../hooks/useFlag";
+import { TodoUrls } from "../Utils/todoUrls";
+import useSpinner from "../Hooks/useSpinner";
+import useAlert from "../Hooks/useAlert";
+import useFlag from "../Hooks/useFlag";
 
 moment.locale('ja')
 

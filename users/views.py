@@ -2,51 +2,30 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from todo.funcs.serializers import TodoSerializer, CustomUserSerializer, CustomUserListSerializer
+from users.funcs.serializers import CustomUserSerializer, CustomUserDetailsSerializer, CustomUserListSerializer, UserGroupSerializer, UserGroupListSerializer, UserGroupAddSerializer, MemberRequestSerializer, UserGroupJoin_or_ReaveRequestSerializer
 from todo.funcs.permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from dj_rest_auth.views import LoginView
+from rest_framework.decorators import api_view, permission_classes
 from dj_rest_auth.registration.views import RegisterView
+from django_filters.rest_framework import DjangoFilterBackend
 from allauth.account.utils import complete_signup
 from allauth.account import app_settings as allauth_settings
-
-import json
-import requests
-import urllib.parse
-from urllib.parse import parse_qsl
-import oauth2
-from requests_oauthlib import OAuth1Session
-
-from django.urls import reverse
-from django.conf import settings
-from django.shortcuts import redirect, render
-from rest_framework.views import APIView
-from allauth.socialaccount.models import SocialApp
-from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter, TwitterAPI
-from dj_rest_auth.social_serializers import TwitterLoginSerializer
-from dj_rest_auth.registration.views import SocialLoginView
-from django.views.decorators.csrf import csrf_exempt
-from allauth.account.adapter import get_adapter
-from rest_framework.authentication import TokenAuthentication
-from rest_social_auth.views import SocialSessionAuthView, BaseSocialAuthView
-from todo.funcs.serializers import MyUserSerializer, MyUserTokenSerializer
-from django.http import *
-
-from todo.funcs.serializers import KnoxSerializer
-from users.funcs.utils import create_knox_token
-
-# Create your views here.
-
+from .models import UserGroup, UserGroupRelation, CustomUser
 User = get_user_model()
+
+# 読み取り専用のユーザーView
 
 
 class UserReadOnlyListAPIView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserListSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        permissions.IsAuthenticatedOrReadOnly]
+
+# 読み取り専用のユーザー詳細View
 
 
 class UserReadOnlyDetailAPIView(RetrieveAPIView):
@@ -54,128 +33,223 @@ class UserReadOnlyDetailAPIView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserListSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        permissions.IsAuthenticatedOrReadOnly]
+
+# ユーザーView
+
 
 class UserListAPIView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        permissions.IsAuthenticatedOrReadOnly]
 
     # APIのレスポンスにペジネーションの情報を含まない
     def get_paginated_response(self, data):
         return Response(data)
 
 
+# ユーザー詳細View
 class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = CustomUserDetailsSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        permissions.IsAuthenticatedOrReadOnly]
 
 
-class MySocialView(SocialSessionAuthView):
-    serializer_class = MyUserSerializer
+# グループリストView(グループを作る、作ったグループを見る)
 
 
-class MySocialTokenUserAuthView(BaseSocialAuthView):
-    serializer_class = MyUserTokenSerializer
-    authentication_classes = (TokenAuthentication, )
+class UserGroupListAPIView(ListCreateAPIView):
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    # ログインユーザーのデータのみ返す
+    def get_queryset(self):
+        user = self.request.user
+        return UserGroup.objects.filter(owner=user)
+
+# 読み出し専用グループリストView(
 
 
-class TwitterGetToken(APIView):
-    '''
-    Initiates Twitter login process
-    Requests initial token and redirects user to Twitter
-    '''
+class UserGroupReadOnlyListAPIView(ListAPIView):
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
+    filter_backends = [DjangoFilterBackend]
+    # ownerフィールドで絞り込んで渡すようにする
+    filterset_fields = ['owner__username']
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
 
-    def post(self, request, *args, **kwargs):
-        request_token_url = 'https://api.twitter.com/oauth/request_token'
-        authorize_url = 'https://api.twitter.com/oauth/authorize'
+# グループ追加View
+class UserGroupAddAPIView(ListCreateAPIView):
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupAddSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
 
-        app = SocialApp.objects.filter(name='Twitter').first()
-        if app and app.client_id and app.secret:
-            consumer = oauth2.Consumer(app.client_id, app.secret)
-            client = oauth2.Client(consumer)
-
-            resp, content = client.request(request_token_url, "GET")
-            if resp['status'] != '200':
-                raise Exception("Invalid response {}".format(resp['status']))
-
-            request_token = dict(
-                urllib.parse.parse_qsl(content.decode("utf-8")))
-
-            twitter_authorize_url = "{0}?oauth_token={1}"\
-                .format(authorize_url, request_token['oauth_token'])
-
-            return redirect(twitter_authorize_url)
-
-        raise Exception("Twitter app is not set up")
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
-class TwitterLogin(SocialLoginView):
-    '''
-    Takes the final twitter access token, secret
-    Returns inner django Token
-    '''
-    serializer_class = TwitterLoginSerializer
-    adapter_class = TwitterOAuthAdapter
-    authentication_classes = (TokenAuthentication,)
-    @csrf_exempt
-    def process_login(self):
-        get_adapter(self.request).login(self.request, self.user)
+# グループ詳細View(グループ名、グループの削除)
 
 
-class TwitterLogin(SocialLoginView):
-    '''
-    Takes the final twitter access token, secret
-    Returns inner django Token
-    '''
-    serializer_class = TwitterLoginSerializer
-    adapter_class = TwitterOAuthAdapter
+class UserGroupDetailAPIView(RetrieveUpdateDestroyAPIView):
+
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
+
+# 読み出し専用グループ詳細
 
 
-class TwitterReceiveView(APIView):
-    '''
-    Receives Twitter redirect,
-    Requests access token
-    Uses TwitterLogin to logn and get django Token
-    Renders template with JS code which sets django Token to localStorage and redirects to SPA login page
-    '''
+class UserGroupDetailReadOnlyAPIView(RetrieveAPIView):
 
-    def get(self, request, *args, **kwargs):
-        access_token_url = 'https://api.twitter.com/oauth/access_token'
-        callback_uri = 'http://127.0.0.1:8000/accounts/twitter/login/callback/'
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
 
-        app = SocialApp.objects.filter(name='Twitter').first()
-        client_key = app.client_id
-        client_secret = app.secret
 
-        oauth_session = OAuth1Session(client_key,
-                                      client_secret=client_secret,
-                                      callback_uri=callback_uri)
+@api_view(['POST'])
+@permission_classes([
+    permissions.IsAuthenticatedOrReadOnly])
+def groupJoin_view(request, *args, **kwargs):
+    """
+    id is required.
+    Action Option are: Like, Unlike
+    """
+    serializer = UserGroupJoin_or_ReaveRequestSerializer(data=request.data)
+    # pagination_class = ReactionPagination
+    User = request.user
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        group_id = data.get("id")
+        # 該当グループ抽出
+        queryset = UserGroup.objects.filter(id=group_id)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset.exists():
+            return Response({}, status=404)
+        # 取得してきたものをインスタンス化
+        obj = queryset.first()
+        # すでに追加済みだった場合、エラー
+        if User in obj.members.all():
+            return Response({}, status=404)
+        # 追加処理
+        else:
+            obj.members.add(request.user)
+            return Response("Request Success", status=200)
 
-        redirect_response = request.get_full_path()
-        oauth_session.parse_authorization_response(redirect_response)
-        token = oauth_session.fetch_access_token(access_token_url)
+@api_view(['POST'])
+@permission_classes([
+    permissions.IsAuthenticatedOrReadOnly])
+def memberAdd_view(request, *args, **kwargs):
+    """
+    id is required.
+    Action Option are: Like, Unlike
+    """
+    serializer = MemberRequestSerializer(data=request.data)
+    # pagination_class = ReactionPagination
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        group_id = data.get("id")
+        member_name = data.get("username")
+        # 該当グループ抽出
+        queryset = UserGroup.objects.filter(id=group_id)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset.exists():
+            return Response("該当するグループがありません", status=404)
+        # 該当ユーザー抽出
+        queryset2 = CustomUser.objects.filter(username=member_name)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset2.exists():
+            return Response(data, status=404)
+        # 取得してきたものをインスタンス化
+        obj = queryset.first()
+        Member = queryset2.first()
+        # すでに追加済みだった場合、エラー
+        if Member in obj.members.all():
+            return Response({}, status=404)
+        # 追加処理
+        else:
+            obj.members.add(Member)
+            return Response("Request Success", status=200)
 
-        params = {'access_token': token['oauth_token'],
-                  'token_secret': token['oauth_token_secret']}
-        try:
-            result = requests.post('http://127.0.0.1:8000/dj-rest-auth/twitter/',
-                                   data=params).text
-            result = json.loads(result)
-        except (requests.HTTPError, json.decoder.JSONDecodeError):
-            result = {}
-        access_token = result.get('access_token')
-        request.session['access_token'] = access_token
-        return HttpResponseRedirect('http://127.0.0.1:3000/twitter-login-callback')
 
-        # context = {'access_token': access_token,
-        #            'domain': settings.DOMAIN}
-        # return render(request, 'account/local_storage_setter.html',
-        #               context, content_type='text/html')
+@api_view(['PATCH'])
+@permission_classes([
+    permissions.IsAuthenticatedOrReadOnly])
+def groupLeave_view(request, *args, **kwargs):
+    """
+    id is required.
+    Action Option are: Like, Unlike
+    """
+    serializer = UserGroupJoin_or_ReaveRequestSerializer(data=request.data)
+    # pagination_class = ReactionPagination
+    User = request.user
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        group_id = data.get("id")
+        # action = data.get("action")
+        # 該当タスク抽出
+        queryset = UserGroup.objects.filter(id=group_id)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset.exists():
+            return Response({}, status=404)
+        # 取得してきたものをインスタンス化
+        obj = queryset.first()
+        # 削除処理
+        if User in obj.members.all():
+            obj.members.remove(request.user)
+            return Response("Request Success", status=200)
+        # ユーザーが存在しなかった場合エラー
+        else:
+            return Response({}, status=404)
+
+@api_view(['PATCH'])
+@permission_classes([
+    permissions.IsAuthenticatedOrReadOnly])
+def memberDelete_view(request, *args, **kwargs):
+    """
+    id is required.
+    Action Option are: Like, Unlike
+    """
+    serializer = MemberRequestSerializer(data=request.data)
+    # pagination_class = ReactionPagination
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        group_id = data.get("id")
+        member_name = data.get("username")
+        # 該当グループ抽出
+        queryset = UserGroup.objects.filter(id=group_id)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset.exists():
+            return Response("該当するグループがありません", status=404)
+        # 該当ユーザー抽出
+        queryset2 = User.objects.filter(username=member_name)
+        # クエリセットの実行結果でタスクが取得できなかった場合
+        if not queryset2.exists():
+            return Response(data, status=404)
+        # 取得してきたものをインスタンス化
+        obj = queryset.first()
+        Member = queryset2.first()
+        # すでに追加済みだった場合、エラー
+        if Member in obj.members.all():
+            obj.members.remove(Member)
+            return Response("Request Success", status=200)
+        # Memberが存在しない場合、エラー
+        else:
+            return Response("このグループにこのユーザーは存在しません", status=404)
+
 
 
 
@@ -184,35 +258,3 @@ def api_root(request, format=None):
     return Response({
         'users': reverse('user_list', request=request, format=format)
     })
-
-# Sessionを使ったログインに対するView
-
-
-# overrideKnox because Integrate django-rest-knox with django-rest-auth
-
-# class KnoxLoginView(LoginView):
-
-#     def get_response(self):
-#         serializer_class = self.get_response_serializer()
-
-#         data = {
-#             'user': self.user,
-#             'token': self.token
-#         }
-#         serializer = serializer_class(instance=data, context={
-#                                       'request': self.request})
-
-#         return Response(serializer.data, status=200)
-
-
-# class KnoxRegisterView(RegisterView):
-
-#     def get_response_data(self, user):
-#         return KnoxSerializer({'user': user, 'token': self.token}).data
-
-#     def perform_create(self, serializer):
-#         user = serializer.save(self.request)
-#         self.token = create_knox_token(None, user, None)
-#         complete_signup(self.request._request, user,
-#                         allauth_settings.EMAIL_VERIFICATION, None)
-#         return user

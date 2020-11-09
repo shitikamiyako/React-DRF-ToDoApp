@@ -11,7 +11,7 @@ import {
   selectPageNationLastNumber,
   selectPageNationCurrent,
   selectPageNationAllCount,
-} from "../store/pageNationSlice";
+} from "../Store/pageNationSlice";
 
 function useTodo() {
   const dispatch = useDispatch();

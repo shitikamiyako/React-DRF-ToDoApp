@@ -21,6 +21,13 @@ const Todo = () => {
     )
   })
 
+  const AddTaskComponent = React.memo(() => {
+    console.log('render_addTask')
+    return (
+      <AddTask className="mb-3 mt-3" />
+    )
+  })
+
 
   return (
     <div>
@@ -28,7 +35,7 @@ const Todo = () => {
         <Row className="justify-content-center mx-auto mt-3 p-2">
           <Col sm={12} md={12}>
             <h3 className="text-center mb-3 mt-3">Sample Title</h3>
-            <AddTask className="mb-3 mt-3" />
+            <AddTaskComponent />
             <h3 className="text-center mb-3 mt-3">ToDo List</h3>
             <TaskListComponent />
           </Col>

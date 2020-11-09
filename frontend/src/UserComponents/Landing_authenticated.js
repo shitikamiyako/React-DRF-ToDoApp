@@ -6,12 +6,12 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 
-import useUser from "../hooks/useUser";
-import useFlag from "../hooks/useFlag";
-import useSpinner from "../hooks/useSpinner";
-import useAuth from "../hooks/useAuth";
+import useUser from "../Hooks/useUser";
+import useFlag from "../Hooks/useFlag";
+import useSpinner from "../Hooks/useSpinner";
+import useAuth from "../Hooks/useAuth";
 
-import { AuthUrls } from "../utils/authUrls";
+import { AuthUrls } from "../Utils/authUrls";
 // import { TodoUrls } from "../utils/todoUrls";
 
 const Landing_authenticated = () => {
@@ -82,9 +82,17 @@ const Landing_authenticated = () => {
             <Button variant="success" className="mr-2" onClick={() => history.push(`/todo/top`)}>
                 Go Own Task
             </Button>
+            <Button variant="success" className="mr-2" onClick={() => history.push(`/user_group/top`)}>
+                Go Own Group
+            </Button>
             {userList.map((user) => (
-                <Button key={user.id} className="mr-2" onClick={() => history.push(`/todo/public/${user.username}`)}>
+                <Button key={user.id} className="mr-2" onClick={() => history.push(`/todo/list/${user.username}`)}>
                 {user.username} Task
+                </Button>
+            ))}
+            {userList.map((user) => (
+                <Button key={user.id} className="mr-2" onClick={() => history.push(`/user_group/list/${user.username}`)}>
+                {user.username} Group
                 </Button>
             ))}
             <Button variant="danger" className="mr-2" onClick={() => history.push(`/logout`)}>

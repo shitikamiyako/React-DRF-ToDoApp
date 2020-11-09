@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectProgress, selectShow, selectMessage, startProgress, stopProgress } from '../store/spinnerSlice';
+import { selectProgress, selectShow, selectMessage, startProgress, stopProgress } from '../Store/spinnerSlice';
 
 // Sliceで定義した状態管理に対して、useSelectorとuseDispatchを使用したいので関数コンポーネントにし、実際に使うコンポーネントで呼び出せるようにする
 function useSpinner() {

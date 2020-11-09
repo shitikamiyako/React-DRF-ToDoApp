@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.css";
 import 'redux-notifications/lib/styles.css';
-import "./styles/style.css"
+import "./Styles/style.css"
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { CookiesProvider } from 'react-cookie';
-import store from "./store/";
+import store from "./Store/";
 import App from "./App";
 import "./css/style.css";
 import { PersistGate } from 'redux-persist/integration/react'

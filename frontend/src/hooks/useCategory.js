@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategoryList, resetCategoryList, selectCategory } from '../store/categorySlice';
+import { getCategoryList, resetCategoryList, selectCategory } from '../Store/categorySlice';
 
 function useCategory() {
     const dispatch = useDispatch();

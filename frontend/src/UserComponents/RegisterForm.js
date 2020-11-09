@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
-import { AuthUrls } from "../utils/authUrls";
+import { AuthUrls } from "../Utils/authUrls";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import useAlert from "../hooks/useAlert";
-import useAuth from "../hooks/useAuth";
-import useSpinner from "../hooks/useSpinner";
+import useAlert from "../Hooks/useAlert";
+import useAuth from "../Hooks/useAuth";
+import useSpinner from "../Hooks/useSpinner";
 
 var csrftoken = Cookies.get("csrftoken");
 axios.defaults.xsrfCookieName = "csrftoken";

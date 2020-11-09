@@ -5,17 +5,17 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import _, { initial } from "lodash";
 
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
-import useTodo from "../hooks/useTodo";
-import useCategory from "../hooks/useCategory";
-import usePage from "../hooks/usePage";
-import useAlert from "../hooks/useAlert";
-import MyTimer from "../components/Timer";
+import useSpinner from "../Hooks/useSpinner";
+import useFlag from "../Hooks/useFlag";
+import useTodo from "../Hooks/useTodo";
+import useCategory from "../Hooks/useCategory";
+import usePage from "../Hooks/usePage";
+import useAlert from "../Hooks/useAlert";
+import MyTimer from "../Components/Timer";
 
 
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
-import { TodoUrls } from "../utils/todoUrls";
+import { TodoUrls } from "../Utils/todoUrls";
 // import useAlert from "../hooks/useAlert";
 import ReactStars from "react-rating-stars-component";
 import { counter } from "@fortawesome/fontawesome-svg-core";

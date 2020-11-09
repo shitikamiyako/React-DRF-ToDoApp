@@ -2,13 +2,13 @@ import React from "react";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import useSpinner from "../hooks/useSpinner";
-import useFlag from "../hooks/useFlag";
-import useTodo from "../hooks/useTodo";
-import usePage from "../hooks/usePage";
+import useSpinner from "../Hooks/useSpinner";
+import useFlag from "../Hooks/useFlag";
+import useTodo from "../Hooks/useTodo";
+import usePage from "../Hooks/usePage";
 
 import { Modal, Button } from "react-bootstrap";
-import { TodoUrls } from "../utils/todoUrls";
+import { TodoUrls } from "../Utils/todoUrls";
 // import useAlert from "../hooks/useAlert";
 
 const TodoDelete = () => {

@@ -1,7 +1,7 @@
 // BackgroundModalとスピナーのレンダリング部分
 
 import React from 'react';
-import useAlert from '../hooks/useAlert';
+import useAlert from '../Hooks/useAlert';
 import { Alert } from 'react-bootstrap';
 // import { useDispatch } from 'react-redux';
 // import { useCallback } from 'react';

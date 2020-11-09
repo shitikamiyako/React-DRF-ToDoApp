@@ -1,6 +1,6 @@
 import React from "react";
 
-import useAuth from "../hooks/useAuth";
+import useAuth from "../Hooks/useAuth";
 
 import Landing_unauthenticated from "./Landing_unauthenticated"
 import Landing_authenticated from "./Landing_authenticated"

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setAllTasks, resetTasks,  selectAll_tasks } from '../store/filterSlice';
+import { setAllTasks, resetTasks,  selectAll_tasks } from '../Store/filterSlice';
 
 function useFilter () {
 

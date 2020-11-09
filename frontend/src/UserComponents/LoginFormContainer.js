@@ -3,12 +3,12 @@ import LoginForm from "./LoginForm";
 import LogoutForm from "./LogoutForm";
 import LoginFormLayout from "./LoginFormLayout";
 import axios from "axios";
-import SpinnerModal from "../components/Spinner";
+import SpinnerModal from "../Components/Spinner";
 import Cookies from "js-cookie";
-import useAlert from "../hooks/useAlert";
-import useAuth from "../hooks/useAuth";
-import useSpinner from "../hooks/useSpinner";
-import { AuthUrls } from "../utils/authUrls";
+import useAlert from "../Hooks/useAlert";
+import useAuth from "../Hooks/useAuth";
+import useSpinner from "../Hooks/useSpinner";
+import { AuthUrls } from "../Utils/authUrls";
 // import { useDispatch } from 'react-redux';
 // import history from "../utils/historyUtils";
 
