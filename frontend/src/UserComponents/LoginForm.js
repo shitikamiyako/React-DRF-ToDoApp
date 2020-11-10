@@ -22,7 +22,7 @@ const LoginForm = ({ onSubmit }) => {
             type={"text"}
             isInvalid={errors.username}
             ref={register({
-              required: "ユーザ名は必須です",
+              required: "(ユーザ名は必須です(Username is required.))",
               maxLength: {
                 value: 30,
                 message: "30文字以内です",
@@ -67,22 +67,11 @@ const LoginForm = ({ onSubmit }) => {
               type="submit"
               disabled={formState.isSubmitting}
             >
-              ログイン
+              Login
               </Button>
-            {/* <Button variant={"secondary"} type="button" onClick={reset}>
-                クリア
-              </Button> */}
           </ButtonToolbar>
         </Form.Group>
       </Form>
-      {/* <Form noValidate onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
-        <Button
-          variant={"outline-info"}
-          type="submit"
-          >
-          Twitter
-          </Button>
-      </Form> */}
     </div>
 
   );

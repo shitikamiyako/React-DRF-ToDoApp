@@ -13,6 +13,8 @@ export const AuthUrls = {
   // USER_ACTIVATION: `${ROOT_URL}dj-rest-auth/registration/verify-email/`,
   GET_USER_DATA: `${ROOT_URL}dj-rest-auth/user/`,
   GET_USER_LIST: `${ROOT_URL}user/api/readonly`,
+  GET_USER_LIST_SEARCH: `${ROOT_URL}user/api/readonly?username=`,
+  GET_USER_LIST_RANDOM: `${ROOT_URL}user/api/readonly_random`,
   GET_LIST_USER_GROUP: `${ROOT_URL}user/api/UserGroup/`,
   CREATE_USER_GROUP: `${ROOT_URL}user/api/UserGroup_add/`,
   GET_LIST_USER_GROUP_Last: `${ROOT_URL}user/api/UserGroup/?page=`,

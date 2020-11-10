@@ -5,7 +5,7 @@ import PrivateRoute from './Route/PrivateRoute';
 import LoginRoute from './Route/LoginRoute';
 import LogoutRoute from './Route/LogoutRoute';
 // ランディング
-import Landing from "./UserComponents/Landing";
+import TopPage from "./UserComponents/TopPage";
 // ユーザーに関わるルーティング
 import Login from "./UserComponents/LoginFormContainer";
 import Logout from "./UserComponents/LogoutForm";
@@ -25,7 +25,7 @@ import TaskTimer from "./TodoComponents/TaskTimer";
 const MainContent = () => (
     <div>
         <Switch>
-            <Route path="/" exact><Landing /></Route>
+            <Route path="/" exact><TopPage /></Route>
             <LoginRoute path="/login" component={Login} />
             <LoginRoute path="/signup" component={Register} />
             <LogoutRoute path="/logout" component={Logout} />

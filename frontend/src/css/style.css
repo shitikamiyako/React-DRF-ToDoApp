@@ -1,62 +1,84 @@
 @charset "UTF-8";
 
-@media screen and (min-width:768px) and ( max-width:3000px) {
-  .container{
-      max-width: 720px;
+@media screen and (min-width: 768px) and (max-width: 3000px) {
+  .container {
+    max-width: 720px;
   }
 }
 
 /* base */
-/* body {
-    font-size: 18px;
-    width: 100vw;
-    margin: 0;
+body {
+  background-color: #f6fbff;
 }
-.input-txt {
-    border: solid 1px darkgrey;
-    border-radius: 2px;
-    font-size: 1rem;
-    padding: 0.5rem;
-}
-.btn {
-    border: none;
-    color: blue;
-    font-size: 1rem;
-}
-.btn:hover {
-    cursor: pointer;
-    background-color: aliceblue;
-}
-.btn__delete {
-    color: orangered;
-}
-.btn__delete:hover {
-    background-color: lavenderblush;
-} */
-.backdrop .modal-content{
+
+.backdrop .modal-content {
   background-color: #000;
   color: #fff;
 }
-.taskButton{
-   text-align:center;
+.taskButton {
+  text-align: center;
 }
-.groupButton{
-   text-align:center;
+.groupButton {
+  text-align: center;
 }
-.memberButton{
-   text-align:center;
+.memberButton {
+  text-align: center;
+}
+.logged_in_top_page {
+  text-align: center;
+}
+.random_user_linkButton {
+  text-align: center;
 }
 
+.landing {
+    width: 100%;
+}
+.landing-col {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.landing-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.landing-contents {
+  text-align: center;
+    margin-top: 20px;
+}
+
+.landing-main {
+  text-align: center;
+    /* margin-top: 20px; */
+    background-color: aqua;
+}
+.landing-how {
+  text-align: center;
+    margin-top: 20px;
+}
+.landing-caution {
+  text-align: center;
+    margin-top: 20px;
+        background-color: #fad102;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-top: 20px;
+
+
+}
+.landing-caution p:last-child {
+    margin-bottom: 0;
+}
 
 li {
   list-style: none;
 }
 
-
-
 /* todo */
 .todo {
-    margin: 0 20vw;
+  margin: 0 20vw;
 }
 
 /* .taskList {
@@ -64,42 +86,40 @@ li {
     margin-right: 100px;
 } */
 
-
 /* form */
 .form {
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 }
 .form__items {
-    display: flex;
+  display: flex;
 }
 .form__input-txt {
-    flex-direction: row;
-    flex-grow: 1;
+  flex-direction: row;
+  flex-grow: 1;
 }
-
 
 /* list */
 .list__ul {
-    padding: 0;
+  padding: 0;
 }
 .list__ul__li {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    border-bottom: solid 1px lightgrey;
-    padding-bottom: 3px;
-    margin: 1em 0;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  border-bottom: solid 1px lightgrey;
+  padding-bottom: 3px;
+  margin: 1em 0;
 }
 .list__txt {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 .list__txt:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 .list__txt--done {
-    color: gray;
-    text-decoration: line-through solid gray;
+  color: gray;
+  text-decoration: line-through solid gray;
 }
 .list__checkbox {
-    margin-right: 1em;
+  margin-right: 1em;
 }

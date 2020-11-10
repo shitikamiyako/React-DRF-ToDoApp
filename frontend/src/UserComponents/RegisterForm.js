@@ -80,7 +80,7 @@ const RegisterForm = () => {
         <Form.Label>{"メールアドレス"}</Form.Label>
         <Form.Control
           name={"email"}
-          placeholder={"Email"}
+          placeholder={"メールアドレスはダミーでも可能です"}
           type={"email"}
           isInvalid={errors.email}
           ref={register({

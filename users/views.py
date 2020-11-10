@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from users.funcs.serializers import CustomUserSerializer, CustomUserDetailsSerializer, CustomUserListSerializer, UserGroupSerializer, UserGroupListSerializer, UserGroupAddSerializer, MemberRequestSerializer, UserGroupJoin_or_ReaveRequestSerializer
+from users.funcs.serializers import CustomUserSerializer, CustomUserDetailsSerializer, CustomUserListSerializer, UserGroupSerializer, UserGroupListSerializer, UserGroupAddSerializer, MemberRequestSerializer, UserGroupJoin_or_ReaveRequestSerializer, CustomUserLimitSerializer
 from todo.funcs.permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
@@ -22,8 +22,23 @@ User = get_user_model()
 class UserReadOnlyListAPIView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserListSerializer
+    # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
+    filter_backends = [DjangoFilterBackend]
+    # usernameフィールドで絞り込めるようにする
+    filterset_fields = ['username']
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly]
+
+# ランダム5件までのユーザーidとusernameを返すView
+
+class UserReadOnlyLimitListAPIView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = CustomUserLimitSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return User.objects.order_by('?')[:5]
 
 # 読み取り専用のユーザー詳細View
 
@@ -83,7 +98,7 @@ class UserGroupReadOnlyListAPIView(ListAPIView):
     serializer_class = UserGroupSerializer
     # django-filterでフィルタリングするための定義、複数の値をフィルタリングの値にするならリストで定義
     filter_backends = [DjangoFilterBackend]
-    # ownerフィールドで絞り込んで渡すようにする
+    # ownerフィールドで絞り込めるようにする
     filterset_fields = ['owner__username']
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly]

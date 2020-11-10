@@ -31,6 +31,14 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['url', 'id', 'username', 'email', 'todo']
 
+class CustomUserLimitSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='user_detail', format='html')
+
+    class Meta:
+        model = User
+        fields = ['url', 'id', 'username']
+
 # ユーザー一覧のシリアライザ
 
 

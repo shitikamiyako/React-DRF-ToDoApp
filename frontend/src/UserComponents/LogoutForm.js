@@ -25,12 +25,14 @@ const LogoutForm = () => {
 
     return (
         <div >
-            <h1>Welcome to this wonderful site.</h1>
+            <div className="justify-content-center text-center">
+                <h1>Are you sure you want to sign out?</h1>
+            </div>
 
             <Form noValidate onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
                 <Form.Group>
                     <ButtonToolbar className="justify-content-center">
-                        <Button variant={"primary"} type="submit" > ログアウト </Button>
+                        <Button variant={"danger"} type="submit" > Logout </Button>
                     </ButtonToolbar>
                 </Form.Group>
             </Form>
