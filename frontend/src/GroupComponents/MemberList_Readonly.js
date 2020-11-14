@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import _ from "lodash";
 
 import useSpinner from "../Hooks/useSpinner";
 import useFlag from "../Hooks/useFlag";
@@ -21,8 +20,8 @@ const MemberListReadOnly = () => {
   const [memberList, setMember] = useState([]);
   const { id } = useParams();
   let history = useHistory();
-
-  const { memberListChange, addMember, MemberListChangeReset } = useFlag();
+  // カスタムHooks
+  const { memberListChange, MemberListChangeReset } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
   const { createAlert } = useAlert();
 

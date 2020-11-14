@@ -2,21 +2,18 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import _ from "lodash";
-
+// カスタムHooks
 import useSpinner from "../Hooks/useSpinner";
 import useFlag from "../Hooks/useFlag";
 import useAlert from "../Hooks/useAlert";
-
+// react-bootstrap
 import {
   Row,
   Col,
   Toast,
-  Form,
   Button,
-  ButtonToolbar,
-  Modal,
 } from "react-bootstrap";
+// その他
 import { AuthUrls } from "../Utils/authUrls";
 
 const GroupEdit = () => {
@@ -42,7 +39,6 @@ const GroupEdit = () => {
     // グループ取得のリクエスト
     try {
       const response = await axios.get(getMemberList);
-      console.log(response.data.members);
       const responseMap = response.data.members.map((obj) => {
         return obj;
       });
@@ -55,7 +51,6 @@ const GroupEdit = () => {
         type: "success",
       });
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "メンバーリストの取得に失敗しました",
         type: "danger",
@@ -73,14 +68,12 @@ const GroupEdit = () => {
     };
     try {
       const response = await axios.patch(deleteMemberUrl, data);
-      console.log(response.data.members);
       createAlert({
         message: "メンバーの削除に成功しました",
         type: "success",
       });
         addMember()
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "メンバーの削除に失敗しました",
         type: "danger",

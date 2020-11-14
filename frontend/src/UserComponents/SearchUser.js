@@ -21,34 +21,28 @@ const SearchUser = () => {
         mode: "onChange",
     });
     let searchUserUrl = AuthUrls.GET_USER_LIST_SEARCH + user
-    console.log(searchUserUrl)
 
     // inputタグのクリックイベント無効
     const handleClick = (e) => {
         e.preventDefault();
-        console.log('The link was clicked.');
     }
     // Submit無効
     const preventSubmit = (e) => {
         e.preventDefault();
-        console.log('The link was clicked.');
     }
 
     const Search_and_Go_UserTaskList = async () => {
-        if(user != false) {
+        if(user !== false) {
             startProgress();
             const requestUrl = searchUserUrl + user
             try {
                 const response = await axios.get(requestUrl);
-                console.log(response);
                 history.push(`/todo/list/${user}`)
                 createAlert({
                     message: "該当するユーザーのタスクリストへ遷移しました",
                     type: "success",
                 });
             } catch (error) {
-                console.log(error);
-                console.log(error.response);
                 createAlert({
                     message: "該当するユーザーのタスクリストに遷移できませんでした",
                     type: "danger",

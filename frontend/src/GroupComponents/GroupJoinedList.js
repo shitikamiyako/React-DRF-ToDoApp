@@ -1,24 +1,26 @@
 // ライブラリなどのインポート
 import React from "react";
 import { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
+
 // カスタムHooks
 import useSpinner from "../Hooks/useSpinner";
 import useAlert from "../Hooks/useAlert";
 import useFlag from "../Hooks/useFlag";
 import usePage from "../Hooks/usePage";
+
 // その他インポート
 import { AuthUrls } from "../Utils/authUrls";
 // react-bootstrap
 import { Button, Pagination, Toast, Col, Row } from "react-bootstrap";
 
-const GroupList = () => {
+const GroupJoinedList = () => {
   // グループリストに関するHooks
   const [groupList, setGroupList] = useState([]);
-  // Group Hooks
-  const { groupListChange, GroupListChangeReset } = useFlag();
+  // グループを追加したかのHooks
+  const { groupListChange, addGroup, GroupListChangeReset } = useFlag();
   // スピナーに関するHooks
   const { startProgress, stopProgress } = useSpinner();
   // アラートに関するHooks
@@ -36,21 +38,19 @@ const GroupList = () => {
     pageNationCurrent,
   } = usePage();
   const history = useHistory();
-  const { username } = useParams();
-
   // グループリストAPIへのGETリクエストURL
-  let getGroupReadOnlyListUrl = null;
+  let getGroupListUrl = null;
+  const deleteGroupUrl = AuthUrls.GET_OR_EDIT_USER_GROUP;
 
   const pullGroupList = async () => {
     startProgress();
     // 初回レンダー及び最初の10件を取得するためのURL
-    if (getGroupReadOnlyListUrl === null) {
-      getGroupReadOnlyListUrl =
-        AuthUrls.GET_READONLY_USER_GROUP_SEARCH + username;
+    if (getGroupListUrl === null) {
+      getGroupListUrl = AuthUrls.GET_LIST_USER_GROUP_JOINED;
     }
     // グループ取得のリクエスト
     try {
-      const response = await axios.get(getGroupReadOnlyListUrl);
+      const response = await axios.get(getGroupListUrl);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
@@ -101,9 +101,7 @@ const GroupList = () => {
                   <Button
                     variant="outline-success"
                     className="mr-2"
-                    onClick={() =>
-                      history.push(`/user_group/${group.id}/members`)
-                    }
+                    onClick={() => history.push(`/user_group/${group.id}/members`)}
                   >
                     Detail
                   </Button>
@@ -116,26 +114,24 @@ const GroupList = () => {
       <Pagination className="justify-content-center">
         <Pagination.First
           onClick={() => {
-            pullGroupList(
-              (getGroupReadOnlyListUrl = AuthUrls.GET_LIST_USER_GROUP)
-            );
+            pullGroupList((getGroupListUrl = AuthUrls.GET_LIST_USER_GROUP));
           }}
         />
         <Pagination.Prev
           onClick={() => {
-            pullGroupList((getGroupReadOnlyListUrl = pageNationPrevious));
+            pullGroupList((getGroupListUrl = pageNationPrevious));
           }}
         />
         <Pagination.Item>{CurrentPage}</Pagination.Item>
         <Pagination.Next
           onClick={() => {
-            pullGroupList((getGroupReadOnlyListUrl = pageNationNext));
+            pullGroupList((getGroupListUrl = pageNationNext));
           }}
         />
         <Pagination.Last
           onClick={() => {
             pullGroupList(
-              (getGroupReadOnlyListUrl =
+              (getGroupListUrl =
                 AuthUrls.GET_LIST_USER_GROUP_Last + pageNationLastNumber)
             );
           }}
@@ -152,4 +148,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export default GroupJoinedList;

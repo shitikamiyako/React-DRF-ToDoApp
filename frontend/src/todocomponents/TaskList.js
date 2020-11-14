@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
-import axiosCookieJarSupport from "axios-cookiejar-support";
 
 // カスタムHooks
 import useTodo from "../Hooks/useTodo";
 import usePage from "../Hooks/usePage";
+import useAlert from "../Hooks/useAlert";
 import useCategory from "../Hooks/useCategory";
 import useSpinner from "../Hooks/useSpinner";
 import useFlag from "../Hooks/useFlag";
@@ -28,10 +28,6 @@ import {
   Row,
   Dropdown,
 } from "react-bootstrap";
-
-axios.defaults.withCredentials = true;
-
-axiosCookieJarSupport(axios);
 
 const TaskList = () => {
   // タスクに関するHooks
@@ -64,13 +60,15 @@ const TaskList = () => {
   const { getCategoryList, resetCategoryList, category } = useCategory();
   // フィルターに関するHooks
   const { setAllTasks, all_tasks, resetTasks } = useFilter();
+  // アラートに関するHooks
+  const { createAlert } = useAlert();
   // React Routerによるページ遷移のHooks。history.pushを使用可能にする
-  const history = useHistory()
+  const history = useHistory();
   // カテゴリーAPIへのGETリクエストURL
   const getCategoryListUrl = TodoUrls.GET_CATEGORY_LIST;
   // TodoAPIへのGETリクエストURL
   let get_task_listUrl = null;
-    // resetTaskList();
+  // resetTaskList();
 
   const pullTaskList = async () => {
     startProgress();
@@ -86,21 +84,21 @@ const TaskList = () => {
     // カテゴリー取得のリクエスト
     try {
       const response = await axios.get(getCategoryListUrl);
-      console.log(response);
-      console.log(response.data.results);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
       const CategoryList = _.mapKeys(responseMap, "id");
       getCategoryList(CategoryList);
     } catch (error) {
-      console.log(error);
+      createAlert({
+        message: "カテゴリーの取得に失敗しました",
+        type: "danger",
+      });
     }
 
     // タスクリスト取得のリクエスト
     try {
       const response = await axios.get(get_task_listUrl);
-      console.log(response);
       // ペジネーション関係の情報をstateに格納
       get_pageNationNext(response.data.next);
       get_pageNationPrevious(response.data.previous);
@@ -113,12 +111,13 @@ const TaskList = () => {
       });
       const TaskList = _.mapKeys(responseMap, "id");
       // const TaskList = responseMap
-      console.log(responseMap);
-      console.log(TaskList);
       getTaskList(TaskList);
       setAllTasks(TaskList);
     } catch (error) {
-      console.log(error);
+      createAlert({
+        message: "タスクリストの取得に失敗しました",
+        type: "danger",
+      });
     } finally {
       stopProgress();
     }
@@ -129,7 +128,6 @@ const TaskList = () => {
 
   // 同じく、実際に描画に使うタスクリスト
   let taskList = Object.values(all_tasks);
-  console.log(taskList);
 
   // カテゴリーリスト整形
   const categoryList = Object.values(category);
@@ -179,9 +177,7 @@ const TaskList = () => {
 
   // useEffect
   useEffect(() => {
-    pullTaskList(
-      (get_task_listUrl = TodoUrls.GET_TASK_LIST_Last + pageNationCurrent)
-    );
+    pullTaskList();
     TaskListChangeReset();
     // return pullTaskList;
   }, [taskListChange]);
@@ -192,7 +188,7 @@ const TaskList = () => {
         <Col xs={6} sm={6} md={6}>
           <DropdownButton
             id="dropdown-item-button"
-            title="Category Filter"
+            title="Category"
             variant="secondary"
             className="mb-2"
           >
@@ -223,7 +219,7 @@ const TaskList = () => {
         <Col xs={6} sm={6} md={6}>
           <DropdownButton
             id="dropdown-item-button"
-            title="is_Completed Filter"
+            title="is_Completed"
             variant="secondary"
             className="mb-2"
           >
@@ -257,7 +253,6 @@ const TaskList = () => {
           </DropdownButton>
         </Col>
       </Row>
-
       <Row className="taskList">
         {taskList.map((task) => (
           <Col xs={12} sm={12} md={6} key={task.id}>
@@ -274,19 +269,33 @@ const TaskList = () => {
                 <br />
                 <br />
                 <div className="taskButton">
-                  <Button variant="outline-success" className="mr-2" onClick={() => history.push(`/todo/edit/${task.id}`)}>
+                  <Button
+                    variant="outline-success"
+                    className="mr-2"
+                    onClick={() => history.push(`/todo/edit/${task.id}`)}
+                  >
                     Edit
                   </Button>
 
-                  <Button variant="outline-danger" className="mr-2" onClick={() => history.push(`/todo/delete/${task.id}`)}>Delete</Button>
-                  <Button variant="outline-info" onClick={() => history.push(`/todo/timer/${task.id}`)}>Timer</Button>
+                  <Button
+                    variant="outline-danger"
+                    className="mr-2"
+                    onClick={() => history.push(`/todo/delete/${task.id}`)}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => history.push(`/todo/timer/${task.id}`)}
+                  >
+                    Timer
+                  </Button>
                 </div>
               </Toast.Body>
             </Toast>
           </Col>
         ))}
       </Row>
-
       <Pagination className="justify-content-center">
         <Pagination.First
           onClick={() => {
@@ -313,9 +322,14 @@ const TaskList = () => {
           }}
         />
       </Pagination>
-      <Button variant="success" className="mr-2" onClick={() => history.push(`/`)}>
+      <Button
+        variant="success"
+        className="mr-2"
+        onClick={() => history.push(`/`)}
+      >
         Go Back Top
-      </Button>    </div>
+      </Button>
+    </div>
   );
 };
 

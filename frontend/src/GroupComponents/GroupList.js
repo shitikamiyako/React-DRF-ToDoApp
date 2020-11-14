@@ -4,29 +4,17 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
 import axios from "axios";
-import axiosCookieJarSupport from "axios-cookiejar-support";
 
 // カスタムHooks
 import useSpinner from "../Hooks/useSpinner";
 import useAlert from "../Hooks/useAlert";
-import useFlag from "../Hooks/useFlag"
+import useFlag from "../Hooks/useFlag";
 import usePage from "../Hooks/usePage";
-
 
 // その他インポート
 import { AuthUrls } from "../Utils/authUrls";
 // react-bootstrap
-import {
-  Button,
-  Pagination,
-  Toast,
-  Col,
-  Row,
-} from "react-bootstrap";
-
-axios.defaults.withCredentials = true;
-
-axiosCookieJarSupport(axios);
+import { Button, Pagination, Toast, Col, Row } from "react-bootstrap";
 
 const GroupList = () => {
   // グループリストに関するHooks
@@ -49,11 +37,10 @@ const GroupList = () => {
     pageNationLastNumber,
     pageNationCurrent,
   } = usePage();
-  const history = useHistory()
+  const history = useHistory();
   // グループリストAPIへのGETリクエストURL
   let getGroupListUrl = null;
-  const deleteGroupUrl = AuthUrls.GET_OR_EDIT_USER_GROUP
-
+  const deleteGroupUrl = AuthUrls.GET_OR_EDIT_USER_GROUP;
 
   const pullGroupList = async () => {
     startProgress();
@@ -64,8 +51,6 @@ const GroupList = () => {
     // グループ取得のリクエスト
     try {
       const response = await axios.get(getGroupListUrl);
-      console.log(response);
-      console.log(response.data.results);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
@@ -84,30 +69,26 @@ const GroupList = () => {
         type: "success",
       });
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "グループリストの取得に失敗しました",
         type: "danger",
       });
     } finally {
-        stopProgress();
+      stopProgress();
     }
   };
 
-
   const groupDelete = async (GROUP_ID) => {
-    const group_id = GROUP_ID
-    const requestUrl = deleteGroupUrl + group_id
+    const group_id = GROUP_ID;
+    const requestUrl = deleteGroupUrl + group_id;
     try {
       const response = await axios.delete(requestUrl);
-      console.log(response.data.members);
       createAlert({
         message: "グループの削除に成功しました",
         type: "success",
       });
-      addGroup()
+      addGroup();
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "グループの削除に失敗しました",
         type: "danger",
@@ -146,9 +127,7 @@ const GroupList = () => {
                   <Button
                     variant="outline-danger"
                     // className="mr-2"
-                    onClick={() =>
-                      groupDelete(`${group.id}`)
-                    }
+                    onClick={() => groupDelete(`${group.id}`)}
                   >
                     Delete
                   </Button>
@@ -158,42 +137,39 @@ const GroupList = () => {
           </Col>
         ))}
       </Row>
-        <Pagination className="justify-content-center">
-          <Pagination.First
-            onClick={() => {
-              pullGroupList(
-                (getGroupListUrl = AuthUrls.GET_LIST_USER_GROUP)
-              );
-            }}
-          />
-          <Pagination.Prev
-            onClick={() => {
-              pullGroupList((getGroupListUrl = pageNationPrevious));
-            }}
-          />
-          <Pagination.Item>{CurrentPage}</Pagination.Item>
-          <Pagination.Next
-            onClick={() => {
-              pullGroupList((getGroupListUrl = pageNationNext));
-            }}
-          />
-          <Pagination.Last
-            onClick={() => {
-              pullGroupList(
-                (getGroupListUrl =
-                  AuthUrls.GET_LIST_USER_GROUP_Last +
-                  pageNationLastNumber)
-              );
-            }}
-          />
-        </Pagination>
-        <Button
-          variant="success"
-          className="mr-2"
-          onClick={() => history.push(`/`)}
-        >
-          Go Back Top
-        </Button>
+      <Pagination className="justify-content-center">
+        <Pagination.First
+          onClick={() => {
+            pullGroupList((getGroupListUrl = AuthUrls.GET_LIST_USER_GROUP));
+          }}
+        />
+        <Pagination.Prev
+          onClick={() => {
+            pullGroupList((getGroupListUrl = pageNationPrevious));
+          }}
+        />
+        <Pagination.Item>{CurrentPage}</Pagination.Item>
+        <Pagination.Next
+          onClick={() => {
+            pullGroupList((getGroupListUrl = pageNationNext));
+          }}
+        />
+        <Pagination.Last
+          onClick={() => {
+            pullGroupList(
+              (getGroupListUrl =
+                AuthUrls.GET_LIST_USER_GROUP_Last + pageNationLastNumber)
+            );
+          }}
+        />
+      </Pagination>
+      <Button
+        variant="success"
+        className="mr-2"
+        onClick={() => history.push(`/`)}
+      >
+        Go Back Top
+      </Button>
     </div>
   );
 };

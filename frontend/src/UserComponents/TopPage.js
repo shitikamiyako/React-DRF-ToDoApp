@@ -2,8 +2,8 @@ import React from "react";
 
 import useAuth from "../Hooks/useAuth";
 
-import TopPage_unauthenticated from "./TopPage_unauthenticated"
-import TopPage_authenticated from "./TopPage_authenticated"
+import TopPageUnauthenticated from "./TopPage_unauthenticated"
+import TopPageAuthenticated from "./TopPage_authenticated"
 import { Container,Row } from "react-bootstrap";
 
 
@@ -13,23 +13,21 @@ const TopPage = () => {
     const { authenticated } = useAuth();
 
 
-    let TopPage_contents = <TopPage_unauthenticated />
+    let TopPage_contents = <TopPageUnauthenticated />
 
     if (authenticated === true) {
-        TopPage_contents = <TopPage_authenticated />
+        TopPage_contents = <TopPageAuthenticated />
 
     }
 
 
 
     return (
-        <div>
-            <Container fluid>
+            <Container fluid className="inner">
                 <Row className="justify-content-center">
                     {TopPage_contents}
                 </Row>
             </Container>
-        </div>
     );
 
 };

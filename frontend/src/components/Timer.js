@@ -5,8 +5,8 @@ import { Button, Modal } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 
 const MyTimer = ({ expiryTimestamp }) => {
-    const { id } = useParams();
-    const history = useHistory();
+  const { id } = useParams();
+  const history = useHistory();
 
   // タイマーセットから何秒経ったか
   const [count, setCount] = useState(0);
@@ -17,7 +17,6 @@ const MyTimer = ({ expiryTimestamp }) => {
 
   useEffect(() => {
     const timerId = setInterval(countUp, 1000);
-    console.log(count);
     return () => clearInterval(timerId);
   }, []);
   // pauseした時、またはリスタートの時に使うにカウントを保存する
@@ -35,28 +34,31 @@ const MyTimer = ({ expiryTimestamp }) => {
     restart,
   } = useTimer({
     expiryTimestamp,
-      onExpire: () => setTimer(true),
+    onExpire: () => setTimer(true),
   });
 
+  let TimerFinishMessage = <p>{isRunning ? "Running" : "Not running"}</p>;
 
-    let TimerFinishMessage = <p>{isRunning ? "Running" : "Not running"}</p>
-
-    if (timer) {
-        TimerFinishMessage =
-            <div>
-                <p>お疲れ様でした、下のボタンからこのタスクを評価することができます</p>
-                <Button variant="outline-success" className="mr-2" onClick={() => history.push(`/todo/edit/${id}`)}>
-                    タスク編集画面へ
-            </Button>
-            </div>
-
-    }
+  if (timer) {
+    TimerFinishMessage = (
+      <div>
+        <p>お疲れ様でした、下のボタンからこのタスクを評価することができます</p>
+        <Button
+          variant="outline-success"
+          className="mr-2"
+          onClick={() => history.push(`/todo/edit/${id}`)}
+        >
+          タスク編集画面へ
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ textAlign: "center" }}>
       <Modal.Body>
         <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-            {TimerFinishMessage}
+        {TimerFinishMessage}
       </Modal.Body>
       <Modal.Footer>
         <Button

@@ -1,27 +1,17 @@
 import React from "react";
 import GroupForm from "./GroupForm";
 import GroupList from "./GroupList";
-import axios from "axios";
-import Cookies from 'js-cookie';
 import { Container, Row, Col } from "react-bootstrap";
 
-
-var csrftoken = Cookies.get('csrftoken');
-console.log(csrftoken);
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-axios.defaults.withCredentials = true
 
 const Group = () => {
 
     const GroupListComponent = React.memo(() => {
-        console.log('render_GroupList')
         return (
             <GroupList />
         )
     })
     const GroupFormComponent = React.memo(() => {
-        console.log('render_GroupList')
         return (
             <GroupForm className="mb-3 mt-3"/>
         )

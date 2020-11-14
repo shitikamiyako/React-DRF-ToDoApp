@@ -7,13 +7,67 @@
 }
 
 /* base */
+/* html {
+  min-height: 100vh;
+} */
+
 body {
+  /* min-height: 100vh; */
+  margin: 0;
+  padding: 0;
   background-color: #f6fbff;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+}
+
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+a {
+  color: blue;
+}
+
+a:hover {
+  color: blueviolet;
+}
+
+.link-twitter a {
+  color: rgb(59, 221, 250);
+}
+
+.link-github a {
+  color: black;
+}
+
+.copy-right {
+  color: #fff;
+}
+
+.alert-pop {
+  width: 100%;
+  position: absolute;
+  top: 0;
 }
 
 .backdrop .modal-content {
   background-color: #000;
   color: #fff;
+}
+
+.UserInfoForm {
+  margin-top: 20px;
+}
+
+.UserInfoButton {
+  text-align: center;
 }
 .taskButton {
   text-align: center;
@@ -31,60 +85,78 @@ body {
   text-align: center;
 }
 
+.jumbotron-title {
+  color: #cccccc;
+}
+
+.card-header {
+  font-weight: bold;
+}
+
 .landing {
-    width: 100%;
+  width: 100%;
 }
 .landing-col {
-    width: 100%;
-    padding-right: 0;
-    padding-left: 0;
+  width: 100%;
+  min-height: 100%; /* ←コンテンツの高さの最小値＝ブラウザの高さに指定 */
+  margin: 0 0 20px 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.landing-col:last-child {
+  margin-bottom: 0;
+}
+
+.landing-item {
+  text-align: center;
+  margin-top: 30px;
 }
 
 .landing-title {
-  text-align: center;
-  margin-bottom: 30px;
+  padding-top: 20px;
 }
+
+.title-how {
+  color: #8bc34a;
+}
+.title-caution {
+  color: #ff1201;
+}
+.title-aboutMe {
+  color: #ff9800;
+}
+
 .landing-contents {
+  min-height: 100%; /* ←コンテンツの高さの最小値＝ブラウザの高さに指定 */
   text-align: center;
-    margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .landing-main {
   text-align: center;
-    /* margin-top: 20px; */
-    background-color: aqua;
+  /* margin-top: 20px; */
+  background-color: #0062cc;
 }
 .landing-how {
   text-align: center;
-    margin-top: 20px;
 }
 .landing-caution {
   text-align: center;
-    margin-top: 20px;
-        background-color: #fad102;
-    margin-bottom: 0;
-    padding-top: 20px;
-    padding-top: 20px;
-
-
 }
 .landing-caution p:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
+}
+
+.user-top-title {
+  color: #9c27b0;
+
 }
 
 li {
   list-style: none;
 }
-
-/* todo */
-.todo {
-  margin: 0 20vw;
-}
-
-/* .taskList {
-    margin-left: 100px;
-    margin-right: 100px;
-} */
 
 /* form */
 .form {

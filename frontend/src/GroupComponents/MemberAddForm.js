@@ -24,15 +24,15 @@ const AddMemberForm = () => {
   const addNewMember = async (data) => {
     startProgress();
     console.log(data);
-    console.log(data.username)
+    console.log(data.username);
     const requestData = {
-      "id": id,
-      "username": data.username
+      id: id,
+      username: data.username,
     };
-      console.log(requestData);
+    console.log(requestData);
 
     try {
-        const response = await axios.post(addNewMemberURl, requestData);
+      const response = await axios.post(addNewMemberURl, requestData);
       console.log(response);
       addMember();
       createAlert({
@@ -83,15 +83,15 @@ const AddMemberForm = () => {
       <Form.Group>
         <ButtonToolbar className="justify-content-center">
           <Button
+            className="mr-2"
             variant={"primary"}
             type="submit"
-            // onClick={handleSubmit(onSubmit)}
             disabled={formState.isSubmitting}
           >
-            ユーザー追加
+            Add Member
           </Button>
           <Button variant={"secondary"} type="button" onClick={reset}>
-            クリア
+            Clear
           </Button>
         </ButtonToolbar>
       </Form.Group>

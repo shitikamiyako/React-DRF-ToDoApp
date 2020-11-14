@@ -90,7 +90,7 @@ class UserGroupListAPIView(ListCreateAPIView):
         user = self.request.user
         return UserGroup.objects.filter(owner=user)
 
-# 読み出し専用グループリストView(
+# 読み出し専用グループリストView
 
 
 class UserGroupReadOnlyListAPIView(ListAPIView):
@@ -102,6 +102,19 @@ class UserGroupReadOnlyListAPIView(ListAPIView):
     filterset_fields = ['owner__username']
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly]
+
+# 自分が所属しているグループを返すView
+class UserGroupJoinedListAPIView(ListAPIView):
+    queryset = UserGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.usergroup_set.all()
+
+
 
 # グループ追加View
 class UserGroupAddAPIView(ListCreateAPIView):

@@ -13,11 +13,12 @@ const Logged_in_NavbarComponent = () => {
                 <Nav className="mr-auto">
                     <Nav.Link href="/todo/top">Task</Nav.Link>
                     <Nav.Link href="/user_group/top">Group</Nav.Link>
-                    <Nav.Link href="#link">Joined Group</Nav.Link>
-                    <Nav.Link href="#link">My Page</Nav.Link>
+                    <Nav.Link href="/user_group/joined">Joined Group</Nav.Link>
+                    <Nav.Link href="/user_info">My Page</Nav.Link>
                 </Nav>
                 <Nav>
                     <Nav.Link href="/logout">Logout</Nav.Link>
+                    <Nav.Link href="/unsubscribe">Unsubscribe</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

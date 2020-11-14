@@ -10,13 +10,10 @@ User = get_user_model()
 
 
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
-    todo = serializers.HyperlinkedIdentityField(
-        many=True, view_name='todo_detail')
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'todo')
-        read_only_fields = ('email', )
+        fields = ('id', 'username', 'email')
 
 # ユーザ情報のシリアライザ
 

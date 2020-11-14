@@ -4,57 +4,32 @@ import LogoutForm from "./LogoutForm";
 import LoginFormLayout from "./LoginFormLayout";
 import axios from "axios";
 import SpinnerModal from "../Components/Spinner";
-import Cookies from "js-cookie";
 import useAlert from "../Hooks/useAlert";
 import useAuth from "../Hooks/useAuth";
 import useSpinner from "../Hooks/useSpinner";
 import { AuthUrls } from "../Utils/authUrls";
-// import { useDispatch } from 'react-redux';
-// import history from "../utils/historyUtils";
-
-// import { useEffect, useState } from "react";
-// import { Alert } from 'react-bootstrap';
-
-// モーダルテスト用
-// import CircularProgress from "@material-ui/core/CircularProgress";
-// import Backdrop from "@material-ui/core/Backdrop";
-// import { makeStyles } from "@material-ui/core/styles";
-
-//     // モーダルテスト用
-// const useStyles = makeStyles(theme => ({
-//     backdrop: {
-//         color: "#fff"
-//     }
-// }));
-
-const loginUrl = AuthUrls.LOGIN;
-var csrftoken = Cookies.get("csrftoken");
-console.log(csrftoken);
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.withCredentials = true;
 
 const LoginFormContainer = () => {
+  // Alert Hooks
   const { createAlert } = useAlert();
+  // 認証状態でルーティングするためのHooks
   const { loginUser, authenticated } = useAuth();
+  // Spinner Hooks
   const { startProgress, stopProgress, progress } = useSpinner();
 
+  // ログインリクエストURL
+  const loginUrl = AuthUrls.LOGIN;
+  // スピナー
   let Modal = <SpinnerModal />;
-
-  // 実際のSubmit
 
   const onSubmit = async (data) => {
     // BackDropModalとスピナー表示
-
     startProgress("ログイン中です");
 
     try {
-      const response  = await axios.post(loginUrl, data);
+      const response = await axios.post(loginUrl, data);
       console.log(response);
       loginUser();
-    //   const refreshToken = response.refresh_token;
-    //   Cookies.set("refresh_token", refreshToken);
-    //   console.log(refreshToken);
       createAlert({
         message: "ログインに成功しました",
         type: "success",
@@ -70,14 +45,14 @@ const LoginFormContainer = () => {
     }
   };
 
+  // 認証状態でフォームチェンジ
   let form = <LoginForm onSubmit={onSubmit} />;
-
-  console.log({ authenticated });
 
   if (authenticated === true) {
     form = <LogoutForm />;
   }
 
+  // スピナーを出す
   if (!progress) {
     Modal = <SpinnerModal show={false} />;
   }

@@ -3,30 +3,23 @@ import { useState,useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import _, { initial } from "lodash";
 
 import useSpinner from "../Hooks/useSpinner";
 import useFlag from "../Hooks/useFlag";
 import useTodo from "../Hooks/useTodo";
-import useCategory from "../Hooks/useCategory";
 import usePage from "../Hooks/usePage";
-import useAlert from "../Hooks/useAlert";
 import MyTimer from "../Components/Timer";
 
 
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
 import { TodoUrls } from "../Utils/todoUrls";
-// import useAlert from "../hooks/useAlert";
 import ReactStars from "react-rating-stars-component";
-import { counter } from "@fortawesome/fontawesome-svg-core";
 
 const TaskTimer = () => {
   const { id } = useParams();
   let history = useHistory();
   const {
-    handleSubmit,
     register,
-    reset,
     errors,
     watch
   } = useForm({ mode: "onChange"});
@@ -39,21 +32,16 @@ const TaskTimer = () => {
   const [count, setCount] = useState(5);
   const time = new Date();
   time.setSeconds(time.getSeconds() + count * 60);
-  console.log(time)
-
   const timerSet = () => {
     // e.preventDefault();
     time.setSeconds(time.getSeconds() + count * 60);
-    console.log(time)
   };
 
 
-  console.log(count)
   const watchCount = watch("countValue");
 
   const { taskListChange } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
-  const { createAlert } = useAlert();
   const { getTaskList, resetTaskList, tasks } = useTodo();
   const { resetItem } = usePage();
 
@@ -66,13 +54,9 @@ const TaskTimer = () => {
 
     try {
       const response = await axios.get(getTaskUrl);
-      console.log(response);
-      console.log(response.data);
       getTaskList(response.data);
       resetItem();
-      console.log(response.data.rate);
     } catch (error) {
-      console.log(error);
     } finally {
       stopProgress();
     }
@@ -81,12 +65,10 @@ const TaskTimer = () => {
   // inputタグのクリックイベント無効
   const handleClick = (e) => {
     e.preventDefault();
-    console.log('The link was clicked.');
   }
   // Submit無効
   const preventSubmit = (e) => {
     e.preventDefault();
-    console.log('The link was clicked.');
   }
 
   // タスクリスト一覧へ戻る

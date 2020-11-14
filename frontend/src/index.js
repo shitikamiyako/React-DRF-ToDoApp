@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
 import 'redux-notifications/lib/styles.css';
-import "./Styles/style.css"
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";

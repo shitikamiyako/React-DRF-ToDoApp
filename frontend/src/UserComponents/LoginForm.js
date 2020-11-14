@@ -6,7 +6,12 @@ import { Form, Button, ButtonToolbar } from "react-bootstrap";
 
 
 const LoginForm = ({ onSubmit }) => {
+  // React Hook Form
   const { register, handleSubmit, errors, formState } = useForm();
+  // inputタグのクリックイベント無効
+  const handleClick = (e) => {
+    e.preventDefault();
+  }
 
   return (
     <div>
@@ -21,6 +26,7 @@ const LoginForm = ({ onSubmit }) => {
             placeholder={"Username"}
             type={"text"}
             isInvalid={errors.username}
+            onClick={handleClick}
             ref={register({
               required: "(ユーザ名は必須です(Username is required.))",
               maxLength: {
@@ -46,6 +52,7 @@ const LoginForm = ({ onSubmit }) => {
             placeholder={"Password"}
             type={"password"}
             isInvalid={errors.password}
+            onClick={handleClick}
             ref={register({
               required: "パスワードは必須です",
               maxLength: {

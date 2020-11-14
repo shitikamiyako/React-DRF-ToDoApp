@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 
-import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 import { Button, ButtonToolbar } from "react-bootstrap";
@@ -15,9 +14,6 @@ const Join_or_Leave = () => {
   const { startProgress, stopProgress } = useSpinner();
   const { createAlert } = useAlert();
   const { addMember } = useFlag();
-  const { handleSubmit, register, errors, formState, reset } = useForm({
-    mode: "onChange",
-  });
   const { id } = useParams();
   const joinGroupUrl = AuthUrls.JOIN_USER_GROUP + id + "/";
   const leaveGroupUrl = AuthUrls.LEAVE_USER_GROUP + id + "/";
@@ -25,11 +21,11 @@ const Join_or_Leave = () => {
   const join_Group = async () => {
     startProgress();
     const data = {
-      "id": id,
+      id: id,
     };
 
     try {
-      const response = await axios.post(joinGroupUrl,data);
+      const response = await axios.post(joinGroupUrl, data);
       console.log(response);
       createAlert({
         message: "グループに加入しました",
@@ -49,17 +45,16 @@ const Join_or_Leave = () => {
 
   const onClickJoin = async () => {
     join_Group();
-    reset();
   };
 
   const leave_Group = async () => {
     startProgress();
     const data = {
-      "id": id,
+      id: id,
     };
 
     try {
-      const response = await axios.patch(leaveGroupUrl,data);
+      const response = await axios.patch(leaveGroupUrl, data);
       console.log(response);
       createAlert({
         message: "グループから脱退しました",
@@ -79,13 +74,12 @@ const Join_or_Leave = () => {
 
   const onClickLeave = async () => {
     leave_Group();
-    reset();
   };
-
 
   return (
     <ButtonToolbar className="justify-content-center">
       <Button
+        className="mr-2"
         variant={"primary"}
         type="submit"
         onClick={() => {

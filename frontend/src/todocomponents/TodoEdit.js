@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import _ from "lodash";
@@ -11,10 +11,9 @@ import useCategory from "../Hooks/useCategory";
 import usePage from "../Hooks/usePage";
 import useAlert from "../Hooks/useAlert";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
 import { TodoUrls } from "../Utils/todoUrls";
-// import useAlert from "../hooks/useAlert";
 import ReactStars from "react-rating-stars-component";
 
 const TodoEdit = () => {
@@ -28,7 +27,6 @@ const TodoEdit = () => {
     errors,
     formState,
     reset,
-    control,
   } = useForm();
   const {
     handleSubmit: handleSubmit2,
@@ -46,7 +44,6 @@ const TodoEdit = () => {
   } = useForm();
 
   const watchFields = watch(["category"]);
-  console.log(watchFields.category);
   let categoryPk = watchFields.category;
 
   const { taskListChange } = useFlag();
@@ -62,11 +59,6 @@ const TodoEdit = () => {
   const addCategoryUrl = TodoUrls.ADD_CATEGORY;
   const deleteCategoryUrl = TodoUrls.DELETE_CATEGORY + categoryPk + "/";
 
-  console.log(getCategoryListUrl);
-  console.log(deleteCategoryUrl);
-  console.log(TodoUrls.GET_CATEGORY_LIST);
-  console.log(category);
-
   const pullTask = async () => {
     startProgress();
     resetTaskList();
@@ -74,29 +66,26 @@ const TodoEdit = () => {
 
     try {
       const response = await axios.get(getCategoryListUrl);
-      console.log(response);
-      console.log(response.data.results);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
       const CategoryList = _.mapKeys(responseMap, "id");
       getCategoryList(CategoryList);
     } catch (error) {
-      console.log(error);
+      createAlert({
+        message: "カテゴリーの取得に失敗しました",
+        type: "danger",
+      });
     } finally {
       stopProgress();
     }
 
     try {
       const response = await axios.get(getTaskUrl);
-      console.log(response);
-      console.log(response.data);
       getTaskList(response.data);
       resetItem();
-      setCurrentValue(response.data.rate)
-      console.log(response.data.rate);
+      setCurrentValue(response.data.rate);
     } catch (error) {
-      console.log(error);
     } finally {
       stopProgress();
     }
@@ -104,11 +93,8 @@ const TodoEdit = () => {
 
   const postNewTask = async (data) => {
     startProgress();
-    console.log(data);
     try {
       const response = await axios.patch(patchTaskUrl, data);
-      console.log(response);
-      console.log(data);
       resetTaskList();
       createAlert({
         message: "タスクの編集に成功しました",
@@ -116,7 +102,6 @@ const TodoEdit = () => {
       });
       history.push("/todo/top");
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "タスクの編集に失敗しました",
         type: "danger",
@@ -129,11 +114,8 @@ const TodoEdit = () => {
   const addCategory = async (data) => {
     startProgress();
     resetCategoryList();
-    console.log(data);
     try {
       const response = await axios.post(addCategoryUrl, data);
-      console.log(response);
-      console.log(data);
       createAlert({
         message: "カテゴリーの追加に成功しました",
         type: "success",
@@ -147,15 +129,16 @@ const TodoEdit = () => {
 
     try {
       const response = await axios.get(getCategoryListUrl);
-      console.log(response);
-      console.log(response.data.results);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
       const CategoryList = _.mapKeys(responseMap, "id");
       getCategoryList(CategoryList);
     } catch (error) {
-      console.log(error);
+      createAlert({
+        message: "カテゴリーの取得に失敗しました",
+        type: "danger",
+      });
     } finally {
       stopProgress();
     }
@@ -164,11 +147,8 @@ const TodoEdit = () => {
   const deleteCategory = async (data) => {
     startProgress();
     resetCategoryList();
-    console.log(data);
     try {
       const response = await axios.delete(deleteCategoryUrl, data);
-      console.log(response);
-      console.log(data);
       createAlert({
         message: "カテゴリーの削除に成功しました",
         type: "success",
@@ -182,15 +162,16 @@ const TodoEdit = () => {
 
     try {
       const response = await axios.get(getCategoryListUrl);
-      console.log(response);
-      console.log(response.data.results);
       const responseMap = response.data.results.map((obj) => {
         return obj;
       });
       const CategoryList = _.mapKeys(responseMap, "id");
       getCategoryList(CategoryList);
     } catch (error) {
-      console.log(error);
+      createAlert({
+        message: "カテゴリーの取得に失敗しました",
+        type: "danger",
+      });
     } finally {
       stopProgress();
     }
@@ -198,10 +179,6 @@ const TodoEdit = () => {
 
   // カテゴリーリスト整形
   const categoryList = Object.values(category);
-  console.log(categoryList);
-  console.log(tasks.is_Completed);
-
-  //
 
   // is_Completedの論理値によって描画を変更
   let is_Completed_checkbox = (
@@ -213,9 +190,7 @@ const TodoEdit = () => {
     />
   );
 
-
   let is_Completed_column = <li>is_Completed: false</li>;
-
 
   if (tasks.is_Completed === true) {
     is_Completed_column = <li>is_Completed: true</li>;
@@ -228,13 +203,11 @@ const TodoEdit = () => {
         defaultChecked
       />
     );
-
   }
 
   // レーティング
   const ratingChanged = (newRating) => {
-    console.log(newRating);
-    setCurrentValue(newRating)
+    setCurrentValue(newRating);
   };
 
   // タスク編集のPatchリクエスト発火
@@ -276,15 +249,18 @@ const TodoEdit = () => {
           <li>task_name: {tasks.task_name}</li>
           <li>task_detail: {tasks.task_detail}</li>
           <li>Category: {tasks.category}</li>
-          <li>Rate:<ReactStars
-            name="rate"
-            count={5}
-            size={24}
-            edit={false}
-            isHalf={true}
-            value={tasks.rate}
-            activeColor="#ffd700"
-          /></li>
+          <li>
+            Rate:
+            <ReactStars
+              name="rate"
+              count={5}
+              size={24}
+              edit={false}
+              isHalf={true}
+              value={tasks.rate}
+              activeColor="#ffd700"
+            />
+          </li>
           {is_Completed_column}
           <li>close_datetime: {tasks.close_datetime}</li>
         </Modal.Body>
@@ -375,7 +351,13 @@ const TodoEdit = () => {
             isHalf={true}
             activeColor="#ffd700"
           />
-          <input type="text" name={"rate"} ref={register} onChange={ratingChanged} value={currentValue}/>
+          <input
+            type="text"
+            name={"rate"}
+            ref={register}
+            onChange={ratingChanged}
+            value={currentValue}
+          />
         </Form.Group>
 
         <Form.Group>

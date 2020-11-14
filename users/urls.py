@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import UserListAPIView, UserDetailAPIView, UserReadOnlyListAPIView, UserReadOnlyLimitListAPIView, UserReadOnlyDetailAPIView, UserGroupAddAPIView, UserGroupListAPIView, UserGroupDetailAPIView, UserGroupReadOnlyListAPIView, UserGroupDetailReadOnlyAPIView, groupJoin_view, groupLeave_view, memberDelete_view, memberAdd_view
+from .views import UserListAPIView, UserDetailAPIView, UserReadOnlyListAPIView, UserReadOnlyLimitListAPIView, UserReadOnlyDetailAPIView, UserGroupAddAPIView, UserGroupListAPIView, UserGroupDetailAPIView, UserGroupReadOnlyListAPIView, UserGroupJoinedListAPIView, UserGroupDetailReadOnlyAPIView, groupJoin_view, groupLeave_view, memberDelete_view, memberAdd_view
 from users import views
 # app_name = 'users'
 
@@ -11,6 +11,8 @@ urlpatterns = format_suffix_patterns([
     path('api/UserGroup/', UserGroupListAPIView.as_view(), name='UserGroup_list'),
     path('api/UserGroup/<int:pk>/',
          UserGroupDetailAPIView.as_view(), name='UserGroup_detail'),
+    path('api/UserGroup_joined/',
+         UserGroupJoinedListAPIView.as_view(), name='UserGroup_joined_list'),
     path('api/UserGroup_readonly/',
          UserGroupReadOnlyListAPIView.as_view(), name='UserGroup_readonly_list'),
     path('api/UserGroup_readonly/<int:pk>/',

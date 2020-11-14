@@ -153,6 +153,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# Session Config
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False # ブラウザを閉じてもセッションを破棄しない
+SESSION_COOKIE_AGE = 86400 # 1日経ったら強制的にセッションタイムアウト
+
+
 # DRF settings
 
 REST_FRAMEWORK = {
@@ -201,6 +206,7 @@ CSRF_COOKIE_NAME = "csrftoken"
 
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'jwt-auth'
+OLD_PASSWORD_FIELD_ENABLED = True
 ## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
 # JWT_AUTH_SECURE = True
 # JWT_AUTH_SAMESITE = 'None'

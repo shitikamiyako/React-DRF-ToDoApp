@@ -1,22 +1,12 @@
 import React from "react";
-import TaskList_Readonly from "./TaskList_Readonly";
-import axios from "axios";
-import Cookies from 'js-cookie';
+import TaskListReadonly from "./TaskList_Readonly";
 import { Container, Row, Col } from "react-bootstrap";
-
-
-var csrftoken = Cookies.get('csrftoken');
-console.log(csrftoken);
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-axios.defaults.withCredentials = true
 
 const Todo = () => {
 
   const TaskListComponent = React.memo(() => {
-    console.log('render')
     return (
-      <TaskList_Readonly />
+      <TaskListReadonly />
     )
   })
 

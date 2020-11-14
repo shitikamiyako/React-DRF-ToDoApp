@@ -1,44 +1,44 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
-import { useForm } from "react-hook-form";
+import useAuth from "../Hooks/useAuth";
+
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
-// import { useDispatch } from 'react-redux';
 import { AuthUrls } from "../Utils/authUrls";
 
-
-import useAuth from '../Hooks/useAuth';
-
-
 const LogoutForm = () => {
+  // React Hook Form
+  const { handleSubmit } = useForm();
+  const { logoutUser } = useAuth();
 
-    const { handleSubmit } = useForm();
-    const { logoutUser } = useAuth();
+  const logoutUrl = AuthUrls.LOGOUT;
 
-    const logoutUrl = AuthUrls.LOGOUT;
+  const onSubmit = async () => {
+    await axios.post(logoutUrl);
+    logoutUser();
+  };
+  return (
+    <div>
+      <div className="justify-content-center text-center mt-5">
+        <h3>Would you like to log out?</h3>
+      </div>
 
-    const onSubmit = async() => {
-        await axios.post(logoutUrl);
-        logoutUser();
-    }
-
-
-    return (
-        <div >
-            <div className="justify-content-center text-center">
-                <h1>Are you sure you want to sign out?</h1>
-            </div>
-
-            <Form noValidate onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
-                <Form.Group>
-                    <ButtonToolbar className="justify-content-center">
-                        <Button variant={"danger"} type="submit" > Logout </Button>
-                    </ButtonToolbar>
-                </Form.Group>
-            </Form>
-        </div>
-    );
+      <Form
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        className="justify-content-center"
+      >
+        <Form.Group>
+          <ButtonToolbar className="justify-content-center">
+            <Button variant={"danger"} type="submit">
+              Logout
+            </Button>
+          </ButtonToolbar>
+        </Form.Group>
+      </Form>
+    </div>
+  );
 };
 
 export default LogoutForm;
-

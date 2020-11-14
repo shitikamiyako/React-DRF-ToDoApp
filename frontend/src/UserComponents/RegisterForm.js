@@ -3,38 +3,28 @@ import { useForm } from "react-hook-form";
 import { Form, Button, ButtonToolbar } from "react-bootstrap";
 import { AuthUrls } from "../Utils/authUrls";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 import useAlert from "../Hooks/useAlert";
 import useAuth from "../Hooks/useAuth";
 import useSpinner from "../Hooks/useSpinner";
 
-var csrftoken = Cookies.get("csrftoken");
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.withCredentials = true;
-
 const RegisterForm = () => {
+  // React Hook Form
   const { register, handleSubmit, watch, errors, formState } = useForm();
   const password = useRef({});
-    password.current = watch("password1", "");
+  password.current = watch("password1", "");
 
   const { createAlert } = useAlert();
   const { loginUser } = useAuth();
   const { startProgress, stopProgress } = useSpinner();
   const signUpUrl = AuthUrls.SIGNUP;
-  console.log(formState);
 
   const onSubmit = async (data) => {
-    console.log(data);
     startProgress();
     try {
       const response = await axios.post(signUpUrl, data);
       console.log(response);
       loginUser();
-      //   const refreshToken = response.refresh_token;
-      //   Cookies.set("refresh_token", refreshToken);
-      //   console.log(refreshToken);
       createAlert({
         message: "会員登録が完了しました",
         type: "success",
@@ -50,6 +40,11 @@ const RegisterForm = () => {
     }
   };
 
+  // inputタグのクリックイベント無効
+  const handleClick = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
       {/* username input */}
@@ -60,6 +55,7 @@ const RegisterForm = () => {
           placeholder={"Username"}
           type={"text"}
           isInvalid={errors.username}
+          onClick={handleClick}
           ref={register({
             required: "ユーザー名は必須です",
             maxLength: {
@@ -83,6 +79,7 @@ const RegisterForm = () => {
           placeholder={"メールアドレスはダミーでも可能です"}
           type={"email"}
           isInvalid={errors.email}
+          onClick={handleClick}
           ref={register({
             required: "メールアドレスは必須です",
             minLength: {
@@ -107,6 +104,7 @@ const RegisterForm = () => {
           placeholder={"Password"}
           type={"password"}
           isInvalid={errors.password1}
+          onClick={handleClick}
           ref={register({
             required: "パスワードは必須です",
             minLength: {
@@ -130,6 +128,7 @@ const RegisterForm = () => {
           placeholder={"Repeat Password"}
           type={"password"}
           isInvalid={errors.password2}
+          onClick={handleClick}
           ref={register({
             required: "パスワードは必須です",
             minLength: {
@@ -152,7 +151,7 @@ const RegisterForm = () => {
           <Button
             variant={"primary"}
             type="submit"
-            // disabled={formState.isSubmitting}
+            disabled={formState.isSubmitting}
           >
             登録
           </Button>

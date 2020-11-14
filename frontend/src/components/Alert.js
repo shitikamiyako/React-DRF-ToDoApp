@@ -19,7 +19,7 @@ const AlertComponent = () => {
             setShow(true);
             setTimeout(() => {
                 setShow(false);
-            }, 3000);
+            }, 1000);
         }
     }, [alerts]);
 
@@ -30,9 +30,11 @@ const AlertComponent = () => {
 
 
     return (
-        <Alert show={open} variant={alert.type} onClose={onClose} dismissible>
-            <Alert.Heading>{alert.message}</Alert.Heading>
-        </Alert>
+        <div className="alert-pop">
+            <Alert show={open} variant={alert.type} onClose={onClose} dismissible>
+                <Alert.Heading>{alert.message}</Alert.Heading>
+            </Alert>
+        </div>
     );
 };
 

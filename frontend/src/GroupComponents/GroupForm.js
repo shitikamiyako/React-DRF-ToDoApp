@@ -80,14 +80,15 @@ const GroupForm = () => {
             <Form.Group>
                 <ButtonToolbar className="justify-content-center">
                     <Button
+                        className="mr-2"
                         variant={"primary"}
                         type="submit"
                         disabled={formState.isSubmitting}
                     >
-                        グループ追加
+                        Create Group
           </Button>
                     <Button variant={"secondary"} type="button" onClick={reset}>
-                        クリア
+                        Clear
           </Button>
                 </ButtonToolbar>
             </Form.Group>
