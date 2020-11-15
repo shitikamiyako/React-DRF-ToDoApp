@@ -217,7 +217,7 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'jwt-auth'
 OLD_PASSWORD_FIELD_ENABLED = True
 ## httpsでのリクエストでないとCookieを送信しない(デフォルトはfalse。本番でTrueにする)
-# JWT_AUTH_SECURE = True
+JWT_AUTH_SECURE = True
 # JWT_AUTH_SAMESITE = 'None'
 ## JWTクッキーを認証に使用する際にDRFで無効になっているCSRFチェックを有効にする。
 # JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED = True
