@@ -249,6 +249,7 @@ CORS_ALLOWED_ORIGINS = (
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
     'https://api.twitter.com',
+    'https://react-drf-todo-app.herokuapp.com',
 
 )
 
@@ -256,7 +257,7 @@ CSRF_TRUSTED_ORIGINS = [
     'localhost:3000',
     '127.0.0.1:3000',
     'api.twitter.com',
-    # 'api.twitter.com',
+    'react-drf-todo-app.herokuapp.com',
 ]
 
 
