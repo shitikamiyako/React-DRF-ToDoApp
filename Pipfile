@@ -46,6 +46,7 @@ rest-social-auth = "*"
 django-mongoengine = "*"
 django-heroku = "*"
 gunicorn = "*"
+dj-database-url = "*"
 
 [scripts]
 start = "python manage.py runserver"

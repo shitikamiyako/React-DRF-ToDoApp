@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn React-DRF-ToDoApp.wsgi　--log-file -
+web: gunicorn config.wsgi --log-file -
