@@ -24,8 +24,8 @@ from django.urls import reverse
 # DRF導入のタイミングでownerフィールド追加(そのTodoがどのユーザーのTodoなのかを紐つける)
 
 class Reaction(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    task = models.ForeignKey("Todo", on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
+    task = models.ForeignKey("Todo", blank=True, null=True, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
@@ -47,7 +47,7 @@ class Todo(models.Model):
 
     rate = models.FloatField(blank=True, null=True, default=0)
     reaction_obj = models.ManyToManyField(
-        CustomUser, related_name="like", blank=True, through=Reaction)
+        CustomUser, related_name="like", blank=True, null=True, through=Reaction)
     owner = models.ForeignKey(
         CustomUser, verbose_name="ユーザー", related_name="todo", blank=True, null=True, on_delete=models.CASCADE)
 
