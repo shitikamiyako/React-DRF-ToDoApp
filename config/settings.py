@@ -31,7 +31,7 @@ SECRET_KEY = '^zk(t-gv@!k=2lwl70a3vsuo21!4f!jo4_l(b$9#$2cnr=s5s-'
 DEBUG = True
 
 # General Settings
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 REACTION_OPTION = ["Like", "Unlike"]
 
 # Application definition
