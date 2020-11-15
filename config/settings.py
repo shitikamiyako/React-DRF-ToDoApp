@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gunicorn',
     'drf_yasg',
+    'psycopg2',
     'coreapi',
     'drf_firebase_auth', # DRF+Firebase TokenAuthentication
 
@@ -106,7 +107,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'name',
+        'USER': 'user',
+        'PASSWORD': '',
+        'HOST': 'host',
+        'PORT': '',
+    }
+}
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 # Password validation
@@ -222,7 +232,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-LOGIN_REDIRECT_URL = 'http://127.0.0.1:3000/twitter-login-callback'
+# LOGIN_REDIRECT_URL = 'http://127.0.0.1:3000/twitter-login-callback'
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -252,7 +262,9 @@ CSRF_TRUSTED_ORIGINS = [
     'localhost:3000',
     '127.0.0.1:3000',
     'api.twitter.com',
+    'react-drf-todo-app',
     'react-drf-todo-app.herokuapp.com',
+    'herokuapp.com',
 ]
 
 
