@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from corsheaders.defaults import default_headers
 from datetime import timedelta
 import os
+import django_heroku
+
+django_heroku.settings(locals())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -50,9 +53,12 @@ INSTALLED_APPS = [
     'dj_rest_auth', # API Authentication
     'corsheaders',
     'django_filters',
+    'django_heroku',
+    'gunicorn',
     'drf_yasg',
     'coreapi',
     'drf_firebase_auth', # DRF+Firebase TokenAuthentication
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -249,7 +255,8 @@ CORS_ALLOWED_ORIGINS = (
 CSRF_TRUSTED_ORIGINS = [
     'localhost:3000',
     '127.0.0.1:3000',
-    'api.twitter.com'
+    'api.twitter.com',
+    # 'api.twitter.com',
 ]
 
 
