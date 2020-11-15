@@ -55,7 +55,6 @@
     "redux-form": "^8.3.6",
     "redux-form-validators": "^3.3.2",
     "redux-logger": "^3.0.6",
-    "redux-notifications": "^4.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
