@@ -14,24 +14,20 @@ from corsheaders.defaults import default_headers
 from datetime import timedelta
 import os
 import django_heroku
-
-django_heroku.settings(locals())
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^zk(t-gv@!k=2lwl70a3vsuo21!4f!jo4_l(b$9#$2cnr=s5s-'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 # General Settings
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['*']
 REACTION_OPTION = ["Like", "Unlike"]
 
 # Application definition
@@ -54,6 +50,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'django_heroku',
+    'whitenoise.runserver_nostatic',  # < As per whitenoise documentation
+    'django.contrib.staticfiles',
     'gunicorn',
     'drf_yasg',
     'coreapi',
@@ -71,6 +69,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     # CORS middlewares
     'corsheaders.middleware.CorsMiddleware',
@@ -86,7 +85,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,14 +106,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
-
+db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -152,6 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
@@ -249,6 +244,7 @@ CORS_ALLOWED_ORIGINS = (
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
     'https://api.twitter.com',
+    'https://react-drf-todo-app.herokuapp.com',
 
 )
 
@@ -256,7 +252,7 @@ CSRF_TRUSTED_ORIGINS = [
     'localhost:3000',
     '127.0.0.1:3000',
     'api.twitter.com',
-    # 'api.twitter.com',
+    'react-drf-todo-app.herokuapp.com',
 ]
 
 
@@ -272,3 +268,18 @@ CORS_ALLOW_CREDENTIALS = True
 DRF_FIREBASE_AUTH = {
     'FIREBASE_SERVICE_ACCOUNT_KEY': './config/env/serviceAccountKey.json'
 }
+
+# heroku settings
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DEBUG = False
+
+try:
+    from config.local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    import django_heroku
+    django_heroku.settings(locals())
