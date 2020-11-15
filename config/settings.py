@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'django_filters',
     'django_heroku',
     'whitenoise.runserver_nostatic',  # < As per whitenoise documentation
-    'django.contrib.staticfiles',
     'gunicorn',
     'drf_yasg',
     'psycopg2',
