@@ -39,6 +39,16 @@ a:hover {
   color: blueviolet;
 }
 
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
+
+.toast-header-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .link-twitter a {
   color: rgb(59, 221, 250);
 }
@@ -84,6 +94,12 @@ a:hover {
 .random_user_linkButton {
   text-align: center;
 }
+.logout-button {
+  text-align: center;
+}
+.unsubscribe-button {
+  text-align: center;
+}
 
 .jumbotron-title {
   color: #cccccc;
@@ -91,6 +107,10 @@ a:hover {
 
 .card-header {
   font-weight: bold;
+}
+
+.rating-edit div {
+  justify-content: center !important;
 }
 
 .landing {
@@ -159,19 +179,19 @@ li {
 }
 
 /* form */
-.form {
+/* .form {
   margin-bottom: 3rem;
 }
 .form__items {
   display: flex;
-}
-.form__input-txt {
+} */
+/* .form__input-txt {
   flex-direction: row;
   flex-grow: 1;
-}
+} */
 
 /* list */
-.list__ul {
+/* .list__ul {
   padding: 0;
 }
 .list__ul__li {
@@ -194,4 +214,4 @@ li {
 }
 .list__checkbox {
   margin-right: 1em;
-}
+} */

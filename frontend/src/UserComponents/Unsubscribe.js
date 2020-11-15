@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import useAuth from "../Hooks/useAuth";
 import useAlert from "../Hooks/useAlert";
@@ -11,6 +12,7 @@ import { AuthUrls } from "../Utils/authUrls";
 
 const Unsubscribe = () => {
   const [userId, setUserId] = useState();
+  const history = useHistory();
   // React Hook Form
   const { handleSubmit } = useForm();
 
@@ -57,7 +59,7 @@ const Unsubscribe = () => {
   return (
     <div>
       <div className="justify-content-center text-center mt-5">
-        <h3>Would you really want to unsubscribe?</h3>
+        <h3>本当に退会しますか？</h3>
       </div>
 
       <Form
@@ -72,6 +74,11 @@ const Unsubscribe = () => {
             </Button>
           </ButtonToolbar>
         </Form.Group>
+        <div className="unsubscribe-button">
+          <Button variant="success" onClick={() => history.push(`/`)}>
+            No, Go Back Home
+          </Button>
+        </div>
       </Form>
     </div>
   );

@@ -52,6 +52,11 @@ const AddTask = () => {
     reset();
   };
 
+  // inputタグのクリックイベント無効
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="justify-content-center">
       {/* add Task input */}
@@ -61,6 +66,7 @@ const AddTask = () => {
           placeholder={"追加したいタスクを入力"}
           type={"text"}
           isInvalid={errors.task_name}
+          onClick={handleClick}
           ref={register({
             required: "タスク名は必須です",
             maxLength: {

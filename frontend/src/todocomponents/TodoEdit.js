@@ -12,7 +12,7 @@ import usePage from "../Hooks/usePage";
 import useAlert from "../Hooks/useAlert";
 
 import { useForm } from "react-hook-form";
-import { Form, Button, ButtonToolbar, Modal } from "react-bootstrap";
+import { Form, Button, ButtonToolbar, Modal, Container, Badge, Col } from "react-bootstrap";
 import { TodoUrls } from "../Utils/todoUrls";
 import ReactStars from "react-rating-stars-component";
 
@@ -21,13 +21,7 @@ const TodoEdit = () => {
   let history = useHistory();
   // レーティングに使うHook
   const [currentValue, setCurrentValue] = useState(0);
-  const {
-    handleSubmit,
-    register,
-    errors,
-    formState,
-    reset,
-  } = useForm();
+  const { handleSubmit, register, errors, formState, reset } = useForm();
   const {
     handleSubmit: handleSubmit2,
     register: register2,
@@ -185,20 +179,20 @@ const TodoEdit = () => {
     <Form.Check
       type="checkbox"
       name={"is_Completed"}
-      label="完了"
+      label="チェックを入れると完了状態にできます"
       ref={register}
     />
   );
 
-  let is_Completed_column = <li>is_Completed: false</li>;
+  let is_Completed_column = <li>タスクの状態: 未完</li>;
 
   if (tasks.is_Completed === true) {
-    is_Completed_column = <li>is_Completed: true</li>;
+    is_Completed_column = <li>タスクの状態: 完了</li>;
     is_Completed_checkbox = (
       <Form.Check
         type="checkbox"
         name={"is_Completed"}
-        label="完了"
+        label="チェックを外すと未完状態になります"
         ref={register}
         defaultChecked
       />
@@ -234,235 +228,263 @@ const TodoEdit = () => {
     history.push("/todo/top");
   };
 
+  // inputタグのクリックイベント無効
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     pullTask();
-    // return resetTaskList();
   }, [taskListChange]);
 
   return (
     <div>
-      <Modal.Dialog key={tasks.id}>
-        <Modal.Header>
-          <Modal.Title>以下のタスクを編集しますか？</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <li>task_name: {tasks.task_name}</li>
-          <li>task_detail: {tasks.task_detail}</li>
-          <li>Category: {tasks.category}</li>
-          <li>
-            Rate:
-            <ReactStars
-              name="rate"
-              count={5}
-              size={24}
-              edit={false}
-              isHalf={true}
-              value={tasks.rate}
-              activeColor="#ffd700"
+      <Container style={{ padding: 15 }}>
+        <Modal.Dialog size="lg" key={tasks.id}>
+          <Modal.Header>
+            <Modal.Title>{tasks.task_name}を編集しますか？</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <li>{tasks.task_detail}</li>
+            <br />
+            <li>
+              レーティング:
+              <ReactStars
+                name="rate"
+                count={5}
+                size={24}
+                edit={false}
+                isHalf={true}
+                value={tasks.rate}
+                activeColor="#ffd700"
+              />
+            </li>
+            <br />
+            Good: <Badge variant="info">{tasks.reaction_obj}</Badge>
+          </Modal.Body>
+          <Modal.Footer>
+            <li>カテゴリー:</li>
+            <li>{tasks.category}</li>
+            {is_Completed_column}
+            <li>完了日: {tasks.close_datetime}</li>
+          </Modal.Footer>
+        </Modal.Dialog>
+        <Col sm={12} md={12} className="text-center mb-2">
+          <h3 className="text-center mb-2 mt-3">Task Edit</h3>
+          <strong>
+            ＊変更したくない項目はフォームの内容を変更せずにボタンを押してください
+          </strong>
+        </Col>
+        <Form
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className="justify-content-center text-center"
+        >
+          {/* Patch Task input */}
+          <Form.Group controlId={"task_name"}>
+            <Form.Label>タスク名</Form.Label>
+            <Form.Control
+              name={"task_name"}
+              placeholder={"修正したいタスクを入力"}
+              defaultValue={tasks.task_name}
+              type={"text"}
+              onClick={handleClick}
+              isInvalid={errors.task_name}
+              ref={register({
+                maxLength: {
+                  value: 30,
+                  message: "タスク名は30文字以内です",
+                },
+              })}
             />
-          </li>
-          {is_Completed_column}
-          <li>close_datetime: {tasks.close_datetime}</li>
-        </Modal.Body>
-      </Modal.Dialog>
+            {errors.task_name && (
+              <Form.Control.Feedback type="invalid">
+                {errors.task_name.message}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
 
-      <Form
-        noValidate
-        onSubmit={handleSubmit(onSubmit)}
-        className="justify-content-center"
-      >
-        {/* Patch Task input */}
-        <Form.Group controlId={"task_name"}>
-          <Form.Control
-            name={"task_name"}
-            placeholder={"修正したいタスクを入力"}
-            defaultValue={tasks.task_name}
-            type={"text"}
-            isInvalid={errors.task_name}
-            ref={register({
-              maxLength: {
-                value: 30,
-                message: "タスク名は30文字以内です",
-              },
-            })}
-          />
-          {errors.task_name && (
-            <Form.Control.Feedback type="invalid">
-              {errors.task_name.message}
-            </Form.Control.Feedback>
-          )}
-        </Form.Group>
+          {/* add Task_Detail textarea */}
+          <Form.Group controlId={"task_detail"}>
+            <Form.Label>タスク詳細</Form.Label>
+            <Form.Control
+              name={"task_detail"}
+              placeholder={"追加したい備考を入力"}
+              defaultValue={tasks.task_detail}
+              as="textarea"
+              onClick={handleClick}
+              isInvalid={errors.task_detail}
+              ref={register({
+                maxLength: {
+                  value: 140,
+                  message: "追加できる備考は140文字以内です",
+                },
+              })}
+            />
+            {errors.task_detail && (
+              <Form.Control.Feedback type="invalid">
+                {errors.task_detail.message}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
 
-        {/* add Task_Detail textarea */}
-        <Form.Group controlId={"task_detail"}>
-          <Form.Control
-            name={"task_detail"}
-            placeholder={"追加したい備考を入力"}
-            defaultValue={tasks.task_detail}
-            as="textarea"
-            isInvalid={errors.task_detail}
-            ref={register({
-              maxLength: {
-                value: 140,
-                message: "追加できる備考は140文字以内です",
-              },
-            })}
-          />
-          {errors.task_detail && (
-            <Form.Control.Feedback type="invalid">
-              {errors.task_detail.message}
-            </Form.Control.Feedback>
-          )}
-        </Form.Group>
+          {/* category select input */}
+          <Form.Group controlId={"category"}>
+            <Form.Label>カテゴリーの変更</Form.Label>
+            <Form.Control
+              as="select"
+              name={"category"}
+              defaultValue={tasks.category}
+              ref={register}
+            >
+              <option value={tasks.category}>選択してください</option>
+              <optgroup label="カテゴリー一覧">
+                {categoryList.map((category) => (
+                  <option key={category.id} value={category.category}>
+                    {category.category}
+                  </option>
+                ))}
+              </optgroup>
+            </Form.Control>
+          </Form.Group>
 
-        {/* category select input */}
-        <Form.Group controlId={"category"}>
-          <Form.Label>カテゴリー</Form.Label>
-          <Form.Control
-            as="select"
-            name={"category"}
-            defaultValue={tasks.category}
-            ref={register}
-          >
-            <option value={tasks.category}>選択してください</option>
-            <optgroup label="カテゴリー一覧">
+          {/* is_Completed select checkbox */}
+          <Form.Group controlId={"is_Completed"}>
+            <input type="hidden" name={"is_Completed"} ref={register} />
+            {is_Completed_checkbox}
+          </Form.Group>
+
+          {/* select rate input */}
+          <Form.Group controlId={"rate"} className="justify-content-center">
+            <Form.Label>レーティング</Form.Label>
+            <div className="rating-edit">
+              <ReactStars
+                classNames="justify-content-center"
+                name="rate"
+                count={5}
+                onChange={ratingChanged}
+                size={24}
+                isHalf={true}
+                activeColor="#ffd700"
+              />
+            </div>
+            <Form.Control
+              className="mt-2 "
+              type={"number"}
+              name={"rate"}
+              ref={register}
+              onClick={handleClick}
+              onChange={ratingChanged}
+              value={currentValue}
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <ButtonToolbar className="justify-content-center">
+              <Button
+                variant={"primary"}
+                type="submit"
+                disabled={formState.isSubmitting}
+              >
+                タスク編集
+              </Button>
+              <Button variant={"secondary"} type="button" onClick={reset}>
+                クリア
+              </Button>
+
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  BackTop();
+                }}
+              >
+                Cancel
+              </Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+
+        <Form
+          noValidate
+          onSubmit={handleSubmit2(onSubmit2)}
+          className="justify-content-center text-center mt-4"
+        >
+          {/* add category input */}
+          <Form.Group controlId={"category"}>
+            <Form.Label>カテゴリーを追加する</Form.Label>
+            <Form.Control
+              name={"category"}
+              placeholder={"追加したいカテゴリーを入力"}
+              type={"text"}
+              onClick={handleClick}
+              isInvalid={errors2.category}
+              ref={register2({
+                required: "カテゴリー名は必須です",
+                maxLength: {
+                  value: 30,
+                  message: "カテゴリー名は30文字以内です",
+                },
+              })}
+            />
+            {errors2.category && (
+              <Form.Control.Feedback type="invalid">
+                {errors2.category.message}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
+
+          <Form.Group>
+            <ButtonToolbar className="justify-content-center">
+              <Button
+                variant={"primary"}
+                type="submit"
+                disabled={formState2.isSubmitting}
+              >
+                カテゴリー追加
+              </Button>
+              <Button variant={"secondary"} type="button" onClick={reset2}>
+                クリア
+              </Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+
+        <Form
+          noValidate
+          onSubmit={handleSubmit3(onSubmit3)}
+          className="justify-content-center text-center mt-4"
+        >
+          {/* category select input */}
+          <Form.Group controlId={"category"}>
+            <Form.Label>カテゴリーを削除する</Form.Label>
+            <Form.Control
+              as="select"
+              name={"category"}
+              defaultValue=""
+              ref={register3}
+            >
+              <option>削除したいカテゴリーを選択...</option>
               {categoryList.map((category) => (
-                <option key={category.id} value={category.category}>
+                <option key={category.id} value={category.id}>
                   {category.category}
                 </option>
               ))}
-            </optgroup>
-          </Form.Control>
-        </Form.Group>
+            </Form.Control>
+          </Form.Group>
 
-        {/* is_Completed select checkbox */}
-        <Form.Group controlId={"is_Completed"}>
-          <input type="hidden" name={"is_Completed"} ref={register} />
-          {is_Completed_checkbox}
-        </Form.Group>
-
-        {/* select rate input */}
-        <Form.Group controlId={"rate"}>
-          <ReactStars
-            name="rate"
-            count={5}
-            onChange={ratingChanged}
-            size={24}
-            isHalf={true}
-            activeColor="#ffd700"
-          />
-          <input
-            type="text"
-            name={"rate"}
-            ref={register}
-            onChange={ratingChanged}
-            value={currentValue}
-          />
-        </Form.Group>
-
-        <Form.Group>
-          <ButtonToolbar className="justify-content-center">
-            <Button
-              variant={"primary"}
-              type="submit"
-              disabled={formState.isSubmitting}
-            >
-              タスク編集
-            </Button>
-            <Button variant={"secondary"} type="button" onClick={reset}>
-              クリア
-            </Button>
-
-            <Button
-              variant="secondary"
-              onClick={() => {
-                BackTop();
-              }}
-            >
-              Cancel
-            </Button>
-          </ButtonToolbar>
-        </Form.Group>
-      </Form>
-
-      <Form
-        noValidate
-        onSubmit={handleSubmit2(onSubmit2)}
-        className="justify-content-center"
-      >
-        {/* add category input */}
-        <Form.Group controlId={"category"}>
-          <Form.Control
-            name={"category"}
-            placeholder={"追加したいカテゴリーを入力"}
-            type={"text"}
-            isInvalid={errors2.category}
-            ref={register2({
-              required: "カテゴリー名は必須です",
-              maxLength: {
-                value: 30,
-                message: "カテゴリー名は30文字以内です",
-              },
-            })}
-          />
-          {errors2.category && (
-            <Form.Control.Feedback type="invalid">
-              {errors2.category.message}
-            </Form.Control.Feedback>
-          )}
-        </Form.Group>
-
-        <Form.Group>
-          <ButtonToolbar className="justify-content-center">
-            <Button
-              variant={"primary"}
-              type="submit"
-              disabled={formState2.isSubmitting}
-            >
-              カテゴリー追加
-            </Button>
-            <Button variant={"secondary"} type="button" onClick={reset2}>
-              クリア
-            </Button>
-          </ButtonToolbar>
-        </Form.Group>
-      </Form>
-
-      <Form
-        noValidate
-        onSubmit={handleSubmit3(onSubmit3)}
-        className="justify-content-center"
-      >
-        {/* category select input */}
-        <Form.Group controlId={"category"}>
-          <Form.Label>カテゴリー</Form.Label>
-          <Form.Control
-            as="select"
-            name={"category"}
-            defaultValue=""
-            ref={register3}
-          >
-            <option>削除したいカテゴリーを選択...</option>
-            {categoryList.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.category}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group>
-          <ButtonToolbar className="justify-content-center">
-            <Button
-              variant={"danger"}
-              type="submit"
-              disabled={formState3.isSubmitting}
-            >
-              カテゴリー削除
-            </Button>
-          </ButtonToolbar>
-        </Form.Group>
-      </Form>
+          <Form.Group>
+            <ButtonToolbar className="justify-content-center">
+              <Button
+                variant={"danger"}
+                type="submit"
+                disabled={formState3.isSubmitting}
+              >
+                カテゴリー削除
+              </Button>
+            </ButtonToolbar>
+          </Form.Group>
+        </Form>
+      </Container>
     </div>
   );
 };

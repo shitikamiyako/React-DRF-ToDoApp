@@ -50,6 +50,13 @@ const GroupForm = () => {
         reset()
     };
 
+
+    // inputタグのクリックイベント無効
+    const handleClick = (e) => {
+        e.preventDefault();
+    };
+
+
     return (
         <Form
             onSubmit={handleSubmit(onSubmit)}
@@ -61,6 +68,7 @@ const GroupForm = () => {
                     name={"group_name"}
                     placeholder={"グループ名を入力"}
                     type={"text"}
+                    onClick={handleClick}
                     isInvalid={errors.group_name}
                     ref={register({
                         required: "グループ名は必須です",

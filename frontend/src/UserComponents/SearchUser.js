@@ -44,7 +44,7 @@ const SearchUser = () => {
                 });
             } catch (error) {
                 createAlert({
-                    message: "該当するユーザーのタスクリストに遷移できませんでした",
+                    message: "ユーザーが存在しないか、ログイン有効期限切れです",
                     type: "danger",
                 });
             } finally {

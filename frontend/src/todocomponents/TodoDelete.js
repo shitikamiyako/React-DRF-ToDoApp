@@ -65,13 +65,14 @@ const TodoDelete = () => {
 
   return (
     <div>
-      <Modal.Dialog key={tasks.id}>
+      <Modal.Dialog size="lg" key={tasks.id}>
         <Modal.Header>
-          <Modal.Title>以下のタスクを削除してよろしいですか？</Modal.Title>
+          <Modal.Title>{tasks.task_name}を削除しますか？</Modal.Title>
         </Modal.Header>
-
-        <Modal.Body>{tasks.task_name}</Modal.Body>
-
+        <Modal.Body>
+          <li>{tasks.task_detail}</li>
+          <br />
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="secondary"

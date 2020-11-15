@@ -43,7 +43,7 @@ const AddMemberForm = () => {
       console.log(error);
       console.log(error.response);
       createAlert({
-        message: "ユーザーをグループに追加できませんでした",
+        message: "ユーザーが存在しない、あるいはログイン有効期限切れです",
         type: "danger",
       });
     } finally {

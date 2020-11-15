@@ -65,7 +65,8 @@ const TopPage_unauthenticated = () => {
             <ListGroup.Item>個人情報や個人を特定できる内容は登録しないでください。</ListGroup.Item>
             <ListGroup.Item>利用には登録が必要です。</ListGroup.Item>
             <ListGroup.Item>
-            エラーメッセージが出た場合はログアウトして、もう一度ログインし直してください。
+            エラーメッセージが出た場合はセッションの有効期限が切れている可能性があるので、
+            ログアウトして再ログインを試してみてください。
             それでも改善しない場合は、下記のTwitterリンクからご連絡頂けると幸いです。
             </ListGroup.Item>
             </ListGroup>

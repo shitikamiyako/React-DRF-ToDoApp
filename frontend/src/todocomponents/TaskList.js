@@ -257,15 +257,14 @@ const TaskList = () => {
         {taskList.map((task) => (
           <Col xs={12} sm={12} md={6} key={task.id}>
             <Toast className="justify-content-center mb-3">
-              <Toast.Header closeButton={false}>
-                <strong className="mr-auto">{task.task_name}</strong>
-                <br />
+              <Toast.Header closeButton={false} className="text-truncate">
+                <strong className="mr-auto toast-header-title">{task.task_name}</strong>
+                <small className="mr-2">{task.reaction_obj} Good</small>
+                <br/>
                 <small>{task.add_datetime}</small>
               </Toast.Header>
               <Toast.Body className="text-align-center">
-                Category:{task.category}
-                <br />
-                task_detail:{task.task_detail}
+                {task.task_detail}
                 <br />
                 <br />
                 <div className="taskButton">
