@@ -1,6 +1,9 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
+    entry: {
+        frontend: "./frontend/src/index.js",
+    },
     plugins: [
         // To strip all locales except “en”
         new MomentLocalesPlugin(),
