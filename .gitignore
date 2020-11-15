@@ -148,3 +148,11 @@ cython_debug/
 
 # Local History for Visual Studio Code
 .history
+node_modules
+
+# etc
+memo
+/memo懸念点
+/memo進捗
+Backup
+env
