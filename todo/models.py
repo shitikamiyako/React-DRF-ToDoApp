@@ -47,7 +47,7 @@ class Todo(models.Model):
 
     rate = models.FloatField(blank=True, null=True, default=0)
     reaction_obj = models.ManyToManyField(
-        CustomUser, related_name="like", blank=True, null=True, through=Reaction)
+        CustomUser, related_name="like", blank=True, through=Reaction)
     owner = models.ForeignKey(
         CustomUser, verbose_name="ユーザー", related_name="todo", blank=True, null=True, on_delete=models.CASCADE)
 

@@ -29,6 +29,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 ALLOWED_HOSTS = ['*']
 REACTION_OPTION = ["Like", "Unlike"]
+REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # Application definition
 
@@ -156,7 +157,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'build', 'media')
