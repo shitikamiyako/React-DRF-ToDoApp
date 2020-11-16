@@ -286,8 +286,8 @@ DRF_FIREBASE_AUTH = {
 
 # heroku settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEBUG = False
 
-DEBUG = True
 
 try:
     from .local_settings import *

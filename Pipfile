@@ -47,6 +47,7 @@ django-mongoengine = "*"
 django-heroku = "*"
 gunicorn = "*"
 dj-database-url = "*"
+python-dotenv = "*"
 
 [scripts]
 start = "python manage.py runserver"
