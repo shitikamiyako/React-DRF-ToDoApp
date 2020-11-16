@@ -13,12 +13,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from corsheaders.defaults import default_headers
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
 import django_heroku
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DEBUG = False
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,6 +31,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 ALLOWED_HOSTS = ['*']
 REACTION_OPTION = ["Like", "Unlike"]
+REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # Application definition
 
@@ -65,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'url_checker'
 ]
 
 MIDDLEWARE = [
@@ -116,8 +120,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -156,7 +159,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [
+    os.path.join(REACT_APP_DIR, 'build', 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'build', 'media')
@@ -282,14 +287,21 @@ DRF_FIREBASE_AUTH = {
 # heroku settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-DEBUG = False
+DEBUG = True
 
 try:
-    from config.local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 
 if not DEBUG:
+    load_dotenv()
     SECRET_KEY = os.environ['SECRET_KEY']
+    CSRF_COOKIE_SECURE = 'True'
+    SECURE_REFERRER_POLICY = 'origin'
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
     import django_heroku
     django_heroku.settings(locals())
+    db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
