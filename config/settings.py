@@ -286,21 +286,21 @@ DRF_FIREBASE_AUTH = {
 
 # heroku settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 DEBUG = False
-CSRF_COOKIE_SECURE = 'True'
-SECURE_REFERRER_POLICY = 'origin'
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
+
 
 try:
-    from config.local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 
 if not DEBUG:
     load_dotenv()
     SECRET_KEY = os.environ['SECRET_KEY']
+    CSRF_COOKIE_SECURE = 'True'
+    SECURE_REFERRER_POLICY = 'origin'
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
     import django_heroku
     django_heroku.settings(locals())
     db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
