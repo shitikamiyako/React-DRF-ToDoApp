@@ -13,12 +13,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from corsheaders.defaults import default_headers
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
 import django_heroku
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DEBUG = False
 
 
 # Quick-start development settings - unsuitable for production
@@ -118,8 +120,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -287,6 +288,10 @@ DRF_FIREBASE_AUTH = {
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEBUG = False
+CSRF_COOKIE_SECURE = 'True'
+SECURE_REFERRER_POLICY = 'origin'
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
 
 try:
     from config.local_settings import *
@@ -294,6 +299,9 @@ except ImportError:
     pass
 
 if not DEBUG:
+    load_dotenv()
     SECRET_KEY = os.environ['SECRET_KEY']
     import django_heroku
     django_heroku.settings(locals())
+    db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
