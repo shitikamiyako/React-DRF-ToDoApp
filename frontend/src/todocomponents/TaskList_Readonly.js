@@ -320,14 +320,23 @@ const Task_ReadOnly_List = () => {
           }}
         />
       </Pagination>
+      <div className="text-center">
+        <Button
+          variant="success"
+          className="mr-2"
+          onClick={() => history.goBack()}
+        >
+          Go Back Top
+        </Button>
 
-      <Button
-        variant="success"
-        className="mr-2"
-        onClick={() => history.goBack()}
-      >
-        Go Back Top
-      </Button>
+        <Button
+          variant="info"
+          className="mr-2"
+          onClick={() => history.push(`/user_group/list/${username}`)}
+        >
+          {username}`s Group
+        </Button>
+      </div>
     </div>
   );
 };
