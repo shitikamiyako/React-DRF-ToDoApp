@@ -113,7 +113,7 @@ input:placeholder-shown {
 }
 
 .jumbotron {
-  border-radius: none;
+  border-radius: 0!important;
 }
 .jumbotron-title {
   color: #cccccc;
@@ -121,8 +121,7 @@ input:placeholder-shown {
 
 .card-header {
   font-weight: bold;
-  text-align: center;
-}
+  justify-content: center;}
 
 .rating-edit div {
   justify-content: center !important;
