@@ -1,5 +1,5 @@
 // ルーティングとApiのエンドポイントを置く
-const ROOT_URL = "http://localhost:8000/";
+const ROOT_URL = "https://react-drf-todo-app.herokuapp.com/";
 
 export const AuthUrls = {
   LOGIN: `${ROOT_URL}dj-rest-auth/login/`,
