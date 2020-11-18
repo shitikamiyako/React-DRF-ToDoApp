@@ -11,14 +11,26 @@ const Logged_in_NavbarComponent = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/todo/top">Task</Nav.Link>
-                    <Nav.Link href="/user_group/top">Group</Nav.Link>
-                    <Nav.Link href="/user_group/joined">Joined Group</Nav.Link>
-                    <Nav.Link href="/user_info">My Page</Nav.Link>
+                    <LinkContainer to="/todo/top">
+                        <Nav.Link>Task</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/user_group/top">
+                        <Nav.Link>Group</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/user_group/joined">
+                        <Nav.Link>Joined Group</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/user_info">
+                        <Nav.Link>My Page</Nav.Link>
+                    </LinkContainer>
                 </Nav>
                 <Nav>
-                    <Nav.Link href="/logout">Logout</Nav.Link>
-                    <Nav.Link href="/unsubscribe">Unsubscribe</Nav.Link>
+                    <LinkContainer to="/logout">
+                        <Nav.Link>Logout</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/unsubscribe">
+                        <Nav.Link>Unsubscribe</Nav.Link>
+                    </LinkContainer>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

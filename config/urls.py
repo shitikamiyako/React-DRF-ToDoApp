@@ -25,18 +25,14 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # path('', FrontendAppView.as_view()),
     path('', include('app.frontend.urls')),
     path('admin/', admin.site.urls),
-    # path('url_checker', check_url),
     path('todo/', include('app.todo.urls')),
     path('category/', include('app.category.urls')),
     path('user/', include('app.users.urls')),
     path('accounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    # path('dj-rest-auth/', include('users.signin.urls')),
     url(r'^dj-rest-auth/', include('dj_rest_auth.urls')),  # jwt用
-    # path('dj-rest-auth/registration/', include('users.registration.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')), # jwt用
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
          name='account_email_verification_sent'),
