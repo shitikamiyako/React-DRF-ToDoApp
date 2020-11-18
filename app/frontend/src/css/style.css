@@ -25,6 +25,10 @@ body {
   box-sizing: border-box;
 }
 
+.app{
+  width: 100%;
+}
+
 footer {
   width: 100%;
   position: absolute;
