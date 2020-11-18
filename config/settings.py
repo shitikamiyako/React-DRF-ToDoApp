@@ -37,12 +37,12 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
 INSTALLED_APPS = [
     # local
-    'users.apps.UsersConfig',
-    'todo.apps.TodoConfig',
-    'category.apps.CategoryConfig',
+    'app.users.apps.UsersConfig',
+    'app.todo.apps.TodoConfig',
+    'app.category.apps.CategoryConfig',
+    'app.url_checker.apps.UrlCheckerConfig',
 
     # 3rd party
-
     'rest_framework',
     'allauth',  # django-allauth
     'allauth.account',  # django-allauth
@@ -68,7 +68,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'url_checker'
 ]
 
 MIDDLEWARE = [
