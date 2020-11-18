@@ -1,68 +1,99 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+このアプリは未経験から就職を目指すプログラミングシリーズで制作したものです。
+[モーメント](https://twitter.com/i/events/1318585962969001984?s=20)
 
-## Available Scripts
+## はじめに
 
-In the project directory, you can run:
+今回のアプリを作るにあたっての根底には2020年5月~6月末まで参加させていただいたDjangoチーム開発プロジェクトで得られた体験や知見が元になっております。
+主催者である@digisaku710さんを始めプロジェクトメンバーの方々のお力あってのことです、本当にありがとうございます。
 
-### `yarn start`
+また、デプロイに際して窮地に陥っていて突然のお願いにも関わらずデプロイの構成を手直ししてくださったGtca様、またReduxについてご教授頂いた世界の歪み様にも重ねて御礼申し上げます。
+その他アドバイスやリリース前に試しに触ってチェックしてくれたフォロワーの方々にもここでお礼を申し上げさせていただきます、助かりました。
+以下名前を挙げさせていただいた、お三方のリンクです。
+Gtca様のみTwitterではなく、Qiitaの記事のページにリンクを貼らせていただきます。
+[@digisaku710](https://twitter.com/digisaku710)
+[世界の歪み](https://twitter.com/distortionOfWld)
+[Gtca](https://qiita.com/Gattaca)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 作ったもの
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+あえて他人に公開・共有するというのがコンセプトのTodoアプリです。
+名前は某フェザー級日本タイトルマッチにおけるテーマから頂いています。
 
-### `yarn test`
+## 要件定義書
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+これは今回のアプリを制作するにあたって一番最初に定義したものです。
+したがって、公開しているものとは仕様が大きく異る部分がありますがご容赦ください。
+理由については以後の設計書や後日書くレポートをご覧になっていただければと思います。
 
-### `yarn build`
+[要件定義書](https://docs.google.com/document/d/1KHgScYkDLgrL0v9U4FVL64-dc1ENkfnAY4X3ePOs8uI/edit?usp=sharing)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 設計書
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+こちらはデプロイにあたってまとめ直してあります。
+理由としては今回こうやって作成するのは初めてのことなので設計するにも厳密に決められず作業前にアバウトに決めていたからなのと、後学のためにきちんと整理したものを残しておくためです。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[機能設計書](https://docs.google.com/spreadsheets/d/1pkq3sWrBMQsDcQ6-BYbY-_uP35ZLJwZ-Iu6rEaEWxeo/edit?usp=sharing)
 
-### `yarn eject`
+## チャート図、ER図
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+リポジトリにあるのは当初書いたものでこちらはデプロイ後にまとめ直したものです。
+[チャート図・ER図](https://drive.google.com/file/d/1jHqALye65Eg7xKQi2IVYy_vGAor-pcLV/view?usp=sharing)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 使い方
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+以下の項目から流れを動画にしてあります、そちらをご覧ください。
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Topページの機能
 
-## Learn More
+[Topページの機能](https://youtu.be/88GQwEti_Sg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+自分のタスクやグループリストに飛べる他、ユーザー名で検索して問答無用でそのユーザーのタスクリストを閲覧することができます。
+また、Topページにはランダムで5人のユーザーへのタスクリストの遷移ボタンが現れる仕様になっています。
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 会員登録からタスク追加・削除・編集
 
-### Code Splitting
+[会員登録からタスク追加・削除・編集](https://youtu.be/lsH73hzZI78)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+通常のTodoアプリとしての機能です。
+レーティングができるのでタスクの消化に関しての自分の取り組み方を省み、評価するきっかけにしたり、進捗状況をこれで判断したり……とお使いください。
+カテゴリーは次のフィルタリングで使います。
 
-### Analyzing the Bundle Size
+### フィルタリング
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+[フィルタリング](https://youtu.be/v58VhQPneG8)
 
-### Making a Progressive Web App
+タスクにはカテゴリーを設定できるのでそれでフィルタリングするか、タスクが未完か否かでもフィルタリングできます。
+両方併用するのは今回は私の力不足により断念しました。
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
+### グループ機能
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+[グループ機能](https://youtu.be/U6uF6xk523c)
 
-### Deployment
+Twitterでいうフォローやリスト機能に近い機能になります。
+メンバーのタスクリストへも遷移できます。
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### 他人のタスクリスト・グループ
 
-### `yarn build` fails to minify
+[他人のタスクリスト・グループ](https://youtu.be/Mq26P6bTDmc)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+誰かのタスクリストも見れます。
+いわゆるいいねをタスクに押すことができ、他人が作ったグループリストに遷移してメンバーになることができます。
+
+### 自分が参加しているグループ
+
+[自分が参加しているグループ](https://youtu.be/oq-GLuoh_kQ)
+
+自分が参加しているグループを見れます。
+
+### ユーザー情報
+
+[ユーザー情報](https://youtu.be/0rV979FUmZE)
+
+ユーザー名・パスワード・メールアドレスの変更及び退会処理ができます。
+
+## 最後に
+
+簡単にではありますが以上が今回作ったものになります。
+もちろん足りない部分や失敗、テストもデバックも書けない……など使った技術以外の課題も山積し、そちら含めて後日改めてレポートを書きますがひとまず作業としては一段落になります。
+お暇なときで結構ですのでちらっとでも触っていただけると嬉しいです。
