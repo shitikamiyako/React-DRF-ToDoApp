@@ -14,13 +14,13 @@ from corsheaders.defaults import default_headers
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
-import django_heroku
+# import django_heroku
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-DEBUG = False
+# DEBUG = False
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,34 +31,34 @@ DEBUG = False
 # ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 ALLOWED_HOSTS = ['*']
 REACTION_OPTION = ["Like", "Unlike"]
-REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
+REACT_APP_DIR = os.path.join(BASE_DIR, 'app', 'frontend')
 
 # Application definition
 
 INSTALLED_APPS = [
     # local
-    'users.apps.UsersConfig',
-    'todo.apps.TodoConfig',
-    'category.apps.CategoryConfig',
+    'app.users',
+    'app.todo',
+    'app.category',
+    'app.frontend',
 
     # 3rd party
-
     'rest_framework',
     'allauth',  # django-allauth
     'allauth.account',  # django-allauth
     'allauth.socialaccount',  # django-allauth
     'allauth.socialaccount.providers.twitter',  # django-allauth
     'dj_rest_auth.registration',  # django-allauth
-    'dj_rest_auth', # API Authentication
+    'dj_rest_auth',  # API Authentication
     'corsheaders',
     'django_filters',
-    'django_heroku',
+    # 'django_heroku',
     'whitenoise.runserver_nostatic',  # < As per whitenoise documentation
     'gunicorn',
     'drf_yasg',
     'psycopg2',
     'coreapi',
-    'drf_firebase_auth', # DRF+Firebase TokenAuthentication
+    'drf_firebase_auth',  # DRF+Firebase TokenAuthentication
 
 
     'django.contrib.admin',
@@ -68,7 +68,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'url_checker'
 ]
 
 MIDDLEWARE = [
@@ -160,9 +159,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, 'build', 'static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(REACT_APP_DIR, 'static'),
+# ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'build', 'media')
@@ -177,7 +176,7 @@ SESSION_COOKIE_AGE = 86400 # 1日経ったら強制的にセッションタイ�
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M',
-    'DEFAULT_PAGINATION_CLASS': 'todo.funcs.paginations.CustomPagination',
+    'DEFAULT_PAGINATION_CLASS': 'app.todo.funcs.paginations.CustomPagination',
     'PAGE_SIZE': 10,
 
     # 'DEFAULT_PERMISSION_CLASSES': [
@@ -210,8 +209,8 @@ REST_FRAMEWORK = {
 # dj-rest-auth settings
 
 REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'users.signin.serializers.LoginSerializer',
-    'USER_DETAILS_SERIALIZER': 'users.funcs.serializers.CustomUserDetailsSerializer',
+    'LOGIN_SERIALIZER': 'app.users.signin.serializers.LoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'app.users.funcs.serializers.CustomUserDetailsSerializer',
 }
 
 CSRF_COOKIE_NAME = "csrftoken"
@@ -289,7 +288,6 @@ DRF_FIREBASE_AUTH = {
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEBUG = False
 
-
 try:
     from .local_settings import *
 except ImportError:
@@ -302,7 +300,7 @@ if not DEBUG:
     SECURE_REFERRER_POLICY = 'origin'
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
-    import django_heroku
-    django_heroku.settings(locals())
+    # import django_heroku
+    # django_heroku.settings(locals())
     db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
     DATABASES['default'].update(db_from_env)
