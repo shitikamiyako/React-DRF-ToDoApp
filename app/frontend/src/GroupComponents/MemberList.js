@@ -42,7 +42,6 @@ const GroupEdit = () => {
       const responseMap = response.data.members.map((obj) => {
         return obj;
       });
-      console.log(responseMap);
       // グループに関する情報を格納
       const saveMemberList = Object.values(responseMap);
       setMember(saveMemberList);

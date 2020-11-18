@@ -37,11 +37,9 @@ const MemberListReadOnly = () => {
     // グループ取得のリクエスト
     try {
       const response = await axios.get(getMemberReadOnlyListUrl);
-      console.log(response.data.members);
       const responseMap = response.data.members.map((obj) => {
         return obj;
       });
-      console.log(responseMap);
       // グループに関する情報を格納
       const saveMemberList = Object.values(responseMap);
       setMember(saveMemberList);
@@ -50,7 +48,6 @@ const MemberListReadOnly = () => {
         type: "success",
       });
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "メンバーリストの取得に失敗しました",
         type: "danger",

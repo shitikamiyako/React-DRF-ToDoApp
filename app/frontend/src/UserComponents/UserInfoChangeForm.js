@@ -24,7 +24,6 @@ const UserInfoChangeForm = () => {
       const response = await axios.get(get_userUrl);
       setUsername(response.data.username);
       setEmail(response.data.email);
-      //   console.log(user)
     } catch (error) {
       createAlert({
         message:

@@ -23,7 +23,6 @@ const RegisterForm = () => {
     startProgress();
     try {
       const response = await axios.post(signUpUrl, data);
-      console.log(response);
       loginUser();
       createAlert({
         message: "会員登録が完了しました",
@@ -31,7 +30,6 @@ const RegisterForm = () => {
       });
       stopProgress();
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "会員登録に失敗しました",
         type: "danger",
