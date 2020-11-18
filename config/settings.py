@@ -295,7 +295,7 @@ except ImportError:
 
 if not DEBUG:
     load_dotenv()
-    # SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.environ['SECRET_KEY']
     CSRF_COOKIE_SECURE = 'True'
     SECURE_REFERRER_POLICY = 'origin'
     SECURE_SSL_REDIRECT = True
