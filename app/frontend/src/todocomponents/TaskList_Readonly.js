@@ -320,7 +320,7 @@ const Task_ReadOnly_List = () => {
           }}
         />
       </Pagination>
-      <div className="text-center">
+      <div className="text-center content-end-button">
         <Button
           variant="success"
           className="mr-2"
@@ -331,7 +331,7 @@ const Task_ReadOnly_List = () => {
 
         <Button
           variant="info"
-          className="mr-2 content-end-button"
+          className="mr-2"
           onClick={() => history.push(`/user_group/list/${username}`)}
         >
           {username}`s Group
