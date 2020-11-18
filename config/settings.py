@@ -109,21 +109,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'name',
-#         'USER': 'user',
-#         'PASSWORD': '',
-#         'HOST': 'host',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'name',
+        'USER': 'user',
+        'PASSWORD': '',
+        'HOST': 'host',
+        'PORT': '',
     }
 }
 
@@ -293,9 +286,7 @@ DRF_FIREBASE_AUTH = {
 
 # heroku settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEBUG = True
-SECRET_KEY = 'hogehoge'
-# TODO: Delete above settings
+DEBUG = False
 
 try:
     from .local_settings import *
@@ -304,7 +295,7 @@ except ImportError:
 
 if not DEBUG:
     load_dotenv()
-    SECRET_KEY = os.environ['SECRET_KEY']
+    # SECRET_KEY = os.environ['SECRET_KEY']
     CSRF_COOKIE_SECURE = 'True'
     SECURE_REFERRER_POLICY = 'origin'
     SECURE_SSL_REDIRECT = True
