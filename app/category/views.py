@@ -3,9 +3,9 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from rest_framework import permissions
 from .models import Category
-from todo.funcs.serializers import CategorySerializer
-from todo.funcs.permissions import IsOwnerOrReadOnly
-from todo.funcs.paginations import CategoryListPagination
+from app.todo.funcs.serializers import CategorySerializer
+from app.todo.funcs.permissions import IsOwnerOrReadOnly
+from app.todo.funcs.paginations import CategoryListPagination
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from rest_framework import filters

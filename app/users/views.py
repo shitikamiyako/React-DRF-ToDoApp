@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from users.funcs.serializers import CustomUserSerializer, CustomUserDetailsSerializer, CustomUserListSerializer, UserGroupSerializer, UserGroupListSerializer, UserGroupAddSerializer, MemberRequestSerializer, UserGroupJoin_or_ReaveRequestSerializer, CustomUserLimitSerializer
-from todo.funcs.permissions import IsOwnerOrReadOnly
+from app.users.funcs.serializers import CustomUserSerializer, CustomUserDetailsSerializer, CustomUserListSerializer, UserGroupSerializer, UserGroupListSerializer, UserGroupAddSerializer, MemberRequestSerializer, UserGroupJoin_or_ReaveRequestSerializer, CustomUserLimitSerializer
+from app.todo.funcs.permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse

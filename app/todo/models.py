@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
-from users.models import CustomUser, UserGroup
-from category.models import Category
+from app.users.models import CustomUser, UserGroup
+from app.category.models import Category
 from django.urls import reverse
 
 

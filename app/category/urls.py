@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import CategoryListAPIView, CategoryDetailAPIView, CategoryReadOnlyListAPIView, CategoryReadOnlyDetailAPIView
-from category import views
+from app.category import views
 
 
 # app_name = 'todo'

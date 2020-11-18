@@ -4,7 +4,7 @@ import datetime
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import users.models
+import app.users.models
 
 
 class Migration(migrations.Migration):
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'アカウント情報',
             },
             managers=[
-                ('objects', users.models.CustomUserManager()),
+                ('objects', app.users.models.CustomUserManager()),
             ],
         ),
         migrations.CreateModel(

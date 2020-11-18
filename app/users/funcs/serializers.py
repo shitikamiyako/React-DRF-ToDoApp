@@ -1,6 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
-from users.models import UserGroup, UserGroupRelation
+from app.users.models import UserGroup, UserGroupRelation
 from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import UserDetailsSerializer
 

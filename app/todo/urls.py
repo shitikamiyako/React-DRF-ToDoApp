@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import TodoListAPIView, TodoDetailAPIView, TodoReadOnlyListAPIView, TodoReadOnlyDetailAPIView, reaction_view
-from todo import views
+from app.todo import views
 
 
 # app_name = 'todo'

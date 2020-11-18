@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import UserListAPIView, UserDetailAPIView, UserReadOnlyListAPIView, UserReadOnlyLimitListAPIView, UserReadOnlyDetailAPIView, UserGroupAddAPIView, UserGroupListAPIView, UserGroupDetailAPIView, UserGroupReadOnlyListAPIView, UserGroupJoinedListAPIView, UserGroupDetailReadOnlyAPIView, groupJoin_view, groupLeave_view, memberDelete_view, memberAdd_view
-from users import views
+from app.users import views
 # app_name = 'users'
 
 urlpatterns = format_suffix_patterns([

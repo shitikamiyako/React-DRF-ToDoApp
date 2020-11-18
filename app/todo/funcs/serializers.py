@@ -1,6 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
-from todo.models import Todo, Category
+from app.todo.models import Todo, Category
 from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import UserDetailsSerializer
 

@@ -8,7 +8,7 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
-from url_checker.views import check_url, FrontendAppView
+from app.frontend.views import check_url, FrontendAppView
 API_TITLE = 'ToDo APP on React+DRF  API'
 API_DESCRIPTION = 'A Web API for creating and edit Todo Post'
 schema_view = get_schema_view(
@@ -25,9 +25,10 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', FrontendAppView.as_view()),
+    # path('', FrontendAppView.as_view()),
+    path('', include('app.frontend.urls')),
     path('admin/', admin.site.urls),
-    path('url_checker', check_url),
+    # path('url_checker', check_url),
     path('todo/', include('app.todo.urls')),
     path('category/', include('app.category.urls')),
     path('user/', include('app.users.urls')),
