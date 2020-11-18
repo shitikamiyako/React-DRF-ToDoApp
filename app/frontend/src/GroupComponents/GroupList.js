@@ -164,7 +164,7 @@ const GroupList = () => {
         />
       </Pagination>
       <Button
-        variant="success"
+        variant="success content-end-button"
         className="mr-2"
         onClick={() => history.push(`/`)}
       >

@@ -331,7 +331,7 @@ const Task_ReadOnly_List = () => {
 
         <Button
           variant="info"
-          className="mr-2"
+          className="mr-2 content-end-button"
           onClick={() => history.push(`/user_group/list/${username}`)}
         >
           {username}`s Group
