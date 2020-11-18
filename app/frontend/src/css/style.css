@@ -112,12 +112,16 @@ input:placeholder-shown {
   margin-top: 20px;
 }
 
+.jumbotron {
+  border-radius: none;
+}
 .jumbotron-title {
   color: #cccccc;
 }
 
 .card-header {
   font-weight: bold;
+  text-align: center;
 }
 
 .rating-edit div {
