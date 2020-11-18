@@ -22,7 +22,7 @@ const LogoutForm = () => {
   };
   return (
     <div>
-      <div className="justify-content-center text-center mt-5">
+      <div className="justify-content-center text-center mt-5 mb-3">
         <h3>ログアウトしますか？</h3>
       </div>
 

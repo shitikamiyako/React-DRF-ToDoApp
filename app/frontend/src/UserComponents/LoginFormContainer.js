@@ -28,7 +28,6 @@ const LoginFormContainer = () => {
 
     try {
       const response = await axios.post(loginUrl, data);
-      console.log(response);
       loginUser();
       createAlert({
         message: "ログインに成功しました",
@@ -36,7 +35,6 @@ const LoginFormContainer = () => {
       });
       stopProgress();
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "ログインに失敗しました",
         type: "danger",

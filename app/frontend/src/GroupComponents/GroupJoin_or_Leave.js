@@ -26,14 +26,12 @@ const Join_or_Leave = () => {
 
     try {
       const response = await axios.post(joinGroupUrl, data);
-      console.log(response);
       createAlert({
         message: "グループに加入しました",
         type: "success",
       });
       addMember();
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "すでにグループに加入しているか、ログイン有効期限切れです",
         type: "danger",
@@ -55,14 +53,12 @@ const Join_or_Leave = () => {
 
     try {
       const response = await axios.patch(leaveGroupUrl, data);
-      console.log(response);
       createAlert({
         message: "グループから抜けました",
         type: "success",
       });
       addMember();
     } catch (error) {
-      console.log(error);
       createAlert({
         message: "すでにグループから抜けているか、ログイン有効期限切れです",
         type: "danger",

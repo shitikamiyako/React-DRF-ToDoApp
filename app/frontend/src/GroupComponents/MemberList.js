@@ -42,7 +42,6 @@ const GroupEdit = () => {
       const responseMap = response.data.members.map((obj) => {
         return obj;
       });
-      console.log(responseMap);
       // グループに関する情報を格納
       const saveMemberList = Object.values(responseMap);
       setMember(saveMemberList);
@@ -126,7 +125,7 @@ const GroupEdit = () => {
 
       <Button
         variant="success"
-        className="mr-2"
+        className="mr-2 content-end-button"
         onClick={() => history.push(`/`)}
       >
         Go Back Top

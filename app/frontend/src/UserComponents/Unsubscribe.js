@@ -58,7 +58,7 @@ const Unsubscribe = () => {
 
   return (
     <div>
-      <div className="justify-content-center text-center mt-5">
+      <div className="justify-content-center text-center mt-5 mb-3">
         <h3>本当に退会しますか？</h3>
       </div>
 

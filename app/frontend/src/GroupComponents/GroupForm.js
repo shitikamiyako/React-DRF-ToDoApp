@@ -26,15 +26,12 @@ const GroupForm = () => {
             const response = await axios.post(addGroupUrl, {
                 group_name: data.group_name,
             });
-            console.log(response);
-            console.log(data)
             addGroup()
             createAlert({
                 message: "グループの追加に成功しました",
                 type: "success",
             });
         } catch (error) {
-            console.log(error);
             createAlert({
                 message: "グループの追加に失敗しました",
                 type: "danger",

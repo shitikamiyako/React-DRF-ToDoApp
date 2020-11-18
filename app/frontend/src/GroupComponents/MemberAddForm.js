@@ -23,25 +23,21 @@ const AddMemberForm = () => {
 
   const addNewMember = async (data) => {
     startProgress();
-    console.log(data);
-    console.log(data.username);
+
     const requestData = {
       id: id,
       username: data.username,
     };
-    console.log(requestData);
 
     try {
       const response = await axios.post(addNewMemberURl, requestData);
-      console.log(response);
       addMember();
       createAlert({
         message: "ユーザーをグループに追加しました",
         type: "success",
       });
     } catch (error) {
-      console.log(error);
-      console.log(error.response);
+
       createAlert({
         message: "ユーザーが存在しない、あるいはログイン有効期限切れです",
         type: "danger",

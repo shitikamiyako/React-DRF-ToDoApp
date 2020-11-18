@@ -14,7 +14,6 @@ import { TodoUrls } from "../Utils/todoUrls";
 const TodoDelete = () => {
   const { id } = useParams();
   let history = useHistory();
-  console.log(history);
   const { taskListChange } = useFlag();
   const { startProgress, stopProgress } = useSpinner();
   const { getTaskList, resetTaskList, tasks } = useTodo();
@@ -27,12 +26,9 @@ const TodoDelete = () => {
     resetTaskList();
     try {
       const response = await axios.get(getTaskUrl);
-      console.log(response);
-      console.log(response.data);
       getTaskList(response.data);
       resetItem();
     } catch (error) {
-      console.log(error);
     } finally {
       stopProgress();
     }
@@ -44,10 +40,8 @@ const TodoDelete = () => {
 
     try {
       const response = await axios.delete(deleteTaskUrl);
-      console.log(response);
       history.push("/todo/top");
     } catch (error) {
-      console.log(error);
     } finally {
       stopProgress();
     }

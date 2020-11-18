@@ -320,7 +320,7 @@ const Task_ReadOnly_List = () => {
           }}
         />
       </Pagination>
-      <div className="text-center">
+      <div className="text-center content-end-button">
         <Button
           variant="success"
           className="mr-2"

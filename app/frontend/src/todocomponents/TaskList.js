@@ -323,7 +323,7 @@ const TaskList = () => {
       </Pagination>
       <Button
         variant="success"
-        className="mr-2"
+        className="mr-2 content-end-button"
         onClick={() => history.push(`/`)}
       >
         Go Back Top
