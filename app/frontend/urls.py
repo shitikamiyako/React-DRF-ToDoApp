@@ -17,13 +17,4 @@ urlpatterns = [
     path('user_group/top/', views.index, name='other_page'),
     path('user_group/joined/', views.index, name='other_page'),
     path('user_group/list/<str>', views.index, name='other_page'),
-    # path(r'^login/$', views.index, name="other_page"),
-    # path(r'^logout/$', views.index, name="other_page"),
-    # path(r'^todo/top/$', views.index, name="other_page"),
-    # path(r'^todo/list/$', views.index, name="other_page"),
-    # path(r'^login/$', views.index, name="other_page"),
-    # path(r'^login/$', views.index, name="other_page"),
-    # path(r'^login/$', views.index, name="other_page"),
-    # path(r'^login/$', views.index, name="other_page"),
-    # path(r'^login/$', views.index, name="other_page"),
 ]
