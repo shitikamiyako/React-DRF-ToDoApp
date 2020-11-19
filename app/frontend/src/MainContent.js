@@ -53,7 +53,7 @@ const MainContent = () => (
       component={Group_Detail_Public}
     />
     <Route component={NoMatch}></Route>
-    <Redirect to="/" />
+    {/* <Redirect to="/" /> */}
   </Switch>
 );
 
