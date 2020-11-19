@@ -323,7 +323,7 @@ const Task_ReadOnly_List = () => {
       <div className="text-center content-end-button">
         <Button
           variant="success"
-          className="mr-2"
+          className="col-12 col-md-4 mb-2 mb-md-0 btn btn-success"
           onClick={() => history.goBack()}
         >
           Go Back Top
@@ -331,7 +331,7 @@ const Task_ReadOnly_List = () => {
 
         <Button
           variant="info"
-          className="mr-2"
+          className="col-12 col-md-6 offset-md-2 btn btn-info"
           onClick={() => history.push(`/user_group/list/${username}`)}
         >
           {username}`s Group
