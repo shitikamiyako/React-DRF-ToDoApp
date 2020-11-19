@@ -30,4 +30,4 @@ urlpatterns = [
     re_path(r'^user_group/list/[^/]+/$', views.index, name='other_page'),
 ]
 
-handler500 = views.my_customized_server_error
+handler404 = 'views.error_404'

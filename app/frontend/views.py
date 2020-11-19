@@ -8,8 +8,6 @@ import urllib.request
 import os
 import sys
 from django.views import debug
-from django.views.defaults import server_error
-
 
 @csrf_exempt
 def check_url(request):
@@ -20,9 +18,6 @@ def check_url(request):
     if (url_status == 200):
         return HttpResponse("Yey! URL is Working")
     return HttpResponse(":( Url is Not Working")
-
-def my_customized_server_error(request, template_name='500.html'):
-    return server_error(request, template_name)
 
 # // Add the following
 class FrontendAppView(View):
@@ -49,3 +44,6 @@ def get(self, request):
 
 def index(request):
     return render(request, 'frontend/index.html')
+
+def error_404(request):
+    return render(request, 'frontend/404.html', status=404)
