@@ -1,7 +1,5 @@
 from django.urls import re_path ,path
 from . import views
-# from .views import views
-
 
 urlpatterns = [
     path('', views.index, name='index_page'),
@@ -31,4 +29,4 @@ urlpatterns = [
     re_path(r'^user_group/list/[^/]+/$', views.index, name='other_page'),
 ]
 
-handler404 = 'frontend.views.error_404'
+handler404 = 'app.frontend.views.error_404'
