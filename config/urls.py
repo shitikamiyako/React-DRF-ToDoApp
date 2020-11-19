@@ -46,4 +46,5 @@ urlpatterns = [
                                          cache_timeout=0), name='schema-redoc'),
 ]
 
+# カスタム404ページを使う
 handler404 = 'app.frontend.views.error_404'

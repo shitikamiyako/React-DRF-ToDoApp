@@ -45,5 +45,6 @@ def get(self, request):
 def index(request):
     return render(request, 'frontend/index.html')
 
+# 404エラーをReactで作ったコンポーネントで表示するようにカスタム404.htmlを使うようにする
 def error_404(request, exception, template_name='frontend/404.html'):
     return render(request, template_name, status=404)

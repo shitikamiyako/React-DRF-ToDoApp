@@ -1,6 +1,8 @@
 from django.urls import re_path ,path
 from . import views
 
+# Reactのルーティングをそのままこちらに持ってきて紐付けている。
+# re_pathの部分はReactにおいて:idや:usernameを使っている部分の表現がパスコンバーターではできないのでこちらを使っています。
 urlpatterns = [
     path('', views.index, name='index_page'),
     path('login/', views.index, name='other_page'),
@@ -28,5 +30,3 @@ urlpatterns = [
     path('user_group/joined/', views.index, name='other_page'),
     re_path(r'^user_group/list/[^/]+/$', views.index, name='other_page'),
 ]
-
-# handler404 = 'app.frontend.views.error_404'
