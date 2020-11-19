@@ -76,7 +76,7 @@ const Unsubscribe = () => {
         </Form.Group>
         <div className="unsubscribe-button">
           <Button variant="success" onClick={() => history.push(`/`)}>
-            No, Go Back Home
+            No, Go Back Top
           </Button>
         </div>
       </Form>
