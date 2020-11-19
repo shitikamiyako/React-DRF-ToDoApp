@@ -16,7 +16,7 @@ urlpatterns = [
     path('password_change/', views.index, name='other_page'),
     path('unsubscribe/', views.index, name='other_page'),
     path('user_group/top/', views.index, name='other_page'),
-    path('user_group/<int:pk>/<path:members?/', views.index, name='other_page'),
+    path('user_group/<int:pk>/<path:members>/', views.index, name='other_page'),
     path('user_group/joined/', views.index, name='other_page'),
     path('user_group/list/<str>/', views.index, name='other_page'),
 ]
