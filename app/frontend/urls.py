@@ -29,4 +29,4 @@ urlpatterns = [
     re_path(r'^user_group/list/[^/]+/$', views.index, name='other_page'),
 ]
 
-handler404 = 'app.frontend.views.error_404'
+# handler404 = 'app.frontend.views.error_404'

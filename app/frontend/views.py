@@ -45,5 +45,5 @@ def get(self, request):
 def index(request):
     return render(request, 'frontend/index.html')
 
-def error_404(request, exception, template_name='frontend/404.html' ):
+def error_404(request, exception, template_name='frontend/404.html'):
     return render(request, template_name, status=404)
