@@ -25,6 +25,8 @@ import Todo_Public from "./TodoComponents/todo_Public";
 import TodoDelete from "./TodoComponents/TodoDelete";
 import TodoEdit from "./TodoComponents/TodoEdit";
 import TaskTimer from "./TodoComponents/TaskTimer";
+// 404 error
+import NoMatch from "./UserComponents/Nomatch.js"
 
 const MainContent = () => (
   <Switch>
@@ -50,6 +52,7 @@ const MainContent = () => (
       path="/user_group/:id/members"
       component={Group_Detail_Public}
     />
+    <Route component={NoMatch}></Route>
     <Redirect to="/" />
   </Switch>
 );

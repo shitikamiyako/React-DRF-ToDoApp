@@ -5,9 +5,10 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index_page'),
     path('login/', views.index, name='other_page'),
+    path('signup/', views.index, name='other_page'),
     path('logout/', views.index, name='other_page'),
     path('todo/top/', views.index, name='other_page'),
-    path('todo/list/<str>', views.index, name='other_page'),
+    path('todo/list/', views.index, name='other_page'),
     path('todo/delete/<int:pk>', views.index, name='other_page'),
     path('todo/edit/<int:pk>', views.index, name='other_page'),
     path('todo/timer/<int:pk>', views.index, name='other_page'),
@@ -16,5 +17,5 @@ urlpatterns = [
     path('unsubscribe/', views.index, name='other_page'),
     path('user_group/top/', views.index, name='other_page'),
     path('user_group/joined/', views.index, name='other_page'),
-    path('user_group/list/<str>', views.index, name='other_page'),
+    path('user_group/list/', views.index, name='other_page'),
 ]
