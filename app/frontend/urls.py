@@ -20,3 +20,5 @@ urlpatterns = [
     path('user_group/joined/', views.index, name='other_page'),
     path('user_group/list/<slug>/', views.index, name='other_page'),
 ]
+
+handler500 = views.my_customized_server_error
