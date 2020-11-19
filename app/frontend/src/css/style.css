@@ -107,6 +107,9 @@ input:placeholder-shown {
 .unsubscribe-button {
   text-align: center;
 }
+.page-not-found-button {
+  text-align: center;
+}
 
 .content-end-button {
   margin-top: 20px;
