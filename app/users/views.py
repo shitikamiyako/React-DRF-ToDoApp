@@ -181,7 +181,7 @@ def groupJoin_view(request, *args, **kwargs):
     permissions.IsAuthenticatedOrReadOnly])
 def memberAdd_view(request, *args, **kwargs):
     """
-    id is required.
+    id and username is required.
     """
     serializer = MemberRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
@@ -245,7 +245,7 @@ def groupLeave_view(request, *args, **kwargs):
     permissions.IsAuthenticatedOrReadOnly])
 def memberDelete_view(request, *args, **kwargs):
     """
-    id is required.
+    id and username is required.
     """
     serializer = MemberRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
