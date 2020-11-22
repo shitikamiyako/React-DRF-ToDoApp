@@ -154,7 +154,6 @@ class UserGroupDetailReadOnlyAPIView(RetrieveAPIView):
 def groupJoin_view(request, *args, **kwargs):
     """
     id is required.
-    Action Option are: Like, Unlike
     """
     serializer = UserGroupJoin_or_ReaveRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
@@ -183,7 +182,6 @@ def groupJoin_view(request, *args, **kwargs):
 def memberAdd_view(request, *args, **kwargs):
     """
     id is required.
-    Action Option are: Like, Unlike
     """
     serializer = MemberRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
@@ -219,7 +217,6 @@ def memberAdd_view(request, *args, **kwargs):
 def groupLeave_view(request, *args, **kwargs):
     """
     id is required.
-    Action Option are: Like, Unlike
     """
     serializer = UserGroupJoin_or_ReaveRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
@@ -249,7 +246,6 @@ def groupLeave_view(request, *args, **kwargs):
 def memberDelete_view(request, *args, **kwargs):
     """
     id is required.
-    Action Option are: Like, Unlike
     """
     serializer = MemberRequestSerializer(data=request.data)
     # pagination_class = ReactionPagination
