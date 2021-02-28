@@ -29,7 +29,6 @@ export default class App extends Component {
               </footer>
           </div>
           </BrowserRouter>
-
       </React.Fragment>
     );
   }
